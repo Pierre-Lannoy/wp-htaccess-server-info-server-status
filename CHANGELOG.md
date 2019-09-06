@@ -3,6 +3,8 @@ All notable changes to **htaccess Server-Info & Server-Status** is documented in
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **htaccess Server-Info & Server-Status** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.2.0] - 2019-09-06
 ### Added
 - Support for [DecaLog](https://wordpress.org/plugins/decalog/).
