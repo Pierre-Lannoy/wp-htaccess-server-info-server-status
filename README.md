@@ -1,4 +1,8 @@
 # htaccess Server-Info & Server-Status
+[![version](https://badgen.net/github/release/Pierre-Lannoy/wp-htaccess-server-info-server-status/)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
+[![php](https://badgen.net/badge/php/7.1+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
+[![wordpress](https://badgen.net/badge/wordpress/5.0+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
+[![license](https://badgen.net/github/license/Pierre-Lannoy/wp-htaccess-server-info-server-status/)](/license.txt)
 
 **htaccess Server-Info & Server-Status** is a WordPress plugin which generates specific rewrite rules for [server-info](https://httpd.apache.org/docs/2.4/en/mod/mod_info.html) and [server-status](https://httpd.apache.org/docs/current/en/mod/mod_status.html) Apache modules.
 
@@ -16,16 +20,11 @@ See [WordPress directory page](https://wordpress.org/plugins/htaccess-server-inf
 3. Click on the 'Install Now' button.
 
 You can now activate **htaccess Server-Info & Server-Status** from your _Plugins_ page.
-
-### Git method
-1. Just clone the repository in your `/wp-content/plugins/` directory:
-```bash
-cd ./wp-content/plugins
-git clone https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status.git htaccess-server-info-server-status
-```
-
-You can now activate **htaccess Server-Info & Server-Status** from your _Plugins_ page.
  
 ## Contributions
 
 If you find bugs, have good ideas to make this plugin better, you're welcome to submit issues or PRs in this [GitHub repository](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status).
+
+Before submitting an issue or a pull request, please read the [contribution guidelines](CONTRIBUTING.md).
+
+> ⚠️ The `master` branch is the current development state of the plugin. If you want a stable, production-ready version, please pick the last official [release](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/releases).
