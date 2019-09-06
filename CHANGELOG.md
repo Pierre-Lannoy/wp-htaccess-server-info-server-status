@@ -4,6 +4,8 @@ All notable changes to **htaccess Server-Info & Server-Status** is documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **htaccess Server-Info & Server-Status** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Links to support and GitHub project in plugins list.
 ### Changed
 - The plugin license is now GPLv3.
 - The plugin is now fully open sourced on GitHub.

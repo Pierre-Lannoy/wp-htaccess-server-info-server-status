@@ -49,9 +49,10 @@ class HtaccessServerInfoStatus {
 	 */
 	protected function __construct() {
 		load_plugin_textdomain( 'htaccess-server-info-server-status' );
-		register_activation_hook( __FILE__, array( $this, 'plugin_activate' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'plugin_deactivate' ) );
-		add_filter( 'mod_rewrite_rules', array( $this, 'modify_rules' ), 10, 1 );
+		register_activation_hook( __FILE__, [ $this, 'plugin_activate' ] );
+		register_deactivation_hook( __FILE__, [ $this, 'plugin_deactivate' ] );
+		add_filter( 'mod_rewrite_rules', [ $this, 'modify_rules' ], 10, 1 );
+		add_filter( 'plugin_row_meta', [ $this, 'add_row_meta' ], 10, 2 );
 	}
 
 	/**
@@ -82,10 +83,10 @@ class HtaccessServerInfoStatus {
 	 * @return array Extended list of links to print in the "Description" column on the Plugins page.
 	 * @since 1.0.0
 	 */
-	public function add_plugin_row_meta( array $links, $file ) {
+	public function add_row_meta( array $links, $file ) {
 		if ( plugin_basename( __FILE__ ) === $file ) {
 			$links[] = '<a href="https://wordpress.org/support/plugin/htaccess-server-info-server-status">' . __( 'Support', 'htaccess-server-info-server-status' ) . '</a>';
-			$links[] = '<a href="https://support.laquadrature.net/" title="' . esc_attr__( 'With your donation, support an advocacy group defending the rights and freedoms of citizens on the Internet.', 'htaccess-server-info-server-status' ) . '"><strong>' . __( 'Donate', 'htaccess-server-info-server-status' ) . '</strong></a>';
+			$links[] = '<a href="https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status">' . __( 'GitHub Project', 'htaccess-server-info-server-status' ) . '</a>';
 		}
 		return $links;
 	}
@@ -100,6 +101,7 @@ class HtaccessServerInfoStatus {
 	public function modify_rules( $rules ) {
 		if ( $this->output_rules ) {
 			$rules = preg_replace( '/^(RewriteBase \/.*)$/miU', "$1\nRewriteRule ^(server-info|server-status) - [L]", $rules, 1 );
+			do_action( 'hsiss_rewrite_rules_added' );
 		}
 		return $rules;
 	}
