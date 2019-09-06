@@ -3,12 +3,13 @@ All notable changes to **htaccess Server-Info & Server-Status** is documented in
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **htaccess Server-Info & Server-Status** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.2.0] - 2019-09-06
 ### Added
-- Links to support and GitHub project in plugins list.
+- Support for [DecaLog](https://wordpress.org/plugins/decalog/).
+- Links to users' support and GitHub project in plugins list.
 ### Changed
 - The plugin license is now GPLv3.
-- The plugin is now fully open sourced on GitHub.
+- The plugin is now fully [open sourced on GitHub](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status).
 ### Removed
 - Compatibility with WordPress older than 5.0.
 
