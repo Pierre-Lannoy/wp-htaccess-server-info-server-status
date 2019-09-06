@@ -3,7 +3,7 @@
 /**
  * Main plugin file.
  *
- * @package -
+ * @package Bootstrap
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  *
@@ -23,6 +23,8 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+require_once __DIR__ . '/init.php';
 
 /**
  * Main class of the plugin.
