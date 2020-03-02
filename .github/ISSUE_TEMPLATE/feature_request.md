@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for htaccess Server-Info & Server-Status
+about: Suggest an idea for Apache Status & Info
 title: ''
 labels: enhancement
 assignees: Pierre-Lannoy

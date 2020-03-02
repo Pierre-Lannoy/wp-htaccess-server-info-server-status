@@ -7,15 +7,12 @@
  * @since   1.0.0
  */
 
-define( 'HSISS_PRODUCT_NAME', 'htaccess Server-Info & Server-Status' );
+define( 'HSISS_PRODUCT_NAME', 'Apache Status & Info' );
 define( 'HSISS_PRODUCT_URL', 'https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status' );
-define( 'HSISS_PRODUCT_SHORTNAME', 'HSISS' );
-define( 'HSISS_PRODUCT_ABBREVIATION', 'hsiss' );
+define( 'HSISS_PRODUCT_SHORTNAME', 'Apache S&I' );
+define( 'HSISS_PRODUCT_ABBREVIATION', 'htaccess-server-info-server-status' );
 define( 'HSISS_SLUG', 'htaccess-server-info-server-status' );
-define( 'HSISS_VERSION', '1.2.0' );
+define( 'HSISS_VERSION', '2.0.0-dev0' );
 define( 'HSISS_CODENAME', '"-"' );
 
-define( 'HSISS_MINIMUM_WP_VERSION', '5.0' );
-define( 'HSISS_MINIMUM_PHP_VERSION', '7.1' );
-
-define( 'HSISS_CDN_AVAILABLE', false );
+define( 'HSISS_CDN_AVAILABLE', true );

@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve htaccess Server-Info & Server-Status
+about: Create a report to help us improve Apache Status & Info
 title: ''
 labels: bug
 assignees: Pierre-Lannoy
