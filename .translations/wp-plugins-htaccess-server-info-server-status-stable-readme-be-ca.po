@@ -1,0 +1,131 @@
+# Translation of Plugins - Apache Status &amp; Info - Stable Readme (latest release) in French (Belgium)
+# This file is distributed under the same license as the Plugins - Apache Status &amp; Info - Stable Readme (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-03-03 20:44+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 2.2.4\n"
+"Language: fr_BE\n"
+"Project-Id-Version: Plugins - Apache Status &amp; Info - Stable Readme (latest release)\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#. Plugin name.
+msgid "Apache Status &amp; Info"
+msgstr "Apache Status &amp; Info"
+
+#. Short description.
+msgid "Automatically add rules to .htaccess file to support server-info and server-status Apache mod."
+msgstr "Ajoutez automatiquement des règles au fichier .htaccess pour prendre en charge les modules server-info et server-status d’Apache."
+
+#. Found in installation list item.
+msgid "Activate Apache Status &amp; Info from your Plugins page."
+msgstr "Activez Apache Status &amp; Info depuis la page des extensions."
+
+#. Found in installation list item.
+msgid "Download Apache Status &amp; Info."
+msgstr "Téléchargez Apache Status &amp; Info."
+
+#. Found in installation list item.
+msgid "Activate Apache Status &amp; Info."
+msgstr "Activez Apache Status &amp; Info."
+
+#. Found in installation list item.
+msgid "Search for 'Apache Status &amp; Info'."
+msgstr "Cherchez « Apache Status &amp; Info »."
+
+#. Found in faq paragraph.
+msgid "You can report bugs and suggest ideas via the <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/issues\">GitHub issue tracker</a> of the plugin."
+msgstr "Vous pouvez signaler des bogues et suggérer des améliorations via le <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/issues\">suivi d’incidents GitHub</a> de l’extension."
+
+#. Found in description paragraph.
+msgid "If you like this plugin or find it useful and want to thank me for the work done, please consider making a donation to <a href=\"https://www.laquadrature.net/en\">La Quadrature Du Net</a> or the <a href=\"https://www.eff.org/\">Electronic Frontier Foundation</a> which are advocacy groups defending the rights and freedoms of citizens on the Internet. By supporting them, you help the daily actions they perform to defend our fundamental freedoms!"
+msgstr "Si vous aimez cette extension ou la trouvez utile et que vous voulez me remercier pour le travail accompli, vous pouvez faire un don à <a href=\"https://www.laquadrature.net/en\">La Quadrature Du Net</a> ou l’<a href=\"https://www.eff.org/\">Electronic Frontier Foundation</a> qui sont des associations de défense des droits et libertés des citoyens sur Internet. En les soutenant, vous aidez les actions quotidiennes qu’ils accomplissent pour défendre nos libertés fondamentales !"
+
+#. Found in description paragraph.
+msgid "Anyway, I'll be glad to help you if you encounter issues when using this plugin. Just use the support section of this plugin page."
+msgstr "Dans tous les cas, je serai heureux de vous apporter mon assistance si vous rencontrez des problèmes lors de l’utilisation de cette extension. Merci de me contacter via la page support de ce site."
+
+#. Found in description paragraph.
+msgid "This plugin is free and provided without warranty of any kind. Use it at your own risk, I'm not responsible for any improper use of this plugin, nor for any damage it might cause to your site. Always backup all your data before installing a new plugin."
+msgstr "Cette extension est gratuite et distribuée sans aucune garantie d’aucune sorte. Son utilisation se fait à vos risques et périls, je ne saurais être tenu responsable d’aucun dommage que son utilisation pourrait causer à votre site. Pensez à toujours sauvegarder vos données avant d’installer une nouvelle extension."
+
+#. Found in description header.
+msgid "Donation"
+msgstr "Don"
+
+#. Found in description header.
+msgid "Support"
+msgstr "Assistance"
+
+#. Found in faq paragraph.
+msgid "Support is provided via the official <a href=\"https://wordpress.org/support/plugin/htaccess-server-info-server-status\">support page</a>."
+msgstr "L’assistance est proposée via la page officielle <a href=\"https://wordpress.org/support/plugin/htaccess-server-info-server-status\">d’assistance</a>."
+
+#. Found in faq paragraph.
+msgid "No. Rewrite rules are not fully supported by WordPress multisite."
+msgstr "Non. Les règles de réécriture ne sont pas entièrement prises en charge par WordPress multisite."
+
+#. Found in faq paragraph.
+msgid "You need <strong>WordPress 5.2</strong> and at least <strong>PHP 7.2</strong>."
+msgstr ""
+
+#. Found in faq header.
+msgid "Where can I report a bug?"
+msgstr "Où puis-je signaler un bogue ?"
+
+#. Found in faq header.
+msgid "Where can I get support?"
+msgstr "Où puis-je obtenir de l’aide ?"
+
+#. Found in faq header.
+msgid "Can this plugin work on multisite?"
+msgstr "Cette extension fonctionne-t’elle sur un multisite ?"
+
+#. Found in faq header.
+msgid "What are the requirements for this plugin to work?"
+msgstr "Quels sont les prérequis pour que cette extension fonctionne ?"
+
+#. Found in installation list item.
+msgid "You have nothing to do. All is automatic!"
+msgstr "Il n’y a rien à faire. Tout est automatique !"
+
+#. Found in installation list item.
+msgid "Upload the <code>htaccess-server-info-server-status</code> directory to your <code>/wp-content/plugins/</code> directory, using your favorite method (ftp, sftp, scp, etc...)."
+msgstr "Téléversez le dossier <code>htaccess-server-info-server-status</code> dans votre dossier <code>/wp-content/plugins/</code>, en utilisant votre méthode préférée (ftp, sftp, scp, etc.)."
+
+#. Found in installation list item.
+msgid "Click on the 'Install Now' button."
+msgstr "Cliquez sur le bouton « Installer maintenant »."
+
+#. Found in installation list item.
+msgid "Visit 'Plugins &gt; Add New'."
+msgstr "Visitez « Extensions &gt; Ajouter »."
+
+#. Found in installation header.
+msgid "Once Activated"
+msgstr "Une fois activé"
+
+#. Found in installation header.
+msgid "From WordPress.org"
+msgstr "Depuis WordPress.org"
+
+#. Found in installation header.
+msgid "From your WordPress dashboard"
+msgstr "Depuis votre Tableau de bord WordPress"
+
+#. Found in description paragraph.
+msgid ""
+"When you want to use <a href=\"https://httpd.apache.org/docs/2.4/en/mod/mod_info.html\">server-info</a> and/or <a href=\"https://httpd.apache.org/docs/current/en/mod/mod_status.html\">server-status</a> with Apache server, you must modify (right in your .htaccess file) the rewrite rules generated by WordPress. And you must do it each time WordPress modify and regenerates the rules.\n"
+"Apache Status &amp; Info do it for you, without you having to intervene. Just activate it and that's it!"
+msgstr ""
+"Lorsque vous souhaitez utiliser le module <a href=\"https://httpd.apache.org/docs/2.4/en/mod/mod_info.html\">server-info</a> et/ou le module <a href=\"https://httpd.apache.org/docs/current/en/mod/mod_status.html\">server-status</a> d’Apache, vous devez modifier (directement dans votre fichier .htaccess) les règles de réécriture générées par WordPress. Et vous devez le faire chaque fois que WordPress modifie et régénère les règles.\n"
+"Apache Status et Info le fait pour vous, sans que vous ayez à intervenir. Il suffit de l’activer et c’est tout !"
+
+#. Found in changelog paragraph.
+msgid "Please, see <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/blob/master/CHANGELOG.md\">full changelog</a> on GitHub."
+msgstr "Merci de consulter le <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/blob/master/CHANGELOG.md\">registre des modifications</a> sur GitHub."
