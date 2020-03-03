@@ -143,8 +143,6 @@ class Hsiss_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
-		add_settings_section( 'hsiss_inbound_options_section', esc_html__( 'Inbound APIs', 'htaccess-server-info-server-status' ), [ $this, 'inbound_options_section_callback' ], 'hsiss_inbound_options_section' );
-		add_settings_section( 'hsiss_outbound_options_section', esc_html__( 'Outbound APIs', 'htaccess-server-info-server-status' ), [ $this, 'outbound_options_section_callback' ], 'hsiss_outbound_options_section' );
 		add_settings_section( 'hsiss_plugin_features_section', esc_html__( 'Plugin features', 'htaccess-server-info-server-status' ), [ $this, 'plugin_features_section_callback' ], 'hsiss_plugin_features_section' );
 		add_settings_section( 'hsiss_plugin_options_section', esc_html__( 'Plugin options', 'htaccess-server-info-server-status' ), [ $this, 'plugin_options_section_callback' ], 'hsiss_plugin_options_section' );
 	}
@@ -234,13 +232,10 @@ class Hsiss_Admin {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'hsiss-plugin-options' ) ) {
 				Option::network_set( 'use_cdn', array_key_exists( 'hsiss_plugin_options_usecdn', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_plugin_options_usecdn' ) : false );
-				Option::network_set( 'download_favicons', array_key_exists( 'hsiss_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_plugin_options_favicons' ) : false );
 				Option::network_set( 'display_nag', array_key_exists( 'hsiss_plugin_options_nag', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_plugin_options_nag' ) : false );
-				Option::network_set( 'inbound_capture', array_key_exists( 'hsiss_inbound_options_capture', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_inbound_options_capture' ) : false );
-				Option::network_set( 'outbound_capture', array_key_exists( 'hsiss_outbound_options_capture', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_outbound_options_capture' ) : false );
-				Option::network_set( 'inbound_cut_path', array_key_exists( 'hsiss_inbound_options_cut_path', $_POST ) ? (int) filter_input( INPUT_POST, 'hsiss_inbound_options_cut_path' ) : Option::network_get( 'hsiss_inbound_options_cut_path' ) );
-				Option::network_set( 'outbound_cut_path', array_key_exists( 'hsiss_outbound_options_cut_path', $_POST ) ? (int) filter_input( INPUT_POST, 'hsiss_outbound_options_cut_path' ) : Option::network_get( 'hsiss_outbound_options_cut_path' ) );
-				Option::network_set( 'history', array_key_exists( 'hsiss_plugin_features_history', $_POST ) ? (string) filter_input( INPUT_POST, 'hsiss_plugin_features_history', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'history' ) );
+				Option::network_set( 'status', array_key_exists( 'hsiss_plugin_features_status', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_plugin_features_status' ) : false );
+				Option::network_set( 'info', array_key_exists( 'hsiss_plugin_features_info', $_POST ) ? (bool) filter_input( INPUT_POST, 'hsiss_plugin_features_info' ) : false );
+				flush_rewrite_rules();
 				$message = esc_html__( 'Plugin settings have been saved.', 'htaccess-server-info-server-status' );
 				$code    = 0;
 				add_settings_error( 'hsiss_no_error', $code, $message, 'updated' );
@@ -283,42 +278,6 @@ class Hsiss_Admin {
 	 */
 	public function plugin_options_section_callback() {
 		$form = new Form();
-		add_settings_field(
-			'hsiss_plugin_options_favicons',
-			__( 'Favicons', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_checkbox' ],
-			'hsiss_plugin_options_section',
-			'hsiss_plugin_options_section',
-			[
-				'text'        => esc_html__( 'Download and display', 'htaccess-server-info-server-status' ),
-				'id'          => 'hsiss_plugin_options_favicons',
-				'checked'     => Option::network_get( 'download_favicons' ),
-				'description' => esc_html__( 'If checked, Apache Status & Info will download favicons of websites to display them in reports.', 'htaccess-server-info-server-status' ) . '<br/>' . esc_html__( 'Note: This feature uses the (free) Google Favicon Service.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'hsiss_plugin_options_section', 'hsiss_plugin_options_favicons' );
-		$geo_ip = new GeoIP();
-		if ( $geo_ip->is_installed() ) {
-			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
-			$help .= sprintf( esc_html__('Your site is currently using %s.', 'htaccess-server-info-server-status' ), '<em>' . $geo_ip->get_full_name() .'</em>' );
-		} else {
-			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
-			$help .= sprintf( esc_html__('Your site does not use any IP geographic information plugin. To take advantage of the geographical distribution of calls in Apache Status & Info, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'htaccess-server-info-server-status' ), '<a href="https://wordpress.org/plugins/geoip-detect/">GeoIP Detection</a>' );
-		}
-		add_settings_field(
-			'hsiss_plugin_options_geoip',
-			__( 'IP information', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_simple_text' ],
-			'hsiss_plugin_options_section',
-			'hsiss_plugin_options_section',
-			[
-				'text' => $help
-			]
-		);
-		register_setting( 'hsiss_plugin_options_section', 'hsiss_plugin_options_geoip' );
-		
 		if ( defined( 'DECALOG_VERSION' ) ) {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
 			$help .= sprintf( esc_html__('Your site is currently using %s.', 'htaccess-server-info-server-status' ), '<em>DecaLog v' . DECALOG_VERSION .'</em>' );
@@ -379,126 +338,37 @@ class Hsiss_Admin {
 	public function plugin_features_section_callback() {
 		$form = new Form();
 		add_settings_field(
-			'hsiss_plugin_features_history',
-			esc_html__( 'Historical data', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_select' ],
+			'hsiss_plugin_features_status',
+			__( 'Server status', 'htaccess-server-info-server-status' ),
+			[ $form, 'echo_field_checkbox' ],
 			'hsiss_plugin_features_section',
 			'hsiss_plugin_features_section',
 			[
-				'list'        => $this->get_retentions_array(),
-				'id'          => 'hsiss_plugin_features_history',
-				'value'       => Option::network_get( 'history' ),
-				'description' => esc_html__( 'Maximum age of data to keep for statistics.', 'htaccess-server-info-server-status' ),
+				'text'        => sprintf( esc_html__( 'Activate .htaccess rule for %s', 'htaccess-server-info-server-status' ), 'mod_status' ),
+				'id'          => 'hsiss_plugin_features_status',
+				'checked'     => Option::network_get( 'status' ),
+				'description' => sprintf( esc_html__( 'If checked, Apache server status will be served via l\'url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-status') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
 		);
-		register_setting( 'hsiss_plugin_features_section', 'hsiss_plugin_features_history' );
-	}
-
-	/**
-	 * Get the available history retentions.
-	 *
-	 * @return array An array containing the history modes.
-	 * @since  3.2.0
-	 */
-	protected function get_retentions_array() {
-		$result = [];
-		for ( $i = 1; $i < 7; $i++ ) {
-			// phpcs:ignore
-			$result[] = [ (int) ( 30 * $i ), esc_html( sprintf( _n( '%d month', '%d months', $i, 'htaccess-server-info-server-status' ), $i ) ) ];
-		}
-		for ( $i = 1; $i < 7; $i++ ) {
-			// phpcs:ignore
-			$result[] = [ (int) ( 365 * $i ), esc_html( sprintf( _n( '%d year', '%d years', $i, 'htaccess-server-info-server-status' ), $i ) ) ];
-		}
-		return $result;
-	}
-
-	/**
-	 * Callback for inbound APIs section.
-	 *
-	 * @since 1.0.0
-	 */
-	public function inbound_options_section_callback() {
-		$form = new Form();
+		register_setting( 'hsiss_plugin_features_section', 'hsiss_plugin_features_status' );
 		add_settings_field(
-			'hsiss_inbound_options_capture',
-			__( 'Analytics', 'htaccess-server-info-server-status' ),
+			'hsiss_plugin_features_info',
+			__( 'Server info', 'htaccess-server-info-server-info' ),
 			[ $form, 'echo_field_checkbox' ],
-			'hsiss_inbound_options_section',
-			'hsiss_inbound_options_section',
+			'hsiss_plugin_features_section',
+			'hsiss_plugin_features_section',
 			[
-				'text'        => esc_html__( 'Activated', 'htaccess-server-info-server-status' ),
-				'id'          => 'hsiss_inbound_options_capture',
-				'checked'     => Option::network_get( 'inbound_capture' ),
-				'description' => esc_html__( 'If checked, Apache Status & Info will analyze inbound API calls (the calls made by external sites or apps to your site).', 'htaccess-server-info-server-status' ),
+				'text'        => sprintf( esc_html__( 'Activate .htaccess rule for %s', 'htaccess-server-info-server-status' ), 'mod_info' ),
+				'id'          => 'hsiss_plugin_features_info',
+				'checked'     => Option::network_get( 'info' ),
+				'description' => sprintf( esc_html__( 'If checked, Apache server info will be served via l\'url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-info') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
 		);
-		register_setting( 'hsiss_inbound_options_section', 'hsiss_inbound_options_capture' );
-		add_settings_field(
-			'hsiss_inbound_options_cut_path',
-			__( 'Path cut', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_input_integer' ],
-			'hsiss_inbound_options_section',
-			'hsiss_inbound_options_section',
-			[
-				'id'          => 'hsiss_inbound_options_cut_path',
-				'value'       => Option::network_get( 'inbound_cut_path' ),
-				'min'         => 0,
-				'max'         => 10,
-				'step'        => 1,
-				'description' => esc_html__( 'Allows to keep only the first most significative elements of the endpoint path.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'hsiss_inbound_options_section', 'hsiss_inbound_options_cut_path' );
-	}
-
-	/**
-	 * Callback for outbound APIs section.
-	 *
-	 * @since 1.0.0
-	 */
-	public function outbound_options_section_callback() {
-		$form = new Form();
-		add_settings_field(
-			'hsiss_outbound_options_capture',
-			__( 'Analytics', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_checkbox' ],
-			'hsiss_outbound_options_section',
-			'hsiss_outbound_options_section',
-			[
-				'text'        => esc_html__( 'Activated', 'htaccess-server-info-server-status' ),
-				'id'          => 'hsiss_outbound_options_capture',
-				'checked'     => Option::network_get( 'outbound_capture' ),
-				'description' => esc_html__( 'If checked, Apache Status & Info will analyze outbound API calls (the calls made by your site to external services).', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'hsiss_outbound_options_section', 'hsiss_outbound_options_capture' );
-		add_settings_field(
-			'hsiss_outbound_options_cut_path',
-			__( 'Path cut', 'htaccess-server-info-server-status' ),
-			[ $form, 'echo_field_input_integer' ],
-			'hsiss_outbound_options_section',
-			'hsiss_outbound_options_section',
-			[
-				'id'          => 'hsiss_outbound_options_cut_path',
-				'value'       => Option::network_get( 'outbound_cut_path' ),
-				'min'         => 0,
-				'max'         => 10,
-				'step'        => 1,
-				'description' => esc_html__( 'Allows to keep only the first most significative elements of the endpoint path.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'hsiss_outbound_options_section', 'hsiss_outbound_options_cut_path' );
+		register_setting( 'hsiss_plugin_features_section', 'hsiss_plugin_features_info' );
 	}
 
 }
