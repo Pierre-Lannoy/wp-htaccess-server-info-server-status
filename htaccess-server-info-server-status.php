@@ -10,7 +10,7 @@
  * Plugin Name:       Apache Status & Info
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status
  * Description:       Automatically add rules to .htaccess file to support server-info and server-status Apache mod.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Pierre Lannoy

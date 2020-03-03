@@ -3,7 +3,10 @@ All notable changes to **Apache Status & Info** is documented in this *changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - Will be 2.0.2]
+## [2.0.2] - 2020-03-03
+### Changed
+- The libraries description have been updated.
+- Some sentences are more clear, now.
 ### Fixed
 - There's some typos in the settings page.
 - The `CHANGELOG.md` contains some typos.
