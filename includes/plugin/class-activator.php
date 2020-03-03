@@ -9,6 +9,8 @@
 
 namespace Hsiss\Plugin;
 
+use Hsiss\Plugin\Feature\Rules;
+
 /**
  * Fired during plugin activation.
  *
@@ -26,7 +28,8 @@ class Activator {
 	 * @since 1.0.0
 	 */
 	public static function activate() {
-
+		Rules::init();
+		flush_rewrite_rules();
 	}
 
 }
