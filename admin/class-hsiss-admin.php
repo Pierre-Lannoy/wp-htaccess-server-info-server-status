@@ -329,7 +329,7 @@ class Hsiss_Admin {
 				'text'        => sprintf( esc_html__( 'Activate .htaccess rule for %s', 'htaccess-server-info-server-status' ), 'mod_status' ),
 				'id'          => 'hsiss_plugin_features_status',
 				'checked'     => Option::network_get( 'status' ),
-				'description' => sprintf( esc_html__( 'If checked, Apache server status will be served via l\'url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-status') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
+				'description' => sprintf( esc_html__( 'If checked, Apache server status will be served via the url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-status') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -345,7 +345,7 @@ class Hsiss_Admin {
 				'text'        => sprintf( esc_html__( 'Activate .htaccess rule for %s', 'htaccess-server-info-server-status' ), 'mod_info' ),
 				'id'          => 'hsiss_plugin_features_info',
 				'checked'     => Option::network_get( 'info' ),
-				'description' => sprintf( esc_html__( 'If checked, Apache server info will be served via l\'url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-info') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
+				'description' => sprintf( esc_html__( 'If checked, Apache server info will be served via the url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-info') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
