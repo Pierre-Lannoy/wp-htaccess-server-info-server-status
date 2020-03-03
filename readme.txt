@@ -48,7 +48,7 @@ If you like this plugin or find it useful and want to thank me for the work done
 
 = What are the requirements for this plugin to work? =
 
-You need **WordPress 5.0** and at least **PHP 7.1**.
+You need **WordPress 5.2** and at least **PHP 7.2**.
 
 = Can this plugin work on multisite? =
 
