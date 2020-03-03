@@ -28,7 +28,7 @@ class Activator {
 	 * @since 1.0.0
 	 */
 	public static function activate() {
-		Rules::init();
+		Rules::init( true );
 		flush_rewrite_rules();
 	}
 

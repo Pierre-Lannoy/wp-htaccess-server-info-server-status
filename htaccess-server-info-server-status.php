@@ -19,6 +19,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       htaccess-server-info-server-status
  * Domain Path:       /languages
+ * Network:           true
  */
 
 // If this file is called directly, abort.

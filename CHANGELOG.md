@@ -5,13 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - Will be 2.0.0]
 ### Added
+- It's now possible to independently activate server-status or server-info.
 - Full integration with PerfOps.One suite.
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 - Compatibility with WordPress 5.4.
-- DecaLog reference in the `readme.txt` file.
+- New menu (in the left admin bar) for accessing features: "PerfOps Settings".
 ### Changed
 - New name for the plugin: "Apache Status & Info".
-- New menu (in the left admin bar) for accessing features: "PerfOps Settings".
 ### Removed
 - Compatibility with WordPress versions prior to 5.2.
 - GitHub `.wordpress-org` directory from WordPress releases.

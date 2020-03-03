@@ -38,7 +38,7 @@ class Initializer {
 		\Hsiss\System\Logger::init();
 		\Hsiss\System\Cache::init();
 		\Hsiss\System\Sitehealth::init();
-		//\Hsiss\Plugin\Feature\Capture::init();
+		\Hsiss\Plugin\Feature\Rules::init( true );
 		\Hsiss\System\APCu::init();
 	}
 
