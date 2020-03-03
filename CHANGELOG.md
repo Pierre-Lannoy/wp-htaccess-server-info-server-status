@@ -3,9 +3,9 @@ All notable changes to **Apache Status & Info** is documented in this *changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - Will be 2.0.0]
+## [2.0.0] - 2020-03-03
 ### Added
-- It's now possible to independently activate server-status or server-info.
+- It's now possible to independently activate server-status or server-info rules.
 - Full integration with PerfOps.One suite.
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 - Compatibility with WordPress 5.4.
