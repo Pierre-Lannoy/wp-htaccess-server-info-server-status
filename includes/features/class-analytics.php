@@ -11,7 +11,6 @@
 
 namespace Hsiss\Plugin\Feature;
 
-use Hsiss\Plugin\Feature\Schema;
 use Hsiss\System\Blog;
 use Hsiss\System\Cache;
 use Hsiss\System\Date;
@@ -240,12 +239,12 @@ class Analytics {
 				case 'endpoints':
 					$this->filter[]   = "authority='" . $id . "'";
 					$this->previous[] = "authority='" . $id . "'";
-					$this->subdomain  = Schema::get_authority( $this->filter );
+					//$this->subdomain  = Schema::get_authority( $this->filter );
 					break;
 				case 'endpoint':
 					$this->filter[]   = "endpoint='" . $id . "'";
 					$this->previous[] = "endpoint='" . $id . "'";
-					$this->subdomain  = Schema::get_authority( $this->filter );
+					//$this->subdomain  = Schema::get_authority( $this->filter );
 					break;
 				case 'country':
 					$this->filter[]   = "country='" . strtoupper( $id ) . "'";
@@ -263,7 +262,7 @@ class Analytics {
 		$this->timezone     = Timezone::network_get();
 		$datetime           = new \DateTime( 'now', $this->timezone );
 		$this->is_today     = ( $this->start === $datetime->format( 'Y-m-d' ) || $this->end === $datetime->format( 'Y-m-d' ) );
-		$bounds             = Schema::get_distinct_context( $this->filter, ! $this->is_today );
+		//$bounds             = Schema::get_distinct_context( $this->filter, ! $this->is_today );
 		$this->has_inbound  = ( in_array( 'inbound', $bounds, true ) );
 		$this->has_outbound = ( in_array( 'outbound', $bounds, true ) );
 		$this->is_inbound   = ( 'inbound' === $context || 'both' === $context );

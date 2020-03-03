@@ -10,7 +10,6 @@
 namespace Hsiss\Plugin;
 
 use Parsedown;
-use Hsiss\Plugin\Feature\Schema;
 use Hsiss\System\Nag;
 use Hsiss\System\Option;
 use Hsiss\System\Environment;
@@ -71,11 +70,7 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	private function update( $from ) {
-		$schema = new Schema();
-		$schema->update();
-		if ( ! Option::network_exists( 'download_favicons' ) ) {
-			Option::network_set( 'download_favicons', true );
-		}
+
 	}
 
 	/**

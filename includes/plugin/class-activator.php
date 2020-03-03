@@ -9,8 +9,6 @@
 
 namespace Hsiss\Plugin;
 
-use Hsiss\Plugin\Feature\Schema;
-
 /**
  * Fired during plugin activation.
  *
@@ -28,8 +26,7 @@ class Activator {
 	 * @since 1.0.0
 	 */
 	public static function activate() {
-		//$schema = new Schema();
-		//$schema->initialize();
+
 	}
 
 }
