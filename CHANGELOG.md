@@ -3,6 +3,10 @@ All notable changes to **Apache Status & Info** is documented in this *changelog
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2020-03-03
+### Fixed
+- Un unneeded item appears in the admin menu.
+
 ## [2.0.0] - 2020-03-03
 ### Added
 - It's now possible to independently activate server-status or server-info rules.

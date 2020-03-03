@@ -106,24 +106,6 @@ class Hsiss_Admin {
 				'statistics'    => [ '\Hsiss\System\Statistics', 'sc_get_raw' ],
 			];
 		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
-			$perfops['analytics'][] = [
-				'name'          => esc_html__( 'API Apache Status & Info', 'htaccess-server-info-server-status' ),
-				/* translators: as in the sentence "Find out inbound and outbound API calls made to/from your network." or "Find out inbound and outbound API calls made to/from your website." */
-				'description'   => sprintf( esc_html__( 'Find out inbound and outbound API calls made to/from your %s.', 'htaccess-server-info-server-status' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'htaccess-server-info-server-status' ) : esc_html__( 'website', 'htaccess-server-info-server-status' ) ),
-				'icon_callback' => [ \Hsiss\Plugin\Core::class, 'get_base64_logo' ],
-				'slug'          => 'hsiss-viewer',
-				/* translators: as in the sentence "DecaLog Viewer" */
-				'page_title'    => sprintf( esc_html__( 'API Apache Status & Info', 'htaccess-server-info-server-status' ), HSISS_PRODUCT_NAME ),
-				'menu_title'    => esc_html__( 'API Apache Status & Info', 'htaccess-server-info-server-status' ),
-				'capability'    => 'manage_options',
-				'callback'      => [ $this, 'get_viewer_page' ],
-				'position'      => 50,
-				'plugin'        => HSISS_SLUG,
-				'activated'     => true,
-				'remedy'        => '',
-			];
-		}
 		return $perfops;
 	}
 
