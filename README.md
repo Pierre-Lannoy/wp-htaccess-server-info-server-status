@@ -28,3 +28,7 @@ If you find bugs, have good ideas to make this plugin better, you're welcome to 
 Before submitting an issue or a pull request, please read the [contribution guidelines](CONTRIBUTING.md).
 
 > ⚠️ The `master` branch is the current development state of the plugin. If you want a stable, production-ready version, please pick the last official [release](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/releases).
+
+## Smoke tests
+[![WP compatibility](https://plugintests.com/plugins/htaccess-server-info-server-status/wp-badge.svg)](https://plugintests.com/plugins/htaccess-server-info-server-status/latest)
+[![PHP compatibility](https://plugintests.com/plugins/htaccess-server-info-server-status/php-badge.svg)](https://plugintests.com/plugins/htaccess-server-info-server-status/latest)
