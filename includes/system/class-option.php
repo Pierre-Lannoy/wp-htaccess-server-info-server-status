@@ -75,7 +75,7 @@ class Option {
 		self::$defaults['analytics']        = true;
 		self::$defaults['status']           = true;
 		self::$defaults['info']             = true;
-		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history' ];
+		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info' ];
 	}
 
 	/**

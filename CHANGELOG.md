@@ -4,6 +4,8 @@ All notable changes to **Apache Status & Info** is documented in this *changelog
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - Will be 2.1.0]
+### Changed
+- Information about plugin options has been improved in Site Health feature.
 
 ## [2.0.2] - 2020-03-03
 ### Changed
