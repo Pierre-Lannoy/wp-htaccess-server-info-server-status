@@ -289,7 +289,7 @@ class Hsiss_Admin {
 				'id'          => 'hsiss_plugin_options_usecdn',
 				'checked'     => Option::network_get( 'use_cdn' ),
 				'description' => esc_html__( 'If checked, Apache Status & Info will use a public CDN (jsDelivr) to serve scripts and stylesheets.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -305,7 +305,7 @@ class Hsiss_Admin {
 				'id'          => 'hsiss_plugin_options_nag',
 				'checked'     => Option::network_get( 'display_nag' ),
 				'description' => esc_html__( 'Allows Apache Status & Info to display admin notices throughout the admin dashboard.', 'htaccess-server-info-server-status' ) . '<br/>' . esc_html__( 'Note: Apache Status & Info respects DISABLE_NAG_NOTICES flag.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -330,7 +330,7 @@ class Hsiss_Admin {
 				'id'          => 'hsiss_plugin_features_status',
 				'checked'     => Option::network_get( 'status' ),
 				'description' => sprintf( esc_html__( 'If checked, Apache server status will be served via the url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-status') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -346,7 +346,7 @@ class Hsiss_Admin {
 				'id'          => 'hsiss_plugin_features_info',
 				'checked'     => Option::network_get( 'info' ),
 				'description' => sprintf( esc_html__( 'If checked, Apache server info will be served via the url %s.', 'htaccess-server-info-server-status' ), site_url( 'server-info') ) . '<br/>' . esc_html__( 'Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration.', 'htaccess-server-info-server-status' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
