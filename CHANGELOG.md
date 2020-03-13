@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with WordPress 5.4.
 - New menu (in the left admin bar) for accessing features: "PerfOps Settings".
 ### Changed
-- New name for the plugin: "Apache Status & Info".
+- New logo and new name for the plugin: "Apache Status & Info".
 ### Removed
 - Compatibility with WordPress versions prior to 5.2.
 - GitHub `.wordpress-org` directory from WordPress releases.
