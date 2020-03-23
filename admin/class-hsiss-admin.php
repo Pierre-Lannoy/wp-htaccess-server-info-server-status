@@ -337,7 +337,7 @@ class Hsiss_Admin {
 		register_setting( 'hsiss_plugin_features_section', 'hsiss_plugin_features_status' );
 		add_settings_field(
 			'hsiss_plugin_features_info',
-			__( 'Server info', 'htaccess-server-info-server-info' ),
+			__( 'Server info', 'htaccess-server-info-server-status' ),
 			[ $form, 'echo_field_checkbox' ],
 			'hsiss_plugin_features_section',
 			'hsiss_plugin_features_section',
