@@ -35,7 +35,6 @@ class Initializer {
 	 * @since 1.0.0
 	 */
 	public function initialize() {
-		\Hsiss\System\Logger::init();
 		\Hsiss\System\Cache::init();
 		\Hsiss\System\Sitehealth::init();
 		\Hsiss\Plugin\Feature\Rules::init( true );
