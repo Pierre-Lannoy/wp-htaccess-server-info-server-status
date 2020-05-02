@@ -35,6 +35,7 @@ class Environment {
 	 */
 	public static function init() {
 		$plugin_path         = str_replace( HSISS_SLUG . '/includes/system/', HSISS_SLUG . '/', plugin_dir_path( __FILE__ ) );
+		$plugin_path         = str_replace( HSISS_SLUG . '\includes\system/', HSISS_SLUG . '/', $plugin_path );
 		$plugin_url          = str_replace( HSISS_SLUG . '/includes/system/', HSISS_SLUG . '/', plugin_dir_url( __FILE__ ) );
 		$plugin_relative_url = str_replace( get_site_url() . '/', '', $plugin_url );
 		define( 'HSISS_PLUGIN_DIR', $plugin_path );
