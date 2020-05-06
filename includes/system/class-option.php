@@ -75,7 +75,8 @@ class Option {
 		self::$defaults['analytics']        = true;
 		self::$defaults['status']           = true;
 		self::$defaults['info']             = true;
-		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info' ];
+		self::$defaults['databeam']         = true;
+		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info', 'databeam' ];
 	}
 
 	/**
@@ -229,6 +230,7 @@ class Option {
 		self::network_set( 'history', self::$defaults['history'] );
 		self::network_set( 'status', self::$defaults['status'] );
 		self::network_set( 'info', self::$defaults['info'] );
+		self::network_set( 'databeam', self::$defaults['databeam'] );
 	}
 
 	/**

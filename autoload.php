@@ -21,6 +21,8 @@ spl_autoload_register(
 			}
 			if ( strpos( $class, 'Hsiss\Plugin\Feature\\' ) === 0 ) {
 				$filepath = HSISS_INCLUDES_DIR . 'features/';
+			} elseif ( strpos( $class, 'Hsiss\Plugin\Integration\\' ) === 0 ) {
+				$filepath = HSISS_INCLUDES_DIR . 'integrations/';
 			} elseif ( strpos( $class, 'Hsiss\Plugin\\' ) === 0 ) {
 				$filepath = HSISS_INCLUDES_DIR . 'plugin/';
 			}

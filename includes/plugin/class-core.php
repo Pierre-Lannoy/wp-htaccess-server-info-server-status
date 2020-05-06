@@ -100,6 +100,7 @@ class Core {
 	private function define_admin_hooks() {
 		$plugin_admin = new Hsiss_Admin();
 		$nag          = new Nag();
+		$this->loader->add_action( 'init', 'Hsiss\Plugin\Integration\Databeam', 'init' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
@@ -108,7 +109,6 @@ class Core {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'add_row_meta', 10, 2 );
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
 		$this->loader->add_action( 'wp_ajax_hide_hsiss_nag', $nag, 'hide_callback' );
-		//$this->loader->add_action( 'wp_ajax_hsiss_get_stats', 'Hsiss\Plugin\Feature\AnalyticsFactory', 'get_stats_callback' );
 	}
 
 	/**
