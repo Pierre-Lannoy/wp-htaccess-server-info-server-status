@@ -13,6 +13,7 @@ namespace Hsiss\Plugin\Integration;
 
 use Hsiss\System\Option;
 use Hsiss\System\Role;
+use Hsiss\Plugin\Core;
 
 /**
  * Define the DataBeam integration.
@@ -49,6 +50,23 @@ class Databeam {
 	 * @since    1.0.0
 	 */
 	public static function register_status( $integrations ) {
+		$integrations['hsiss_status-kpi'] = [
+			'name'        => HSISS_PRODUCT_NAME,
+			'subname'     => __( 'KPIs', 'databeam' ),
+			'description' => __( 'All KPIs & indexes collected from the <code>server-status</code> page of this server.', 'databeam' ),
+			'icon'        => Core::get_base64_logo(),
+			'type'        => 'kpi_collection',
+			'properties'  => [ 'network' ],
+			'ttl'         => '15-600',
+			'data_call'   =>
+				[
+					'static' => [
+						'class'  => '\Hsiss\Plugin\Integration\Databeam',
+						'method' => 'get_status_kpi_collection',
+					],
+				],
+			'data_args'   => [],
+		];
 		return $integrations;
 	}
 
@@ -61,6 +79,17 @@ class Databeam {
 	 */
 	public static function register_info( $integrations ) {
 		return $integrations;
+	}
+
+	/**
+	 * Get the server status data.
+	 *
+	 * @param   array   $args   The needed args.
+	 * @return  array   The full transformed data.
+	 * @since    1.0.0
+	 */
+	public static function get_status_kpi_collection( $args = [] ) {
+		return [];  // status + meta + data
 	}
 
 }

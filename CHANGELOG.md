@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 2.1.1]
 ### Fixed
+- When used for the first time, settings checkboxes may remain checked after being unchecked.
 - There's an error while activating the plugin when the server is Microsoft IIS with Windows 10.
 - With Microsoft Edge, some layouts may be ugly.
 
