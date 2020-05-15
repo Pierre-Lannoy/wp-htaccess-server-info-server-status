@@ -12,7 +12,7 @@ define( 'HSISS_PRODUCT_URL', 'https://github.com/Pierre-Lannoy/wp-htaccess-serve
 define( 'HSISS_PRODUCT_SHORTNAME', 'Apache S&I' );
 define( 'HSISS_PRODUCT_ABBREVIATION', 'htaccess-server-info-server-status' );
 define( 'HSISS_SLUG', 'htaccess-server-info-server-status' );
-define( 'HSISS_VERSION', '2.1.1-dev0' );
+define( 'HSISS_VERSION', '2.1.1' );
 define( 'HSISS_CODENAME', '"-"' );
 
 define( 'HSISS_CDN_AVAILABLE', true );
