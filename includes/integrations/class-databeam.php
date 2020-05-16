@@ -32,7 +32,7 @@ class Databeam {
 	 * @since    1.0.0
 	 */
 	public static function init() {
-		if ( Option::network_get( 'databeam' ) && ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) ) {
+		if ( Option::network_get( 'htaccess-server-info-server-status' ) && ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) ) {
 			if ( Option::network_get( 'status' ) ) {
 				add_filter( 'databeam_source_register', [ static::class, 'register_status' ] );
 			}
@@ -52,8 +52,8 @@ class Databeam {
 	public static function register_status( $integrations ) {
 		$integrations['hsiss_status-kpi'] = [
 			'name'        => HSISS_PRODUCT_NAME,
-			'subname'     => __( 'KPIs', 'databeam' ),
-			'description' => __( 'All KPIs & indexes collected from the <code>server-status</code> page of this server.', 'databeam' ),
+			'subname'     => __( 'KPIs', 'htaccess-server-info-server-status' ),
+			'description' => __( 'All KPIs & indexes collected from the <code>server-status</code> page of this server.', 'htaccess-server-info-server-status' ),
 			'icon'        => Core::get_base64_logo(),
 			'type'        => 'kpi_collection',
 			'properties'  => [ 'network' ],
