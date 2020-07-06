@@ -81,6 +81,7 @@ class Core {
 		$assets    = new Assets();
 		$updater   = new Updater();
 		$libraries = new Libraries();
+		$this->loader->add_action( 'init', 'Hsiss\Plugin\Integration\Databeam', 'init' );
 		$this->loader->add_filter( 'perfopsone_plugin_info', self::class, 'perfopsone_plugin_info' );
 		$this->loader->add_action( 'init', $bootstrap, 'initialize' );
 		$this->loader->add_action( 'init', $bootstrap, 'late_initialize', PHP_INT_MAX );
@@ -100,7 +101,6 @@ class Core {
 	private function define_admin_hooks() {
 		$plugin_admin = new Hsiss_Admin();
 		$nag          = new Nag();
-		$this->loader->add_action( 'init', 'Hsiss\Plugin\Integration\Databeam', 'init' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );

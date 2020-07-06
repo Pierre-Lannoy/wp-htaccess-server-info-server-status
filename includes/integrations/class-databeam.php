@@ -131,7 +131,38 @@ class Databeam {
 	 * @since    1.0.0
 	 */
 	public static function get_status_kpi_collection( $args = [] ) {
-		return [];  // status + meta + data
+		$result['meta']   = [];
+		$result['data']   = [];
+		$result['assets'] = [];
+
+		$result['data'] = [
+			'hit' => [
+				'name'        => 'Hits per second',
+				'description' => 'The number of hits per second',
+				'values'      => [
+					'hps'     => [
+						'value' => 2254,
+						'unit'  => 'H/s',
+					],
+				],
+			],
+			'temp' => [
+				'name'        => 'Temperature',
+				'description' => 'Outdoor temperature',
+				'values'      => [
+					'imperial'     => [
+						'value' => 87,
+						'unit'  => '°F',
+					],
+					'mksi'     => [
+						'value' => 26,
+						'unit'  => '°C',
+					],
+				],
+			],
+		];
+
+		return $result;
 	}
 
 }
