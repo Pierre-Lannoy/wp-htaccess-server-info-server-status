@@ -9,7 +9,6 @@
 
 namespace Hsiss\Plugin;
 
-use Parsedown;
 use Hsiss\System\Nag;
 use Hsiss\System\Option;
 use Hsiss\System\Environment;
