@@ -143,7 +143,6 @@ class Hsiss_Admin {
 	 */
 	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
 		$actions[] = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=hsiss-settings' ) ), esc_html__( 'Settings', 'htaccess-server-info-server-status' ) );
-		$actions[] = sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=hsiss-viewer' ) ), esc_html__( 'Statistics', 'htaccess-server-info-server-status' ) );
 		return $actions;
 	}
 
