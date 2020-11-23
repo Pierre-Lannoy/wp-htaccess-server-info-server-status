@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New Site Health "info" section about shared memory.
-- Compatibility with WordPress 5.5.
+- Compatibility with WordPress 5.6.
 
 ### Changed
 - Improvement in the way roles are detected.
