@@ -2,17 +2,65 @@
 # This file is distributed under the same license as the Plugins - Apache Status &amp; Info - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-03 20:48+0100\n"
+"PO-Revision-Date: 2020-11-28 13:31+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.2.4\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Poedit 2.4.1\n"
 "Language: fr_BE\n"
 "Project-Id-Version: Plugins - Apache Status &amp; Info - Stable (latest release)\n"
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+
+#: includes/system/class-markdown.php:46
+msgid "Sorry, unable to find or read the specified file."
+msgstr "Désolé, il est impossible de trouver ou de lire le fichier spécifié."
+
+#: includes/system/class-sitehealth.php:321
+msgid "You should consider using shared memory (PHP shmop) to allow inter-process communication."
+msgstr "Vous devriez envisager d’utiliser la mémoire partagée (PHP shmop) pour permettre la communication inter-processus."
+
+#: includes/system/class-sitehealth.php:315
+msgid "You should allow inter-process communication"
+msgstr "Vous devriez autoriser la communication inter-processus"
+
+#: includes/system/class-sitehealth.php:309
+msgid "Your site can use shared memory to allow inter-process communication. That's great."
+msgstr "Votre site peut utiliser la mémoire partagée pour permettre la communication inter-processus. C’est super."
+
+#: includes/system/class-sitehealth.php:303
+msgid "Your site can use shared memory"
+msgstr "Votre site peut utiliser la mémoire partagée"
+
+#: includes/system/class-sitehealth.php:286
+msgid "Shared Memory Test"
+msgstr "Test de mémoire partagée"
+
+#: perfopsone/class-adminmenus.php:74
+msgid "%s Consoles"
+msgstr "Consoles %s"
+
+#: perfopsone/class-adminmenus.php:74 perfopsone/class-adminmenus.php:75
+msgid "Available Consoles"
+msgstr "Consoles disponibles"
+
+#: includes/integrations/class-databeam.php:57
+msgid "In multisite environments, this source is available for all network sites."
+msgstr "Dans les environnements multisites, cette source est disponible pour tous les sites du réseau."
+
+#: includes/integrations/class-databeam.php:56
+msgid "Just add this and use it as source in your favorite visualizers and publishers."
+msgstr "Il vous suffit de l’ajouter pour l’utiliser comme source dans vos visualiseurs et publicateurs préférés."
+
+#: includes/integrations/class-databeam.php:55
+msgid "Allows to integrate, as a DataBeam source, all KPIs & indexes collected from the <code>server-status</code> page of this server."
+msgstr "Permet d’intégrer, en tant que source DataBeam, tous les indicateurs clés de performance et les index collectés à partir de la page <code>server-status</code> de ce serveur."
+
+#: includes/integrations/class-databeam.php:54
+msgid "KPIs"
+msgstr "KPIs"
 
 #: admin/partials/htaccess-server-info-server-status-admin-settings-options.php:33
 msgid "Reset to Defaults"
@@ -50,93 +98,89 @@ msgstr "Cette version de %s est une « release candidate ». Bien que prête p
 msgid "This version of %s is not production-ready. It is a development preview. Use it at your own risk!"
 msgstr "Cette version de %s n’est pas destinée à être mise en production. Il s’agit d’une « development preview ». Utilisez-la à vos risques et périls !"
 
-#: admin/class-hsiss-admin.php:348
+#: admin/class-hsiss-admin.php:347
 msgid "If checked, Apache server info will be served via the url %s."
 msgstr "Si coché, la page d’information d’Apache sera accessible via l’url %s."
 
-#: admin/class-hsiss-admin.php:340
+#: admin/class-hsiss-admin.php:339
 msgid "Server info"
 msgstr "Info du serveur"
 
-#: admin/class-hsiss-admin.php:332 admin/class-hsiss-admin.php:348
+#: admin/class-hsiss-admin.php:331 admin/class-hsiss-admin.php:347
 msgid "Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration."
 msgstr "Remarque : cela ne fait que configurer votre fichier .htaccess. Pour que cela fonctionne, le module doit être activé dans votre configuration Apache."
 
-#: admin/class-hsiss-admin.php:332
+#: admin/class-hsiss-admin.php:331
 msgid "If checked, Apache server status will be served via the url %s."
 msgstr "Si coché, la page d’état d’Apache sera accessible via l’url %s."
 
-#: admin/class-hsiss-admin.php:329 admin/class-hsiss-admin.php:345
+#: admin/class-hsiss-admin.php:328 admin/class-hsiss-admin.php:344
 msgid "Activate .htaccess rule for %s"
 msgstr "Activer la règle .htaccess pour %s"
 
-#: admin/class-hsiss-admin.php:324
+#: admin/class-hsiss-admin.php:323
 msgid "Server status"
 msgstr "État du serveur"
 
-#: admin/class-hsiss-admin.php:307
+#: admin/class-hsiss-admin.php:306
 msgid "Note: Apache Status & Info respects DISABLE_NAG_NOTICES flag."
 msgstr "Note : Apache Status & Info respecte l’indicateur DISABLE_NAG_NOTICES."
 
-#: admin/class-hsiss-admin.php:307
+#: admin/class-hsiss-admin.php:306
 msgid "Allows Apache Status & Info to display admin notices throughout the admin dashboard."
 msgstr "Autoriser Apache Status & Info à afficher les avis d’administration dans le Tableau de bord."
 
-#: admin/class-hsiss-admin.php:304
+#: admin/class-hsiss-admin.php:303
 msgid "Display"
 msgstr "Affichage"
 
-#: admin/class-hsiss-admin.php:299
+#: admin/class-hsiss-admin.php:298
 msgid "Admin notices"
 msgstr "Avis d’administration"
 
-#: admin/class-hsiss-admin.php:291
+#: admin/class-hsiss-admin.php:290
 msgid "If checked, Apache Status & Info will use a public CDN (jsDelivr) to serve scripts and stylesheets."
 msgstr "Si coché, Apache Status & Info utilisera un CDN public (jsDelivr) pour la distribution des scripts et des feuilles de style."
 
-#: admin/class-hsiss-admin.php:288
+#: admin/class-hsiss-admin.php:287
 msgid "Use public CDN"
 msgstr "Utiliser un CDN public"
 
-#: admin/class-hsiss-admin.php:283
+#: admin/class-hsiss-admin.php:282
 msgid "Resources"
 msgstr "Ressources"
 
-#: admin/class-hsiss-admin.php:272
+#: admin/class-hsiss-admin.php:271
 msgid "Logging"
 msgstr "Enregistrement"
 
-#: admin/class-hsiss-admin.php:268
+#: admin/class-hsiss-admin.php:267
 msgid "Your site does not use any logging plugin. To log all events triggered in Apache Status & Info, I recommend you to install the excellent (and free) %s. But it is not mandatory."
 msgstr "Votre site n’utilise aucune extension d’enregistrement. Pour enregistrer tous les évènements déclenchés par Apache Status & Info, je vous recommande d’installer l’excellent (et gratuit) %s. Mais ce n’est pas obligatoire."
 
-#: admin/class-hsiss-admin.php:265
+#: admin/class-hsiss-admin.php:264
 msgid "Your site is currently using %s."
 msgstr "Votre site utilise actuellement %s."
 
-#: admin/class-hsiss-admin.php:248
+#: admin/class-hsiss-admin.php:247
 msgid "Plugin settings have not been reset to defaults. Please try again."
 msgstr "Les réglages n’ont pas été réinitialisés à leurs valeurs par défaut. Veuillez réessayer."
 
-#: admin/class-hsiss-admin.php:243
+#: admin/class-hsiss-admin.php:242
 msgid "Plugin settings have been reset to defaults."
 msgstr "Le réglages ont été réinitialisées aux valeurs par défaut."
 
-#: admin/class-hsiss-admin.php:226
+#: admin/class-hsiss-admin.php:225
 msgid "Plugin settings have not been saved. Please try again."
 msgstr "Les réglages n’ont pas été mis à jour. Veuillez réessayer."
 
-#: admin/class-hsiss-admin.php:221
+#: admin/class-hsiss-admin.php:220
 msgid "Plugin settings have been saved."
 msgstr "Les réglages ont été mis à jour."
 
-#: admin/class-hsiss-admin.php:161
+#: admin/class-hsiss-admin.php:160
 msgid "GitHub repository"
 msgstr "Dépôt GitHub"
-
-#: admin/class-hsiss-admin.php:146
-msgid "Statistics"
-msgstr "Statistiques"
 
 #: admin/class-hsiss-admin.php:145
 msgid "Settings"
@@ -150,62 +194,63 @@ msgstr "Options de l’extension"
 msgid "Plugin features"
 msgstr "Fonctionnalités"
 
-#: perfopsone/class-adminmenus.php:379
+#: perfopsone/class-adminmenus.php:406
 msgid "Requires at least PHP %1$s%2$s and WordPress %3$s%4$s."
 msgstr "Nécessite au moins PHP %1$s%2$s et WordPress %3$s%4$s."
 
-#: perfopsone/class-adminmenus.php:370
+#: perfopsone/class-adminmenus.php:397
 msgid "contribution"
 msgstr "contribution"
 
-#: perfopsone/class-adminmenus.php:369
+#: perfopsone/class-adminmenus.php:396
 msgid "support"
 msgstr "assistance"
 
-#: perfopsone/class-adminmenus.php:368
+#: perfopsone/class-adminmenus.php:395
 msgid "about"
 msgstr "à propos"
 
-#: perfopsone/class-adminmenus.php:367
+#: perfopsone/class-adminmenus.php:394
 msgid "settings"
 msgstr "réglages"
 
-#: perfopsone/class-adminmenus.php:241
+#: perfopsone/class-adminmenus.php:268
 msgid "No review yet."
 msgstr "Pas encore d’avis."
 
-#: perfopsone/class-adminmenus.php:238
+#: perfopsone/class-adminmenus.php:265
 msgid "%s reviews."
 msgstr "%s avis."
 
-#: perfopsone/class-adminmenus.php:233
+#: perfopsone/class-adminmenus.php:260
 msgid "%s downloads."
 msgstr "%s téléchargements."
 
-#: perfopsone/class-adminmenus.php:228
+#: perfopsone/class-adminmenus.php:255
 msgid "%s+ installs."
 msgstr "%s+ installations."
 
-#: perfopsone/class-adminmenus.php:211 perfopsone/class-adminmenus.php:218
+#: perfopsone/class-adminmenus.php:238 perfopsone/class-adminmenus.php:245
 msgid "need update"
 msgstr "nécessite une mise à jour"
 
-#: perfopsone/class-adminmenus.php:209 perfopsone/class-adminmenus.php:216
+#: perfopsone/class-adminmenus.php:236 perfopsone/class-adminmenus.php:243
 msgid "OK"
 msgstr "OK"
 
-#: perfopsone/class-adminmenus.php:203
+#: perfopsone/class-adminmenus.php:230
 msgid "Need to be updated to %s."
 msgstr "Nécessite d’être mis à jour vers %s."
 
-#: perfopsone/class-adminmenus.php:108
+#: perfopsone/class-adminmenus.php:112
 msgid "This analytics feature is currently disabled. Click here to activate it."
 msgstr "Cette fonctionnalité d’analyse est actuellement désactivée. Cliquez ici pour l’activer."
 
 #. translators: as in the sentence "Apache Status & Info Settings" or
 #. "WordPress Settings"
-#: perfopsone/class-adminmenus.php:70 admin/class-hsiss-admin.php:97
+#: admin/class-hsiss-admin.php:97
 #: admin/partials/htaccess-server-info-server-status-admin-settings-main.php:27
+#: perfopsone/class-adminmenus.php:70
 msgid "%s Settings"
 msgstr "Réglages %s"
 
@@ -272,13 +317,9 @@ msgid "MIT license"
 msgstr "Licence MIT"
 
 #: includes/libraries/class-libraries.php:67
-#: includes/libraries/class-libraries.php:79
+#: includes/libraries/class-libraries.php:78
 msgid "%s & contributors"
 msgstr "%s et contributeurs"
-
-#: includes/plugin/class-updater.php:94
-msgid "Sorry, unable to find or read changelog file."
-msgstr "Désolé, il est impossible de trouver ou de lire le journal des modifications."
 
 #: includes/plugin/class-updater.php:50
 msgid "See <a href=\"%s\">what's new</a>."
@@ -292,19 +333,19 @@ msgstr "%1$s a été correctement mis à jour de la version %2$s à la version %
 msgid "%1$s has been correctly installed."
 msgstr "%1$s a été correctement installé."
 
-#: includes/system/class-environment.php:203
+#: includes/system/class-environment.php:204
 msgid "Debug disabled"
 msgstr "Débogage désactivé"
 
-#: includes/system/class-environment.php:203
+#: includes/system/class-environment.php:204
 msgid "Debug enabled"
 msgstr "Débogage activé"
 
-#: includes/system/class-environment.php:197
+#: includes/system/class-environment.php:198
 msgid "display"
 msgstr "affichage"
 
-#: includes/system/class-environment.php:192
+#: includes/system/class-environment.php:193
 msgid "log"
 msgstr "registre"
 
@@ -373,101 +414,103 @@ msgctxt "Abbreviation - Stands for \"thousand\"."
 msgid "K"
 msgstr "K"
 
-#: includes/system/class-sitehealth.php:320
+#: includes/system/class-sitehealth.php:375
 msgid "You should consider using PHP Intl extension. It would improve localization features on your site."
 msgstr "Vous devriez envisager d’utiliser l’extension PHP Intl. Cela permettrait d’améliorer les fonctionnalités de traduction sur votre site."
 
-#: includes/system/class-sitehealth.php:314
+#: includes/system/class-sitehealth.php:369
 msgid "You should use Intl extension"
 msgstr "Vous devriez utiliser l’extension Intl"
 
-#: includes/system/class-sitehealth.php:308
+#: includes/system/class-sitehealth.php:363
 msgid "Your site uses PHP Intl extension to improve localization features. That's great."
 msgstr "Votre site utilise l’extension PHP Intl pour améliorer les fonctionnalités de traduction. C’est super."
 
-#: includes/system/class-sitehealth.php:305
-#: includes/system/class-sitehealth.php:317
+#: includes/system/class-sitehealth.php:360
+#: includes/system/class-sitehealth.php:372
 msgid "Internationalization"
 msgstr "Internationalisation"
 
-#: includes/system/class-sitehealth.php:302
+#: includes/system/class-sitehealth.php:357
 msgid "Your site uses Intl extension"
 msgstr "Votre site utilise l’extension Intl"
 
-#: includes/system/class-sitehealth.php:285
+#: includes/system/class-sitehealth.php:340
 msgid "I18n Extension Test"
 msgstr "Test d’extension I18n"
 
-#: includes/system/class-sitehealth.php:266
+#: includes/system/class-sitehealth.php:267
 msgid "You should consider using OPcache. It would improve PHP performance of your site."
 msgstr "Vous devriez envisager d’utiliser OPcache. Cela permettrait d’améliorer les performances PHP de votre site."
 
-#: includes/system/class-sitehealth.php:260
+#: includes/system/class-sitehealth.php:261
 msgid "You should use OPcache"
 msgstr "Vous devriez utiliser OPcache"
 
-#: includes/system/class-sitehealth.php:254
+#: includes/system/class-sitehealth.php:255
 msgid "Your site uses OPcache to improve PHP performance. That's great."
 msgstr "Votre site utilise OPcache pour améliorer les performances de PHP. C’est super."
 
-#: includes/system/class-sitehealth.php:248
+#: includes/system/class-sitehealth.php:249
 msgid "Your site uses OPcache"
 msgstr "Votre site utilise OPcache"
 
-#: includes/system/class-sitehealth.php:231
+#: includes/system/class-sitehealth.php:232
 msgid "OPcache Test"
 msgstr "Test OPcache"
 
-#: includes/system/class-sitehealth.php:212
+#: includes/system/class-sitehealth.php:213
 msgid "Your site uses a dedicated object caching mechanism. That's great."
 msgstr "Votre site utilise un mécanisme dédié de mise cache d’objets. C'est super."
 
-#: includes/system/class-sitehealth.php:206
+#: includes/system/class-sitehealth.php:207
 msgid "Your site uses object caching"
 msgstr "Votre site utilise la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:200
+#: includes/system/class-sitehealth.php:201
 msgid "Your site uses APCu, but only a few plugins know how to take advantage of it."
 msgstr "Votre site utilise APCu, mais seules quelques extensions savent comment en profiter."
 
-#: includes/system/class-sitehealth.php:194
+#: includes/system/class-sitehealth.php:195
 msgid "You should improve object caching"
 msgstr "Vous devriez améliorer la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:188
-#: includes/system/class-sitehealth.php:200
+#: includes/system/class-sitehealth.php:189
+#: includes/system/class-sitehealth.php:201
 msgid "You should consider using a dedicated object caching mechanism, like Memcached or Redis, to improve your site's speed."
 msgstr "Vous devriez envisager d’utiliser un mécanisme dédié de mise en cache d’objets, comme Memcached ou Redis, pour améliorer la vitesse de votre site."
 
-#: includes/system/class-sitehealth.php:188
+#: includes/system/class-sitehealth.php:189
 msgid "Your site uses database transient."
 msgstr "Votre site utilise des Transients stockés en base de données."
 
-#: includes/system/class-sitehealth.php:185
-#: includes/system/class-sitehealth.php:197
-#: includes/system/class-sitehealth.php:209
-#: includes/system/class-sitehealth.php:251
-#: includes/system/class-sitehealth.php:263
+#: includes/system/class-sitehealth.php:186
+#: includes/system/class-sitehealth.php:198
+#: includes/system/class-sitehealth.php:210
+#: includes/system/class-sitehealth.php:252
+#: includes/system/class-sitehealth.php:264
+#: includes/system/class-sitehealth.php:306
+#: includes/system/class-sitehealth.php:318
 msgid "Performance"
 msgstr "Performance"
 
-#: includes/system/class-sitehealth.php:182
+#: includes/system/class-sitehealth.php:183
 msgid "You should use object caching"
 msgstr "Vous devriez utiliser la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:164
+#: includes/system/class-sitehealth.php:165
 msgid "Object Cache Test"
 msgstr "Test de cache d’objets"
 
-#: includes/system/class-sitehealth.php:147
+#: includes/system/class-sitehealth.php:148
 msgid "Plugin diagnostic information"
 msgstr "Informations de diagnostique de l’extension"
 
-#: includes/system/class-sitehealth.php:130
+#: includes/system/class-sitehealth.php:131
 msgid "OPcache settings and status"
 msgstr "Réglages et état OPcache"
 
-#: includes/system/class-sitehealth.php:122
+#: includes/system/class-sitehealth.php:123
 msgid "Object cache"
 msgstr "Cache d’objets"
 
@@ -502,7 +545,7 @@ msgstr "min"
 #: includes/system/class-date.php:106
 msgctxt "Unit abbreviation - Stands for \"second\"."
 msgid "sec"
-msgstr "sec."
+msgstr "s"
 
 #: includes/system/class-date.php:73
 msgid "in %s"
@@ -858,13 +901,13 @@ msgstr "s"
 msgid "%d endpoint"
 msgid_plural "%d endpoints"
 msgstr[0] "%d point de terminaison"
-msgstr[1] ""
+msgstr[1] "%d points de terminaison"
 
 #: includes/features/class-analytics.php:611
 msgid "%d subdomain"
 msgid_plural "%d subdomains"
 msgstr[0] "%d sous-domaine"
-msgstr[1] ""
+msgstr[1] "%d sous-domaines"
 
 #: includes/features/class-analytics.php:587
 msgid "Latency"
@@ -909,6 +952,6 @@ msgstr "Pierre Lannoy"
 msgid "Automatically add rules to .htaccess file to support server-info and server-status Apache mod."
 msgstr "Ajoutez automatiquement des règles au fichier .htaccess pour prendre en charge les modules server-info et server-status d’Apache."
 
-#: admin/class-hsiss-admin.php:160
+#: admin/class-hsiss-admin.php:159
 msgid "Support"
 msgstr "Assistance"
