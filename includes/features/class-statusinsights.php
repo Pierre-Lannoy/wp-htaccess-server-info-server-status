@@ -6,7 +6,7 @@
  *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
- * @since   1.0.0
+ * @since   2.3.0
  */
 
 namespace Hsiss\Plugin\Feature;
@@ -33,262 +33,51 @@ use Flagiconcss;
  *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
- * @since   1.0.0
+ * @since   2.3.0
  */
 class StatusInsights {
 
 	/**
-	 * The domain name.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $domain    The domain name.
-	 */
-	public $domain = '';
-
-	/**
-	 * The subdomain name.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $subdomain    The subdomain name.
-	 */
-	public $subdomain = '';
-
-	/**
-	 * The dashboard type.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $title    The dashboard type.
-	 */
-	public $type = '';
-
-	/**
-	 * The dashboard extra.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $extra    The dashboard extra.
-	 */
-	public $extra = '';
-
-	/**
-	 * The dashboard context.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $context    The dashboard context.
-	 */
-	private $context = '';
-
-	/**
-	 * The queried ID.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $id    The queried ID.
-	 */
-	private $id = '';
-
-	/**
-	 * The queried site.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $site    The queried site.
-	 */
-	public $site = 'all';
-
-	/**
-	 * The start date.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $start    The start date.
-	 */
-	private $start = '';
-
-	/**
-	 * The end date.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $end    The end date.
-	 */
-	private $end = '';
-
-	/**
-	 * The period duration in seconds.
-	 *
-	 * @since  1.0.0
-	 * @var    integer    $duration    The period duration in seconds.
-	 */
-	private $duration = 0;
-
-	/**
-	 * The timezone.
-	 *
-	 * @since  1.0.0
-	 * @var    string    $timezone    The timezone.
-	 */
-	private $timezone = 'UTC';
-
-	/**
-	 * The main query filter.
-	 *
-	 * @since  1.0.0
-	 * @var    array    $filter    The main query filter.
-	 */
-	private $filter = [];
-
-	/**
-	 * The query filter fro the previous range.
-	 *
-	 * @since  1.0.0
-	 * @var    array    $previous    The query filter fro the previous range.
-	 */
-	private $previous = [];
-
-	/**
-	 * Is the start date today's date.
-	 *
-	 * @since  1.0.0
-	 * @var    boolean    $today    Is the start date today's date.
-	 */
-	private $is_today = false;
-
-	/**
-	 * Has the dataset inbound context.
-	 *
-	 * @since  1.0.0
-	 * @var    boolean    $has_inbound    Has the dataset inbound context.
-	 */
-	private $has_inbound = false;
-
-	/**
-	 * Has the dataset inbound context.
-	 *
-	 * @since  1.0.0
-	 * @var    boolean    $has_outbound    Has the dataset inbound context.
-	 */
-	private $has_outbound = false;
-
-	/**
-	 * Is the inbound context in query.
-	 *
-	 * @since  1.0.0
-	 * @var    boolean    $has_inbound    Is the inbound context in query.
-	 */
-	private $is_inbound = false;
-
-	/**
-	 * Is the outbound context in query.
-	 *
-	 * @since  1.0.0
-	 * @var    boolean    $has_outbound    Is the outbound context in query.
-	 */
-	private $is_outbound = false;
-
-	/**
 	 * Colors for graphs.
 	 *
-	 * @since  1.0.0
+	 * @since  2.3.0
 	 * @var    array    $colors    The colors array.
 	 */
 	private $colors = [ '#73879C', '#3398DB', '#9B59B6', '#b2c326', '#BDC3C6' ];
 
 	/**
+	 * Main KPIs.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $kpis    The kpi ids.
+	 */
+	private $kpis = [ 'rquery', 'rdata', 'cpu', 'uptime' ];
+
+	/*
+	 * QUERY RATE
+	 *   rate
+	 *   total
+	 *
+	 * DATA RATE
+	 *   rate
+	 *   total
+	 *
+	 *
+	 * CPU
+	 *   load percent
+	 *
+	 * UPTIME
+	 *   Hour or Day or Week...
+	 *   Seconds
+	 *
+	 */
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function __construct() {
-		$this->id      = $id;
-		$this->extra   = $extra;
-		$this->context = $context;
-		if ( Role::LOCAL_ADMIN === Role::admin_type() ) {
-			$site = get_current_blog_id();
-		}
-		$this->site = $site;
-		if ( 'all' !== $site ) {
-			$this->filter[]   = "site='" . $site . "'";
-			$this->previous[] = "site='" . $site . "'";
-		}
-		if ( '' !== $domain ) {
-			$this->domain     = $domain;
-			$this->filter[]   = "id='" . $domain . "'";
-			$this->previous[] = "id='" . $domain . "'";
-		}
-		if ( $start === $end ) {
-			$this->filter[] = "timestamp='" . $start . "'";
-		} else {
-			$this->filter[] = "timestamp>='" . $start . "' and timestamp<='" . $end . "'";
-		}
-		$this->start = $start;
-		$this->end   = $end;
-		$this->type  = $type;
-		if ( '' !== $id ) {
-			switch ( $type ) {
-				case 'domain':
-				case 'authorities':
-					$this->filter[]   = "id='" . $id . "'";
-					$this->previous[] = "id='" . $id . "'";
-					break;
-				case 'authority':
-				case 'endpoints':
-					$this->filter[]   = "authority='" . $id . "'";
-					$this->previous[] = "authority='" . $id . "'";
-					//$this->subdomain  = Schema::get_authority( $this->filter );
-					break;
-				case 'endpoint':
-					$this->filter[]   = "endpoint='" . $id . "'";
-					$this->previous[] = "endpoint='" . $id . "'";
-					//$this->subdomain  = Schema::get_authority( $this->filter );
-					break;
-				case 'country':
-					$this->filter[]   = "country='" . strtoupper( $id ) . "'";
-					$this->previous[] = "country='" . strtoupper( $id ) . "'";
-					break;
-				default:
-					$this->type = 'summary';
-			}
-		}
-		if ( '' !== $domain && 'domain' !== $type && 'authorities' !== $type ) {
-			$this->domain     = $domain;
-			$this->filter[]   = "id='" . $domain . "'";
-			$this->previous[] = "id='" . $domain . "'";
-		}
-		$this->timezone     = Timezone::network_get();
-		$datetime           = new \DateTime( 'now', $this->timezone );
-		$this->is_today     = ( $this->start === $datetime->format( 'Y-m-d' ) || $this->end === $datetime->format( 'Y-m-d' ) );
-		//$bounds             = Schema::get_distinct_context( $this->filter, ! $this->is_today );
-		$this->has_inbound  = ( in_array( 'inbound', $bounds, true ) );
-		$this->has_outbound = ( in_array( 'outbound', $bounds, true ) );
-		$this->is_inbound   = ( 'inbound' === $context || 'both' === $context );
-		$this->is_outbound  = ( 'outbound' === $context || 'both' === $context );
-		if ( 'inbound' === $context && ! $this->has_inbound ) {
-			$this->is_inbound  = false;
-			$this->is_outbound = true;
-		}
-		if ( 'outbound' === $context && ! $this->has_outbound ) {
-			$this->is_inbound  = true;
-			$this->is_outbound = false;
-		}
-		if ( $this->is_inbound xor $this->is_outbound ) {
-			$context = 'outbound';
-			if ( $this->is_inbound ) {
-				$context = 'inbound';
-			}
-			$this->filter[]   = "context='" . $context . "'";
-			$this->previous[] = "context='" . $context . "'";
-		}
-		$start = new \DateTime( $this->start, $this->timezone );
-		$end   = new \DateTime( $this->end, $this->timezone );
-		$start->sub( new \DateInterval( 'P1D' ) );
-		$end->sub( new \DateInterval( 'P1D' ) );
-		$delta = $start->diff( $end, true );
-		if ( $delta ) {
-			$start->sub( $delta );
-			$end->sub( $delta );
-		}
-		$this->duration = $delta->days + 1;
-		if ( $start === $end ) {
-			$this->previous[] = "timestamp='" . $start->format( 'Y-m-d' ) . "'";
-		} else {
-			$this->previous[] = "timestamp>='" . $start->format( 'Y-m-d' ) . "' and timestamp<='" . $end->format( 'Y-m-d' ) . "'";
-		}
 	}
 
 	/**
@@ -297,7 +86,7 @@ class StatusInsights {
 	 * @param   string $query   The query type.
 	 * @param   mixed  $queried The query params.
 	 * @return array  The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function query( $query, $queried ) {
 		switch ( $query ) {
@@ -345,7 +134,7 @@ class StatusInsights {
 	 * @param   string  $type    The type of pie.
 	 * @param   integer $limit  The number to display.
 	 * @return array  The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_pie( $type, $limit ) {
 		$extra_field = '';
@@ -455,7 +244,7 @@ class StatusInsights {
 	 * @param   string  $type    The type of top.
 	 * @param   integer $limit  The number to display.
 	 * @return array  The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_top( $type, $limit ) {
 		switch ( $type ) {
@@ -534,7 +323,7 @@ class StatusInsights {
 	 *
 	 * @param   string $type    The type of list.
 	 * @return array  The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_list( $type ) {
 		$follow     = '';
@@ -731,7 +520,7 @@ class StatusInsights {
 	 * Query statistics table.
 	 *
 	 * @return array The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_map() {
 		$uuid   = UUID::generate_unique_id( 5 );
@@ -778,7 +567,7 @@ class StatusInsights {
 	 * Query statistics table.
 	 *
 	 * @return array The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_chart() {
 		$uuid           = UUID::generate_unique_id( 5 );
@@ -1067,7 +856,7 @@ class StatusInsights {
 	 *
 	 * @param   mixed $queried The query params.
 	 * @return array  The result of the query, ready to encode.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function query_kpi( $queried ) {
 		$result = [];
@@ -1226,220 +1015,15 @@ class StatusInsights {
 	}
 
 	/**
-	 * Get the title selector.
-	 *
-	 * @return string  The selector ready to print.
-	 * @since    1.0.0
-	 */
-	public function get_title_selector() {
-		switch ( $this->type ) {
-			case 'domains':
-				switch ( $this->extra ) {
-					case 'codes':
-						$title = esc_html__( 'HTTP Codes Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'schemes':
-						$title = esc_html__( 'Protocols Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'methods':
-						$title = esc_html__( 'Methods Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'countries':
-						$title = esc_html__( 'Countries Details', 'htaccess-server-info-server-status' );
-						break;
-					default:
-						$title = esc_html__( 'Domains Details', 'htaccess-server-info-server-status' );
-				}
-				break;
-			case 'domain':
-				$title = esc_html__( 'Domain Summary', 'htaccess-server-info-server-status' );
-				break;
-			case 'authorities':
-				switch ( $this->extra ) {
-					case 'codes':
-						$title = esc_html__( 'HTTP Codes Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'schemes':
-						$title = esc_html__( 'Protocols Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'methods':
-						$title = esc_html__( 'Methods Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'countries':
-						$title = esc_html__( 'Countries Details', 'htaccess-server-info-server-status' );
-						break;
-					default:
-						$title = esc_html__( 'Domain Details', 'htaccess-server-info-server-status' );
-				}
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Domain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->domain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'domain',
-							'domain' => $this->domain,
-							'id'     => $this->domain,
-						]
-					),
-				];
-				break;
-			case 'authority':
-				$title         = esc_html__( 'Subdomain Summary', 'htaccess-server-info-server-status' );
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Domain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->domain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'domain',
-							'domain' => $this->domain,
-							'id'     => $this->domain,
-						]
-					),
-				];
-				break;
-			case 'endpoints':
-				switch ( $this->extra ) {
-					case 'codes':
-						$title = esc_html__( 'HTTP Codes Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'schemes':
-						$title = esc_html__( 'Protocols Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'methods':
-						$title = esc_html__( 'Methods Details', 'htaccess-server-info-server-status' );
-						break;
-					case 'countries':
-						$title = esc_html__( 'Countries Details', 'htaccess-server-info-server-status' );
-						break;
-					default:
-						$title = esc_html__( 'Subdomain Details', 'htaccess-server-info-server-status' );
-				}
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Subdomain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->subdomain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'authority',
-							'domain' => $this->domain,
-							'id'     => $this->subdomain,
-						]
-					),
-				];
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Domain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->domain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'domain',
-							'domain' => $this->domain,
-							'id'     => $this->domain,
-						]
-					),
-				];
-				break;
-			case 'endpoint':
-				$title         = esc_html__( 'Endpoint Summary', 'htaccess-server-info-server-status' );
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Subdomain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->subdomain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'authority',
-							'domain' => $this->domain,
-							'id'     => $this->subdomain,
-						]
-					),
-				];
-				$breadcrumbs[] = [
-					'title'    => esc_html__( 'Domain Summary', 'htaccess-server-info-server-status' ),
-					'subtitle' => sprintf( esc_html__( 'Return to %s', 'htaccess-server-info-server-status' ), $this->domain ),
-					'url'      => $this->get_url(
-						[ 'extra' ],
-						[
-							'type'   => 'domain',
-							'domain' => $this->domain,
-							'id'     => $this->domain,
-						]
-					),
-				];
-				break;
-			case 'country':
-				$title    = esc_html__( 'Country', 'htaccess-server-info-server-status' );
-				$subtitle = L10n::get_country_name( $this->id );
-				break;
-
-		}
-		$breadcrumbs[] = [
-			'title'    => esc_html__( 'Main Summary', 'htaccess-server-info-server-status' ),
-			'subtitle' => sprintf( esc_html__( 'Return to Apache Status & Info main page.', 'htaccess-server-info-server-status' ) ),
-			'url'      => $this->get_url( [ 'domain', 'id', 'extra', 'type' ] ),
-		];
-		$result        = '<select name="sources" id="sources" class="hsiss-select sources" placeholder="' . $title . '" style="display:none;">';
-		foreach ( $breadcrumbs as $breadcrumb ) {
-			$result .= '<option value="' . $breadcrumb['url'] . '">' . $breadcrumb['title'] . '~-' . $breadcrumb['subtitle'] . '-~</span></option>';
-		}
-		$result .= '</select>';
-		$result .= '';
-
-		return $result;
-	}
-
-	/**
-	 * Get the site selection bar.
-	 *
-	 * @return string  The bar ready to print.
-	 * @since    1.0.0
-	 */
-	public function get_site_bar() {
-		if ( Role::SINGLE_ADMIN === Role::admin_type() ) {
-			return '';
-		}
-		if ( 'all' === $this->site ) {
-			$result = '<span class="hsiss-site-text">' . esc_html__( 'All Sites', 'htaccess-server-info-server-status' ) . '</span>';
-		} else {
-			if ( Role::SUPER_ADMIN === Role::admin_type() ) {
-				$quit   = '<a href="' . esc_url( $this->get_url( [ 'site' ] ) ) . '"><img style="width:12px;vertical-align:text-top;" src="' . Feather\Icons::get_base64( 'x-circle', 'none', '#FFFFFF' ) . '" /></a>';
-				$result = '<span class="hsiss-site-button">' . sprintf( esc_html__( 'Site ID %s', 'htaccess-server-info-server-status' ), $this->site ) . $quit . '</span>';
-			} else {
-				$result = '<span class="hsiss-site-text">' . sprintf( esc_html__( 'Site ID %s', 'htaccess-server-info-server-status' ), $this->site ) . '</span>';
-			}
-		}
-		return '<span class="hsiss-site">' . $result . '</span>';
-	}
-
-	/**
 	 * Get the title bar.
 	 *
 	 * @return string  The bar ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_title_bar() {
-		$subtitle = $this->id;
-		switch ( $this->type ) {
-			case 'summary':
-				$title = esc_html__( 'Main Summary', 'htaccess-server-info-server-status' );
-				break;
-			case 'domain':
-			case 'authority':
-			case 'endpoint':
-			case 'domains':
-			case 'authorities':
-			case 'endpoints':
-				$title = $this->get_title_selector();
-				break;
-		}
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
-		$result .= $this->get_site_bar();
-		$result .= '<span class="hsiss-title">' . $title . '</span>';
-		$result .= '<span class="hsiss-subtitle">' . $subtitle . '</span>';
-		$result .= '<span class="hsiss-datepicker">' . $this->get_date_box() . '</span>';
-		$result .= '<span class="hsiss-switch">' . $this->get_switch_box( 'inbound' ) . '</span>';
-		$result .= '<span class="hsiss-switch">' . $this->get_switch_box( 'outbound' ) . '</span>';
+		$result .= '<span class="hsiss-title" id="hsiss-insights-title">' . esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ) . '</span>';
+		$result .= '<span class="hsiss-subtitle" id="hsiss-insights-subtitle"></span>';
 		$result .= '</div>';
 		return $result;
 	}
@@ -1448,17 +1032,14 @@ class StatusInsights {
 	 * Get the KPI bar.
 	 *
 	 * @return string  The bar ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_kpi_bar() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
 		$result .= '<div class="hsiss-kpi-bar">';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'call' ) . '</div>';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'data' ) . '</div>';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'server' ) . '</div>';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'quota' ) . '</div>';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'pass' ) . '</div>';
-		$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( 'uptime' ) . '</div>';
+		foreach ( $this->kpis as $kpi ) {
+			$result .= '<div class="hsiss-kpi-large">' . $this->get_large_kpi( $kpi ) . '</div>';
+		}
 		$result .= '</div>';
 		$result .= '</div>';
 		return $result;
@@ -1468,7 +1049,7 @@ class StatusInsights {
 	 * Get the main chart.
 	 *
 	 * @return string  The main chart ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_main_chart() {
 		if ( 1 < $this->duration ) {
@@ -1500,7 +1081,7 @@ class StatusInsights {
 	 * Get the domains list.
 	 *
 	 * @return string  The table ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_sites_list() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
@@ -1520,7 +1101,7 @@ class StatusInsights {
 	 * Get the domains list.
 	 *
 	 * @return string  The table ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_domains_list() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
@@ -1540,7 +1121,7 @@ class StatusInsights {
 	 * Get the authorities list.
 	 *
 	 * @return string  The table ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_authorities_list() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
@@ -1560,7 +1141,7 @@ class StatusInsights {
 	 * Get the endpoints list.
 	 *
 	 * @return string  The table ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_endpoints_list() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
@@ -1580,7 +1161,7 @@ class StatusInsights {
 	 * Get the extra list.
 	 *
 	 * @return string  The table ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_extra_list() {
 		switch ( $this->extra ) {
@@ -1616,7 +1197,7 @@ class StatusInsights {
 	 * Get the top domains box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_top_domain_box() {
 		$url     = $this->get_url( [ 'domain' ], [ 'type' => 'domains' ] );
@@ -1639,7 +1220,7 @@ class StatusInsights {
 	 * Get the top authority box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_top_authority_box() {
 		$url     = $this->get_url(
@@ -1668,7 +1249,7 @@ class StatusInsights {
 	 * Get the top endpoint box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_top_endpoint_box() {
 		$url     = $this->get_url(
@@ -1697,7 +1278,7 @@ class StatusInsights {
 	 * Get the map box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_map_box() {
 		switch ( $this->type ) {
@@ -1749,7 +1330,7 @@ class StatusInsights {
 	 * Get the map box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_codes_box() {
 		switch ( $this->type ) {
@@ -1801,7 +1382,7 @@ class StatusInsights {
 	 * Get the map box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_security_box() {
 		switch ( $this->type ) {
@@ -1853,7 +1434,7 @@ class StatusInsights {
 	 * Get the map box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public function get_method_box() {
 		switch ( $this->type ) {
@@ -1906,7 +1487,7 @@ class StatusInsights {
 	 *
 	 * @param   string $kpi     The kpi to render.
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_large_kpi( $kpi ) {
 		switch ( $kpi ) {
@@ -1961,7 +1542,7 @@ class StatusInsights {
 	 *
 	 * @param   integer $height The height of the placeholder.
 	 * @return string  The placeholder, ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_graph_placeholder( $height ) {
 		return '<p style="text-align:center;line-height:' . $height . 'px;"><img style="width:40px;vertical-align:middle;" src="' . HSISS_ADMIN_URL . 'medias/bars.svg" /></p>';
@@ -1971,7 +1552,7 @@ class StatusInsights {
 	 * Get a placeholder for value.
 	 *
 	 * @return string  The placeholder, ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_value_placeholder() {
 		return '<img style="width:26px;vertical-align:middle;" src="' . HSISS_ADMIN_URL . 'medias/three-dots.svg" />';
@@ -1982,7 +1563,7 @@ class StatusInsights {
 	 *
 	 * @param   array $args Optional. The args for the ajax call.
 	 * @return string  The script, ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_refresh_script( $args = [] ) {
 		$result  = '<script>';
@@ -2031,7 +1612,7 @@ class StatusInsights {
 	 * @param   array $exclude Optional. The args to exclude.
 	 * @param   array $replace Optional. The args to replace or add.
 	 * @return string  The url.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_url( $exclude = [], $replace = [] ) {
 		$params           = [];
@@ -2073,7 +1654,7 @@ class StatusInsights {
 	 * Get a large kpi box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_switch_box( $bound ) {
 		$enabled = false;
@@ -2132,7 +1713,7 @@ class StatusInsights {
 	 * Get a date picker box.
 	 *
 	 * @return string  The box ready to print.
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	private function get_date_box() {
 		$result  = '<img style="width:13px;vertical-align:middle;" src="' . Feather\Icons::get_base64( 'calendar', 'none', '#5A738E' ) . '" />&nbsp;&nbsp;<span class="hsiss-datepicker-value"></span>';
@@ -2174,7 +1755,7 @@ class StatusInsights {
 	/**
 	 * Ajax callback.
 	 *
-	 * @since    1.0.0
+	 * @since    2.3.0
 	 */
 	public static function get_status_callback() {
 		check_ajax_referer( 'ajax_hsiss', 'nonce' );
