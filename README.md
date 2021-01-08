@@ -11,8 +11,6 @@ When you want to use [server-info](https://httpd.apache.org/docs/2.4/en/mod/mod_
 
 See [WordPress directory page](https://wordpress.org/plugins/htaccess-server-info-server-status/).
 
-> Note this plugin is only useful, obviously, when Apache Web Server and WordPress are on the same server.
-
 ## Installation
 
 ### WordPress method (recommended)
