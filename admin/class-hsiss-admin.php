@@ -105,6 +105,22 @@ class Hsiss_Admin {
 				'remedy'        => '',
 				'statistics'    => [ '\Hsiss\System\Statistics', 'sc_get_raw' ],
 			];
+			if ( true ) {
+				$perfops['insights'][] = [
+					'name'          => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
+					'description'   => esc_html__( 'Simple report, displaying current Apache status for this server.', 'htaccess-server-info-server-status' ),
+					'icon_callback' => [ \Hsiss\Plugin\Core::class, 'get_base64_logo' ],
+					'slug'          => 'hsiss-status',
+					'page_title'    => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
+					'menu_title'    => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
+					'capability'    => 'manage_options',
+					'callback'      => [ $this, 'get_status_page' ],
+					'position'      => 50,
+					'plugin'        => HSISS_SLUG,
+					'version'       => HSISS_VERSION,
+					'activated'     => true,
+				];
+			}
 		}
 		return $perfops;
 	}
