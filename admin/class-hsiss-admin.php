@@ -21,6 +21,7 @@ use Hsiss\System\Date;
 use Hsiss\System\Timezone;
 use Hsiss\System\GeoIP;
 use Hsiss\System\Environment;
+use Hsiss\Plugin\Feature\StatusInsights;
 use PerfOpsOne\AdminMenus;
 
 /**
@@ -183,9 +184,9 @@ class Hsiss_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_viewer_page() {
-		$analytics = AnalyticsFactory::get_analytics();
-		include HSISS_ADMIN_DIR . 'partials/htaccess-server-info-server-status-admin-view-analytics.php';
+	public function get_status_page() {
+		$insights = new StatusInsights();
+		include HSISS_ADMIN_DIR . 'partials/htaccess-server-info-server-status-admin-insights-status.php';
 	}
 
 	/**

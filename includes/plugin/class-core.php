@@ -17,6 +17,7 @@ use Hsiss\System\I18n;
 use Hsiss\System\Assets;
 use Hsiss\Library\Libraries;
 use Hsiss\System\Nag;
+use Hsiss\Plugin\Feature\StatusInsights;
 
 /**
  * The core plugin class.
@@ -95,6 +96,7 @@ class Core {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'add_row_meta', 10, 2 );
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
 		$this->loader->add_action( 'wp_ajax_hide_hsiss_nag', $nag, 'hide_callback' );
+		$this->loader->add_action( 'wp_ajax_hsiss_get_status', 'Hsiss\Plugin\Feature\StatusInsights', 'get_status_callback' );
 	}
 
 	/**
