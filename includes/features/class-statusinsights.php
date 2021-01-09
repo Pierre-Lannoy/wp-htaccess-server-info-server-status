@@ -1061,13 +1061,6 @@ class StatusInsights {
 			$result .= ' ' . $switch . '.disable();';
 		}
 		$result .= ' elem.onchange = function() {';
-		/*$result .= '  var url="' . $this->get_url( [ 'context' ], [ 'domain' => $this->domain ] ) . '";';
-		if ( $other ) {
-			$result .= ' if (!elem.checked) {url = url + "&context=' . $other_t . '";}';
-		} else {
-			$result .= ' if (elem.checked) {url = url + "&context=' . $other_t . '";}';
-		}
-		$result .= '  $(location).attr("href", url);';*/
 		switch ( $switch ) {
 			case 'live':
 				$result .= '  running = elem.checked;';
@@ -1561,9 +1554,10 @@ class StatusInsights {
 	public static function get_status() {
 		$result        = [];
 		$result['kpi'] = [];
+		$result['txt'] = [];
 		$status        = Capture::get_status();
 		if ( array_key_exists( 'ServerVersion', $status ) ) {
-			$result['kpi'][] = [ 'hsiss-insights-subtitle', $status['ServerVersion'] ];
+			$result['txt'][] = [ 'hsiss-insights-subtitle', $status['ServerVersion'] ];
 		}
 
 

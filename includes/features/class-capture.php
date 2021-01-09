@@ -45,8 +45,18 @@ class Capture {
 	 * @since    2.3.0
 	 */
 	public static function get_status() {
-		$result = [];
-		$result['ServerVersion'] = 'Apache/2.4.43 (Unix)';
+		$result   = [];
+		$url      = Option::network_get( 'status-url' ) . '?auto';
+		$response = wp_remote_get( $url );
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return $result;
+		}
+		foreach ( explode( PHP_EOL, $response['body'] ) as $line ) {
+			$pair = explode( ':', $line );
+			if ( 2 === count( $pair ) ) {
+				$result[ trim( $pair[0] ) ] = trim( $pair[1] );
+			}
+		}
 		return $result;
 	}
 

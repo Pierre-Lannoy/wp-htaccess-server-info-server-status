@@ -10,14 +10,20 @@ jQuery( document ).ready(
 						success: function( response ) {
 							if ( response ) {
 								items = JSON.parse( response );
-								if ( undefined !== items.kpi ) {
-									if ( init ) {
-										init = false;
+								if ( undefined !== items.txt ) {
+									if ( items.txt.length > 0 ) {
+										items.txt.forEach(
+											function (item) {
+												$( "#" + item[0] ).text( item[1] );
+											}
+										);
 									}
+								}
+								if ( undefined !== items.kpi ) {
 									if ( items.kpi.length > 0 ) {
 										items.kpi.forEach(
 											function (item) {
-												$( "#" + item[0] ).text( item[1] );
+												$( "#" + item[0] ).innerHTML = item[1];
 											}
 										);
 									}
@@ -38,8 +44,7 @@ jQuery( document ).ready(
 			}
 		}
 
-		let running = true;
-		let init    = true;
+		running = true;
 		refreshValues();
 
 	}
