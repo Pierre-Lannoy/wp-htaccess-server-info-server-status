@@ -11,21 +11,25 @@
 
 use Hsiss\System\Role;
 
-wp_enqueue_script( 'hsiss-moment-with-locale' );
-wp_enqueue_script( 'hsiss-daterangepicker' );
+wp_localize_script(
+	HSISS_LIVESTATUS_ID,
+	'livestatus',
+	[
+		'nonce'     => wp_create_nonce( 'ajax_hsiss' ),
+		'frequency' => 750,
+	]
+);
+
 wp_enqueue_script( 'hsiss-switchery' );
 wp_enqueue_script( 'hsiss-chartist' );
 wp_enqueue_script( 'hsiss-chartist-tooltip' );
-wp_enqueue_script( 'hsiss-jvectormap' );
-wp_enqueue_script( 'hsiss-jvectormap-world' );
 wp_enqueue_script( HSISS_ASSETS_ID );
+wp_enqueue_script( HSISS_LIVESTATUS_ID );
 wp_enqueue_style( HSISS_ASSETS_ID );
-wp_enqueue_style( 'hsiss-daterangepicker' );
 wp_enqueue_style( 'hsiss-switchery' );
 wp_enqueue_style( 'hsiss-tooltip' );
 wp_enqueue_style( 'hsiss-chartist' );
 wp_enqueue_style( 'hsiss-chartist-tooltip' );
-wp_enqueue_style( 'hsiss-jvectormap' );
 
 
 ?>
@@ -38,6 +42,11 @@ wp_enqueue_style( 'hsiss-jvectormap' );
         <div class="hsiss-row">
 	        <?php echo $insights->get_kpi_bar() ?>
         </div>
+
+
+
+
+
         <?php if ( 'summary' === $insights->type && '' === $insights->extra ) { ?>
             <div class="hsiss-row">
                 <div class="hsiss-box hsiss-box-40-60-line">

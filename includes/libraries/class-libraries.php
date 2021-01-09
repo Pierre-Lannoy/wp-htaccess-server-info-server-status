@@ -166,27 +166,11 @@ class Libraries {
 		$item['license'] = $this->license_name( 'gpl3' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
-		/*$item            = [];
+		$item            = [];
 		$item['name']    = 'Switchery';
 		$item['version'] = '0.8.2';
 		$item['author']  = sprintf( esc_html__( '%s & contributors', 'htaccess-server-info-server-status' ), 'Alexander Petkov' );
 		$item['url']     = 'https://github.com/abpetkov/switchery';
-		$item['license'] = $this->license_name( 'mit' );
-		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
-		$list[]          = $item;
-		$item            = [];
-		$item['name']    = 'Date Range Picker';
-		$item['version'] = '3.0.5';
-		$item['author']  = sprintf( esc_html__( '%s & contributors', 'htaccess-server-info-server-status' ), 'Dan Grossman' );
-		$item['url']     = 'https://github.com/dangrossman/daterangepicker';
-		$item['license'] = $this->license_name( 'mit' );
-		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
-		$list[]          = $item;
-		$item            = [];
-		$item['name']    = 'Moment';
-		$item['version'] = '2.24.0';
-		$item['author']  = sprintf( esc_html__( '%s & contributors', 'htaccess-server-info-server-status' ), 'Tim Wood' );
-		$item['url']     = 'https://github.com/moment/moment';
 		$item['license'] = $this->license_name( 'mit' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
@@ -203,7 +187,7 @@ class Libraries {
 		$item['url']     = 'https://github.com/gionkunz/chartist-js';
 		$item['license'] = $this->license_name( 'mit' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
-		$list[]          = $item;*/
+		$list[]          = $item;
 		usort( $list, function ( $a, $b ) { return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );} );
 		if ( 'html' === $style ) {
 			$items = [];

@@ -22,6 +22,7 @@ use Hsiss\System\Http;
 use Hsiss\System\Favicon;
 use Hsiss\System\Timezone;
 use Hsiss\System\UUID;
+use Hsiss\Plugin\Feature\Capture;
 use Feather;
 use Flagiconcss;
 
@@ -51,17 +52,24 @@ class StatusInsights {
 	 * @since  2.3.0
 	 * @var    array    $kpis    The kpi ids.
 	 */
-	private $kpis = [ 'rquery', 'rdata', 'cpu', 'uptime' ];
+	private $kpis = [ 'access', 'query', 'data', 'worker', 'cpu', 'uptime' ];
 
 	/*
-	 * QUERY RATE
+	 * ACCESSES
 	 *   rate
 	 *   total
+	 *
+	 * QUERY AVG
+	 *   latency
+	 *   size
 	 *
 	 * DATA RATE
 	 *   rate
 	 *   total
 	 *
+	 * WORKER
+	 *   % busy
+	 *   total
 	 *
 	 * CPU
 	 *   load percent
@@ -1024,7 +1032,50 @@ class StatusInsights {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
 		$result .= '<span class="hsiss-title" id="hsiss-insights-title">' . esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ) . '</span>';
 		$result .= '<span class="hsiss-subtitle" id="hsiss-insights-subtitle"></span>';
+		$result .= '<span class="hsiss-switch">' . $this->get_switch_box( 'live' ) . '</span>';
 		$result .= '</div>';
+		return $result;
+	}
+
+	/**
+	 * Get a switch box.
+	 *
+	 * @return string  The box ready to print.
+	 * @since    2.3.0
+	 */
+	private function get_switch_box( $switch ) {
+		$enabled = true;
+		$opacity = '';
+		$checked = true;
+		$result  = '<input type="checkbox" class="hsiss-input-' . $switch . '-switch"' . ( $checked ? ' checked' : '' ) . ' />';
+		// phpcs:ignore
+		$result .= '&nbsp;<span class="hsiss-text-' . $switch . '-switch"' . $opacity . '>' . esc_html__( $switch, 'htaccess-server-info-server-status' ) . '</span>';
+		$result .= '<script>';
+		$result .= 'jQuery(function ($) {';
+		$result .= ' var elem = document.querySelector(".hsiss-input-' . $switch . '-switch");';
+		$result .= ' var params = {size: "small", color: "#5A738E", disabledOpacity:0.6 };';
+		$result .= ' var ' . $switch . ' = new Switchery(elem, params);';
+		if ( $enabled ) {
+			$result .= ' ' . $switch . '.enable();';
+		} else {
+			$result .= ' ' . $switch . '.disable();';
+		}
+		$result .= ' elem.onchange = function() {';
+		/*$result .= '  var url="' . $this->get_url( [ 'context' ], [ 'domain' => $this->domain ] ) . '";';
+		if ( $other ) {
+			$result .= ' if (!elem.checked) {url = url + "&context=' . $other_t . '";}';
+		} else {
+			$result .= ' if (elem.checked) {url = url + "&context=' . $other_t . '";}';
+		}
+		$result .= '  $(location).attr("href", url);';*/
+		switch ( $switch ) {
+			case 'live':
+				$result .= '  running = elem.checked;';
+				break;
+		}
+		$result .= ' };';
+		$result .= '});';
+		$result .= '</script>';
 		return $result;
 	}
 
@@ -1065,12 +1116,6 @@ class StatusInsights {
 			$result     .= '<div class="hsiss-module-content" id="hsiss-main-chart">' . $this->get_graph_placeholder( 274 ) . '</div>';
 			$result     .= '</div>';
 			$result     .= '</div>';
-			$result     .= $this->get_refresh_script(
-				[
-					'query'   => 'main-chart',
-					'queried' => 0,
-				]
-			);
 			return $result;
 		} else {
 			return '';
@@ -1088,12 +1133,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Sites Breakdown', 'htaccess-server-info-server-status' ) . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-sites">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'sites',
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1108,12 +1147,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'All Domains', 'htaccess-server-info-server-status' ) . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-domains">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'domains',
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1128,12 +1161,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'All Subdomains', 'htaccess-server-info-server-status' ) . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-authorities">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'authorities',
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1148,12 +1175,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'All Endpoints', 'htaccess-server-info-server-status' ) . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-endpoints">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'endpoints',
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1184,12 +1205,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . $title . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-' . $this->extra . '">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => $this->extra,
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1207,12 +1222,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Top Domains', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-top-domains">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'top-domains',
-				'queried' => 5,
-			]
-		);
 		return $result;
 	}
 
@@ -1236,12 +1245,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Top Subdomains', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-top-authorities">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'top-authorities',
-				'queried' => 5,
-			]
-		);
 		return $result;
 	}
 
@@ -1265,12 +1268,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Top Endpoints', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-top-endpoints">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'top-endpoints',
-				'queried' => 5,
-			]
-		);
 		return $result;
 	}
 
@@ -1317,12 +1314,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Countries', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-map">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'map',
-				'queried' => 0,
-			]
-		);
 		return $result;
 	}
 
@@ -1369,12 +1360,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'HTTP codes', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-code">' . $this->get_graph_placeholder( 90 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'code',
-				'queried' => 4,
-			]
-		);
 		return $result;
 	}
 
@@ -1421,12 +1406,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Protocols', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-security">' . $this->get_graph_placeholder( 90 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'security',
-				'queried' => 4,
-			]
-		);
 		return $result;
 	}
 
@@ -1473,12 +1452,6 @@ class StatusInsights {
 		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Methods', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-method">' . $this->get_graph_placeholder( 90 ) . '</div>';
 		$result .= '</div>';
-		$result .= $this->get_refresh_script(
-			[
-				'query'   => 'method',
-				'queried' => 4,
-			]
-		);
 		return $result;
 	}
 
@@ -1491,35 +1464,35 @@ class StatusInsights {
 	 */
 	private function get_large_kpi( $kpi ) {
 		switch ( $kpi ) {
-			case 'call':
+			case 'access':
 				$icon  = Feather\Icons::get_base64( 'hash', 'none', '#73879C' );
-				$title = esc_html_x( 'Number of Calls', 'Noun - Number API calls.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Number of API calls.', 'htaccess-server-info-server-status' );
+				$title = esc_html__( 'Accesses', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Rate and number of accesses.', 'htaccess-server-info-server-status' );
+				break;
+			case 'query':
+				$icon  = Feather\Icons::get_base64( 'link-2', 'none', '#73879C' );
+				$title = esc_html__( 'Avg. Request', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Average latency and size for last requests.', 'htaccess-server-info-server-status' );
 				break;
 			case 'data':
 				$icon  = Feather\Icons::get_base64( 'link-2', 'none', '#73879C' );
-				$title = esc_html_x( 'Data Volume', 'Noun - Volume of transferred data.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Volume of transferred data.', 'htaccess-server-info-server-status' );
+				$title = esc_html__( 'Data', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Rate and volume of transferred data.', 'htaccess-server-info-server-status' );
 				break;
-			case 'server':
-				$icon  = Feather\Icons::get_base64( 'x-octagon', 'none', '#73879C' );
-				$title = esc_html_x( 'Server Error Rate', 'Noun - Ratio of the number of HTTP errors to the total number of calls.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Ratio of the number of HTTP errors to the total number of calls.', 'htaccess-server-info-server-status' );
+			case 'worker':
+				$icon  = Feather\Icons::get_base64( 'refresh-cw', 'none', '#73879C' );
+				$title = esc_html__( 'Workers', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Workers activity.', 'htaccess-server-info-server-status' );
 				break;
-			case 'quota':
-				$icon  = Feather\Icons::get_base64( 'shield-off', 'none', '#73879C' );
-				$title = esc_html_x( 'Quotas Error Rate', 'Noun - Ratio of the quota enforcement number to the total number of calls.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Ratio of the quota enforcement number to the total number of calls.', 'htaccess-server-info-server-status' );
-				break;
-			case 'pass':
-				$icon  = Feather\Icons::get_base64( 'check-circle', 'none', '#73879C' );
-				$title = esc_html_x( 'Effective Pass Rate', 'Noun - Ratio of the number of HTTP success to the total number of calls.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Ratio of the number of HTTP success to the total number of calls.', 'htaccess-server-info-server-status' );
+			case 'cpu':
+				$icon  = Feather\Icons::get_base64( 'cpu', 'none', '#73879C' );
+				$title = esc_html__( 'CPU Load', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'CPU load of the server.', 'htaccess-server-info-server-status' );
 				break;
 			case 'uptime':
 				$icon  = Feather\Icons::get_base64( 'activity', 'none', '#73879C' );
-				$title = esc_html_x( 'Perceived Uptime', 'Noun - Perceived uptime, from the viewpoint of the site.', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Perceived uptime, from the viewpoint of the site.', 'htaccess-server-info-server-status' );
+				$title = esc_html__( 'Uptime', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Uptime of the server.', 'htaccess-server-info-server-status' );
 				break;
 		}
 		$top       = '<img style="width:12px;vertical-align:baseline;" src="' . $icon . '" />&nbsp;&nbsp;<span style="cursor:help;" class="hsiss-kpi-large-top-text bottom" data-position="bottom" data-tooltip="' . $help . '">' . $title . '</span>';
@@ -1528,12 +1501,6 @@ class StatusInsights {
 		$result    = '<div class="hsiss-kpi-large-top">' . $top . '</div>';
 		$result   .= '<div class="hsiss-kpi-large-middle"><div class="hsiss-kpi-large-middle-left" id="kpi-main-' . $kpi . '">' . $this->get_value_placeholder() . '</div><div class="hsiss-kpi-large-middle-right" id="kpi-index-' . $kpi . '">' . $indicator . '</div></div>';
 		$result   .= '<div class="hsiss-kpi-large-bottom" id="kpi-bottom-' . $kpi . '">' . $bottom . '</div>';
-		$result   .= $this->get_refresh_script(
-			[
-				'query'   => 'kpi',
-				'queried' => $kpi,
-			]
-		);
 		return $result;
 	}
 
@@ -1569,37 +1536,16 @@ class StatusInsights {
 		$result  = '<script>';
 		$result .= 'jQuery(document).ready( function($) {';
 		$result .= ' var data = {';
-		$result .= '  action:"hsiss_get_stats",';
+		$result .= '  action:"hsiss_get_status",';
 		$result .= '  nonce:"' . wp_create_nonce( 'ajax_hsiss' ) . '",';
-		foreach ( $args as $key => $val ) {
-			$s = '  ' . $key . ':';
-			if ( is_string( $val ) ) {
-				$s .= '"' . $val . '"';
-			} elseif ( is_numeric( $val ) ) {
-				$s .= $val;
-			} elseif ( is_bool( $val ) ) {
-				$s .= $val ? 'true' : 'false';
-			}
-			$result .= $s . ',';
-		}
-		if ( '' !== $this->id ) {
-			$result .= '  id:"' . $this->id . '",';
-		}
-		$result .= '  type:"' . $this->type . '",';
-		if ( '' !== $this->context ) {
-			$result .= '  context:"' . $this->context . '",';
-		}
-		$result .= '  site:"' . $this->site . '",';
-		$result .= '  start:"' . $this->start . '",';
-		$result .= '  end:"' . $this->end . '",';
 		$result .= ' };';
 		$result .= ' $.post(ajaxurl, data, function(response) {';
 		$result .= ' var val = JSON.parse(response);';
-		$result .= ' $.each(val, function(index, value) {$("#" + index).html(value);});';
+		/*$result .= ' $.each(val, function(index, value) {$("#" + index).html(value);});';
 		if ( array_key_exists( 'query', $args ) && 'main-chart' === $args['query'] ) {
 			$result .= '$(".hsiss-chart-button").removeClass("not-ready");';
 			$result .= '$("#hsiss-chart-button-calls").addClass("active");';
-		}
+		}*/
 		$result .= ' });';
 		$result .= '});';
 		$result .= '</script>';
@@ -1607,150 +1553,22 @@ class StatusInsights {
 	}
 
 	/**
-	 * Get the url.
+	 * Get the Apache status.
 	 *
-	 * @param   array $exclude Optional. The args to exclude.
-	 * @param   array $replace Optional. The args to replace or add.
-	 * @return string  The url.
+	 * @return array The current status.
 	 * @since    2.3.0
 	 */
-	private function get_url( $exclude = [], $replace = [] ) {
-		$params           = [];
-		$params['type']   = $this->type;
-		$params['site']   = $this->site;
-		$params['domain'] = $this->domain;
-		if ( '' !== $this->id ) {
-			$params['id'] = $this->id;
+	public static function get_status() {
+		$result        = [];
+		$result['kpi'] = [];
+		$status        = Capture::get_status();
+		if ( array_key_exists( 'ServerVersion', $status ) ) {
+			$result['kpi'][] = [ 'hsiss-insights-subtitle', $status['ServerVersion'] ];
 		}
-		if ( '' !== $this->extra ) {
-			$params['extra'] = $this->extra;
-		}
-		$params['start'] = $this->start;
-		$params['end']   = $this->end;
-		if ( ! ( $this->is_inbound && $this->is_outbound ) ) {
-			if ( $this->is_inbound ) {
-				$params['context'] = 'inbound';
-			}
-			if ( $this->is_outbound ) {
-				$params['context'] = 'outbound';
-			}
-		}
-		foreach ( $exclude as $arg ) {
-			unset( $params[ $arg ] );
-		}
-		foreach ( $replace as $key => $arg ) {
-			$params[ $key ] = $arg;
-		}
-		$url = admin_url( 'admin.php?page=hsiss-viewer' );
-		foreach ( $params as $key => $arg ) {
-			if ( '' !== $arg ) {
-				$url .= '&' . $key . '=' . $arg;
-			}
-		}
-		return $url;
-	}
 
-	/**
-	 * Get a large kpi box.
-	 *
-	 * @return string  The box ready to print.
-	 * @since    2.3.0
-	 */
-	private function get_switch_box( $bound ) {
-		$enabled = false;
-		$other   = false;
-		$other_t = 'both';
-		if ( 'inbound' === $bound ) {
-			$enabled = $this->has_inbound;
-			$other   = $this->is_outbound;
-			$other_t = 'outbound';
-		}
-		if ( 'outbound' === $bound ) {
-			$enabled = $this->has_outbound;
-			$other   = $this->is_inbound;
-			$other_t = 'inbound';
-		}
-		if ( $enabled ) {
-			$opacity = '';
-			if ( 'inbound' === $bound ) {
-				$checked = $this->is_inbound;
-			}
-			if ( 'outbound' === $bound ) {
-				$checked = $this->is_outbound;
-			}
-		} else {
-			$opacity = ' style="opacity:0.4"';
-			$checked = false;
-		}
-		$result = '<input type="checkbox" class="hsiss-input-' . $bound . '-switch"' . ( $checked ? ' checked' : '' ) . ' />';
-		// phpcs:ignore
-		$result .= '&nbsp;<span class="hsiss-text-' . $bound . '-switch"' . $opacity . '>' . esc_html__( $bound, 'htaccess-server-info-server-status' ) . '</span>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var elem = document.querySelector(".hsiss-input-' . $bound . '-switch");';
-		$result .= ' var params = {size: "small", color: "#5A738E", disabledOpacity:0.6 };';
-		$result .= ' var ' . $bound . ' = new Switchery(elem, params);';
-		if ( $enabled ) {
-			$result .= ' ' . $bound . '.enable();';
-		} else {
-			$result .= ' ' . $bound . '.disable();';
-		}
-		$result .= ' elem.onchange = function() {';
-		$result .= '  var url="' . $this->get_url( [ 'context' ], [ 'domain' => $this->domain ] ) . '";';
-		if ( $other ) {
-			$result .= ' if (!elem.checked) {url = url + "&context=' . $other_t . '";}';
-		} else {
-			$result .= ' if (elem.checked) {url = url + "&context=' . $other_t . '";}';
-		}
-		$result .= '  $(location).attr("href", url);';
-		$result .= ' };';
-		$result .= '});';
-		$result .= '</script>';
+
 		return $result;
 	}
-
-	/**
-	 * Get a date picker box.
-	 *
-	 * @return string  The box ready to print.
-	 * @since    2.3.0
-	 */
-	private function get_date_box() {
-		$result  = '<img style="width:13px;vertical-align:middle;" src="' . Feather\Icons::get_base64( 'calendar', 'none', '#5A738E' ) . '" />&nbsp;&nbsp;<span class="hsiss-datepicker-value"></span>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' moment.locale("' . L10n::get_display_locale() . '");';
-		$result .= ' var start = moment("' . $this->start . '");';
-		$result .= ' var end = moment("' . $this->end . '");';
-		$result .= ' function changeDate(start, end) {';
-		$result .= '  $("span.hsiss-datepicker-value").html(start.format("LL") + " - " + end.format("LL"));';
-		$result .= ' }';
-		$result .= ' $(".hsiss-datepicker").daterangepicker({';
-		$result .= '  opens: "left",';
-		$result .= '  startDate: start,';
-		$result .= '  endDate: end,';
-		//$result .= '  minDate: moment("' . Schema::get_oldest_date() . '"),';
-		$result .= '  maxDate: moment(),';
-		$result .= '  showCustomRangeLabel: true,';
-		$result .= '  alwaysShowCalendars: true,';
-		$result .= '  locale: {customRangeLabel: "' . esc_html__( 'Custom Range', 'htaccess-server-info-server-status' ) . '",cancelLabel: "' . esc_html__( 'Cancel', 'htaccess-server-info-server-status' ) . '", applyLabel: "' . esc_html__( 'Apply', 'htaccess-server-info-server-status' ) . '"},';
-		$result .= '  ranges: {';
-		$result .= '    "' . esc_html__( 'Today', 'htaccess-server-info-server-status' ) . '": [moment(), moment()],';
-		$result .= '    "' . esc_html__( 'Yesterday', 'htaccess-server-info-server-status' ) . '": [moment().subtract(1, "days"), moment().subtract(1, "days")],';
-		$result .= '    "' . esc_html__( 'This Month', 'htaccess-server-info-server-status' ) . '": [moment().startOf("month"), moment().endOf("month")],';
-		$result .= '    "' . esc_html__( 'Last Month', 'htaccess-server-info-server-status' ) . '": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],';
-		$result .= '  }';
-		$result .= ' }, changeDate);';
-		$result .= ' changeDate(start, end);';
-		$result .= ' $(".hsiss-datepicker").on("apply.daterangepicker", function(ev, picker) {';
-		$result .= '  var url = "' . $this->get_url( [ 'start', 'end' ], [ 'domain' => $this->domain ] ) . '" + "&start=" + picker.startDate.format("YYYY-MM-DD") + "&end=" + picker.endDate.format("YYYY-MM-DD");';
-		$result .= '  $(location).attr("href", url);';
-		$result .= ' });';
-		$result .= '});';
-		$result .= '</script>';
-		return $result;
-	}
-
 
 	/**
 	 * Ajax callback.
@@ -1763,7 +1581,7 @@ class StatusInsights {
 		$query     = filter_input( INPUT_POST, 'query' );
 		$queried   = filter_input( INPUT_POST, 'queried' );
 		exit( wp_json_encode( $analytics->query( $query, $queried ) ) );*/
-		exit( wp_json_encode( [] ) );
+		exit( wp_json_encode( self::get_status() ) );
 	}
 
 }

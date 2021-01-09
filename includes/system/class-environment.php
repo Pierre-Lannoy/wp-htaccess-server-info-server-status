@@ -53,6 +53,7 @@ class Environment {
 		define( 'HSISS_PLUGIN_SIGNATURE', HSISS_PRODUCT_NAME . ' v' . HSISS_VERSION );
 		define( 'HSISS_PLUGIN_AGENT', HSISS_PRODUCT_NAME . ' (' . self::wordpress_version_id() . '; ' . self::plugin_version_id() . '; +' . HSISS_PRODUCT_URL . ')' );
 		define( 'HSISS_ASSETS_ID', HSISS_PRODUCT_ABBREVIATION . '-assets' );
+		define( 'HSISS_LIVESTATUS_ID', HSISS_PRODUCT_ABBREVIATION . '-status' );
 	}
 
 	/**

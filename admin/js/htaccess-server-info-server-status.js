@@ -80,4 +80,5 @@ jQuery(document).ready( function($) {
 			$( "#hsiss-chart-button-uptime" ).addClass( "active" );
 		}
 	);
+
 } );

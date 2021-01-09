@@ -265,7 +265,7 @@
     font-size: var(--subtitle-font-size);
     font-weight: var(--subtitle-font-weight);
     color: var(--aux-font-color);
-    vertical-align: text-bottom;
+    vertical-align: baseline;
 }
 
 .hsiss-site {
@@ -321,8 +321,7 @@
     vertical-align: middle;
 }
 
-.hsiss-text-inbound-switch,
-.hsiss-text-outbound-switch {
+.hsiss-text-live-switch {
     cursor: default;
 }
 
@@ -362,6 +361,11 @@
     font-size: 10px;
     vertical-align: bottom;
     color: var(--main-font-color);
+}
+
+.hsiss-kpi-large-bottom-sup {
+    vertical-align: middle;
+    font-size: x-small;
 }
 
 .hsiss-kpi-large-top {
