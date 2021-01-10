@@ -23,7 +23,7 @@ jQuery( document ).ready(
 									if ( items.kpi.length > 0 ) {
 										items.kpi.forEach(
 											function (item) {
-												$( "#" + item[0] ).innerHTML = item[1];
+												$( "#" + item[0] ).html( item[1] );
 											}
 										);
 									}

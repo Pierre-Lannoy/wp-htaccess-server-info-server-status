@@ -54,32 +54,6 @@ class StatusInsights {
 	 */
 	private $kpis = [ 'access', 'query', 'data', 'worker', 'cpu', 'uptime' ];
 
-	/*
-	 * ACCESSES
-	 *   rate
-	 *   total
-	 *
-	 * QUERY AVG
-	 *   latency
-	 *   size
-	 *
-	 * DATA RATE
-	 *   rate
-	 *   total
-	 *
-	 * WORKER
-	 *   % busy
-	 *   total
-	 *
-	 * CPU
-	 *   load percent
-	 *
-	 * UPTIME
-	 *   Hour or Day or Week...
-	 *   Seconds
-	 *
-	 */
-
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -1458,12 +1432,12 @@ class StatusInsights {
 	private function get_large_kpi( $kpi ) {
 		switch ( $kpi ) {
 			case 'access':
-				$icon  = Feather\Icons::get_base64( 'hash', 'none', '#73879C' );
+				$icon  = Feather\Icons::get_base64( 'arrow-down-circle', 'none', '#73879C' );
 				$title = esc_html__( 'Accesses', 'htaccess-server-info-server-status' );
 				$help  = esc_html__( 'Rate and number of accesses.', 'htaccess-server-info-server-status' );
 				break;
 			case 'query':
-				$icon  = Feather\Icons::get_base64( 'link-2', 'none', '#73879C' );
+				$icon  = Feather\Icons::get_base64( 'loader', 'none', '#73879C' );
 				$title = esc_html__( 'Avg. Request', 'htaccess-server-info-server-status' );
 				$help  = esc_html__( 'Average latency and size for last requests.', 'htaccess-server-info-server-status' );
 				break;
@@ -1519,33 +1493,6 @@ class StatusInsights {
 	}
 
 	/**
-	 * Get refresh script.
-	 *
-	 * @param   array $args Optional. The args for the ajax call.
-	 * @return string  The script, ready to print.
-	 * @since    2.3.0
-	 */
-	private function get_refresh_script( $args = [] ) {
-		$result  = '<script>';
-		$result .= 'jQuery(document).ready( function($) {';
-		$result .= ' var data = {';
-		$result .= '  action:"hsiss_get_status",';
-		$result .= '  nonce:"' . wp_create_nonce( 'ajax_hsiss' ) . '",';
-		$result .= ' };';
-		$result .= ' $.post(ajaxurl, data, function(response) {';
-		$result .= ' var val = JSON.parse(response);';
-		/*$result .= ' $.each(val, function(index, value) {$("#" + index).html(value);});';
-		if ( array_key_exists( 'query', $args ) && 'main-chart' === $args['query'] ) {
-			$result .= '$(".hsiss-chart-button").removeClass("not-ready");';
-			$result .= '$("#hsiss-chart-button-calls").addClass("active");';
-		}*/
-		$result .= ' });';
-		$result .= '});';
-		$result .= '</script>';
-		return $result;
-	}
-
-	/**
 	 * Get the Apache status.
 	 *
 	 * @return array The current status.
@@ -1559,8 +1506,42 @@ class StatusInsights {
 		if ( array_key_exists( 'ServerVersion', $status ) ) {
 			$result['txt'][] = [ 'hsiss-insights-subtitle', $status['ServerVersion'] ];
 		}
-
-
+		// ACCESSES
+		if ( array_key_exists( 'ReqPerSec', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-access', round( (float) $status['ReqPerSec'], 2 ) . '&nbsp;<span class="hsiss-kpi-large-bottom-sup">/sec</span>' ];
+		}
+		if ( array_key_exists( 'Total Accesses', $status ) ) {
+			$result['kpi'][] = [ 'kpi-bottom-access', '<span class="hsiss-kpi-large-bottom-text">' . esc_html__( 'Total:', 'htaccess-server-info-server-status' ) . '&nbsp;' . Conversion::number_shorten( (float) $status['Total Accesses'], 2, false, '&nbsp;' ) . '</span>' ];
+		}
+		// QUERY AVG
+		if ( array_key_exists( 'DurationPerReq', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-query', round( (float) $status['DurationPerReq'], 0 ) . '&nbsp;ms' ];
+		}
+		if ( array_key_exists( 'BytesPerReq', $status ) ) {
+			$result['kpi'][] = [ 'kpi-bottom-query', '<span class="hsiss-kpi-large-bottom-text">' . Conversion::data_shorten( (float) $status['BytesPerReq'], 2, false, '&nbsp;' ) . '</span>' ];
+		}
+		// DATA
+		if ( array_key_exists( 'BytesPerSec', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-data', Conversion::data_shorten( (float) $status['BytesPerSec'], 2, false, '&nbsp;' ) . '&nbsp;<span class="hsiss-kpi-large-bottom-sup">/sec</span>' ];
+		}
+		if ( array_key_exists( 'Total kBytes', $status ) ) {
+			$result['kpi'][] = [ 'kpi-bottom-data', '<span class="hsiss-kpi-large-bottom-text">' . esc_html__( 'Total:', 'htdata-server-info-server-status' ) . '&nbsp;' . Conversion::data_shorten( (float) $status['Total kBytes'] * 1024, 2, false, '&nbsp;' ) . '</span>' ];
+		}
+		// WORKERS
+		if ( array_key_exists( 'BusyWorkers', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-worker', round( (int) $status['BusyWorkers'], 2 ) ];
+			if ( array_key_exists( 'IdleWorkers', $status ) ) {
+				$result['kpi'][] = [ 'kpi-bottom-worker', '<span class="hsiss-kpi-large-bottom-text">' . esc_html__( 'Total:', 'htaccess-server-info-server-status' ) . '&nbsp;' . ( (int) $status['IdleWorkers'] + (int) $status['BusyWorkers'] ) . '</span>' ];
+			}
+		}
+		// CPU
+		if ( array_key_exists( 'CPULoad', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-cpu', round( (float) $status['CPULoad'], 2 ) . '&nbsp;%' ];
+		}
+		// UPTIME
+		if ( array_key_exists( 'Uptime', $status ) ) {
+			$result['kpi'][] = [ 'kpi-bottom-uptime', '<span class="hsiss-kpi-large-bottom-text">' . (int) round( (float) $status['Uptime'], 0 ) . '&nbsp;s</span>' ];
+		}
 		return $result;
 	}
 
@@ -1571,10 +1552,6 @@ class StatusInsights {
 	 */
 	public static function get_status_callback() {
 		check_ajax_referer( 'ajax_hsiss', 'nonce' );
-		/*$analytics = self::get_analytics( true );
-		$query     = filter_input( INPUT_POST, 'query' );
-		$queried   = filter_input( INPUT_POST, 'queried' );
-		exit( wp_json_encode( $analytics->query( $query, $queried ) ) );*/
 		exit( wp_json_encode( self::get_status() ) );
 	}
 
