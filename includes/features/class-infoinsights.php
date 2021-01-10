@@ -61,10 +61,11 @@ class InfoInsights {
 	 * Normalize an info page.
 	 *
 	 * @param   string  $html   The page content to normalize.
+	 * @param   string  $mode   Optional. The mode of the normalization.
 	 * @return string The normalized HTML.
 	 * @since    2.3.0
 	 */
-	private function normalize( $html ) {
+	private function normalize( $html, $mode = 'base' ) {
 		$result = $html;
 		// Clean headers etc.
 		$result = preg_replace_callback(
@@ -90,7 +91,7 @@ class InfoInsights {
 			},
 			$result
 		);
-
+		// Transform modules names in H3
 		$result = preg_replace_callback(
 			'/<dt><a name="(.*)"><strong>(.*)<\/strong><\/a>.*<font size="\+1"><tt><a href="\?.*">(.*)<\/a><\/tt><\/font><\/dt>/iU',
 			function( $matches ) {
@@ -98,10 +99,29 @@ class InfoInsights {
 			},
 			$result
 		);
-
-		// Final cleaning;
-		//$result = str_replace( [ '<tt>', '</tt>' ], '', $result );
-
+		// Removes "subpages" section
+		if ( 'base' === $mode ) {
+			$result = preg_replace_callback(
+				'/<\/h1>.*<hr \/>/iUs',
+				function( $matches ) {
+					return '</h1>';
+				},
+				$result
+			);
+		}
+		// Decorates "sections" section
+		if ( 'base' === $mode ) {
+			$result = preg_replace_callback(
+				'/<\/h1>.*<dl><dt><tt>(.*)<br \/>(.*)<\/tt><\/dt><\/dl>/iUs',
+				function( $matches ) {
+					$match = str_replace( [ ', ' ], ' | ', $matches[2] );
+					return '</h1><p>' . $match . '</p>';
+				},
+				$result
+			);
+		}
+		// Final cleaning
+		$result = str_replace( [ '<hr />' ], '', $result );
 		return $result;
 	}
 
@@ -112,7 +132,7 @@ class InfoInsights {
 	 * @since    2.3.0
 	 */
 	private function get_info() {
-		return $this->normalize( Capture::get_info() );
+		return $this->normalize( Capture::get_info(), 'base' );
 	}
 	/**
 	 * Get the Apache config.
@@ -121,7 +141,7 @@ class InfoInsights {
 	 * @since    2.3.0
 	 */
 	private function get_config() {
-		return $this->normalize( Capture::get_info( '?config' ) );
+		return $this->normalize( Capture::get_info( '?config' ), 'config' );
 	}
 
 	/**
