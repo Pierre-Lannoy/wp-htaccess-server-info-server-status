@@ -76,8 +76,7 @@ class Option {
 		self::$defaults['status']           = true;
 		self::$defaults['info']             = true;
 		self::$defaults['databeam']         = true;
-		self::$defaults['status-url']       = 'https://wp.dev.lannoy.fr/server-status';
-		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info', 'databeam', 'status-url' ];
+		self::$network                      = [ 'version', 'use_cdn', 'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info', 'databeam' ];
 	}
 
 	/**

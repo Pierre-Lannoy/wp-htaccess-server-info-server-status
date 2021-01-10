@@ -60,4 +60,20 @@ class Capture {
 		return $result;
 	}
 
+	/**
+	 * Get the Apache infos.
+	 *
+	 * @param   string  $page   Optional. The subpage to request.
+	 * @return  string The current infos as html.
+	 * @since    2.3.0
+	 */
+	public static function get_info( $page = '' ) {
+		$url      = site_url( 'server-info' ) . $page;
+		$response = wp_remote_get( $url );
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return '';
+		}
+		return $response['body'];
+	}
+
 }
