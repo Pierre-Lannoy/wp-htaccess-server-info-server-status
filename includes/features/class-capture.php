@@ -46,7 +46,7 @@ class Capture {
 	 */
 	public static function get_status() {
 		$result   = [];
-		$url      = Option::network_get( 'status-url' ) . '?auto';
+		$url      = site_url( 'server-status' ) . '?auto';
 		$response = wp_remote_get( $url );
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return $result;
