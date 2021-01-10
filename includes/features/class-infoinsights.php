@@ -65,11 +65,42 @@ class InfoInsights {
 	 * @since    2.3.0
 	 */
 	private function normalize( $html ) {
-		$result = Capture::get_info();
+		$result = $html;
+		// Clean headers etc.
+		$result = preg_replace_callback(
+			'/<body>(.*)<\/body>/iU',
+			function( $matches ) {
+				return $matches[1];
+			},
+			$result
+		);
+		// Clean H1
+		$result = preg_replace_callback(
+			'/<h1.*>(.*)<\/h1>/iU',
+			function( $matches ) {
+				return '<h1>' . $matches[1] . '</h1>';
+			},
+			$result
+		);
+		// Clean H2
+		$result = preg_replace_callback(
+			'/<h2><a name="(.*)">(.*)<\/a><\/h2>/iU',
+			function( $matches ) {
+				return '<h2 id="' . $matches[1] . '">' . $matches[2] . '</h2>';
+			},
+			$result
+		);
 
+		$result = preg_replace_callback(
+			'/<dt><a name="(.*)"><strong>(.*)<\/strong><\/a>.*<font size="\+1"><tt><a href="\?.*">(.*)<\/a><\/tt><\/font><\/dt>/iU',
+			function( $matches ) {
+				return '<h3 id="' . $matches[1] . '">' . $matches[2] . ' ' . $matches[3] . '</h3>';
+			},
+			$result
+		);
 
-
-
+		// Final cleaning;
+		//$result = str_replace( [ '<tt>', '</tt>' ], '', $result );
 
 		return $result;
 	}
@@ -83,6 +114,15 @@ class InfoInsights {
 	private function get_info() {
 		return $this->normalize( Capture::get_info() );
 	}
+	/**
+	 * Get the Apache config.
+	 *
+	 * @return string The current info.
+	 * @since    2.3.0
+	 */
+	private function get_config() {
+		return $this->normalize( Capture::get_info( '?config' ) );
+	}
 
 	/**
 	 * Get the Apache infos.
@@ -91,6 +131,9 @@ class InfoInsights {
 	 * @since    2.3.0
 	 */
 	public function display() {
+		if ( 'config' === $this->page ) {
+			return $this->get_config();
+		}
 		return $this->get_info();
 	}
 

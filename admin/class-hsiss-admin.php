@@ -105,6 +105,36 @@ class Hsiss_Admin {
 				'remedy'        => '',
 				'statistics'    => [ '\Hsiss\System\Statistics', 'sc_get_raw' ],
 			];
+			if ( Option::network_get( 'info' ) ) {
+				$perfops['insights'][] = [
+					'name'          => esc_html__( 'Apache Configuration', 'htaccess-server-info-server-status' ),
+					'description'   => esc_html__( 'Effective configuration files for this Apache server.', 'htaccess-server-info-server-status' ),
+					'icon_callback' => [ \Hsiss\Plugin\Core::class, 'get_base64_logo' ],
+					'slug'          => 'hsiss-config',
+					'page_title'    => esc_html__( 'Apache Configuration', 'htaccess-server-info-server-status' ),
+					'menu_title'    => esc_html__( 'Apache Configuration', 'htaccess-server-info-server-status' ),
+					'capability'    => 'manage_options',
+					'callback'      => [ $this, 'get_conf_page' ],
+					'position'      => 50,
+					'plugin'        => HSISS_SLUG,
+					'version'       => HSISS_VERSION,
+					'activated'     => true,
+				];
+				$perfops['insights'][] = [
+					'name'          => esc_html__( 'Apache Information', 'htaccess-server-info-server-status' ),
+					'description'   => esc_html__( 'Full information pages for this Apache server.', 'htaccess-server-info-server-status' ),
+					'icon_callback' => [ \Hsiss\Plugin\Core::class, 'get_base64_logo' ],
+					'slug'          => 'hsiss-info',
+					'page_title'    => esc_html__( 'Apache Information', 'htaccess-server-info-server-status' ),
+					'menu_title'    => esc_html__( 'Apache Information', 'htaccess-server-info-server-status' ),
+					'capability'    => 'manage_options',
+					'callback'      => [ $this, 'get_info_page' ],
+					'position'      => 50,
+					'plugin'        => HSISS_SLUG,
+					'version'       => HSISS_VERSION,
+					'activated'     => true,
+				];
+			}
 			if ( Option::network_get( 'status' ) ) {
 				$perfops['insights'][] = [
 					'name'          => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
@@ -115,22 +145,6 @@ class Hsiss_Admin {
 					'menu_title'    => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
 					'capability'    => 'manage_options',
 					'callback'      => [ $this, 'get_status_page' ],
-					'position'      => 50,
-					'plugin'        => HSISS_SLUG,
-					'version'       => HSISS_VERSION,
-					'activated'     => true,
-				];
-			}
-			if ( Option::network_get( 'info' ) ) {
-				$perfops['insights'][] = [
-					'name'          => esc_html__( 'Apache Info', 'htaccess-server-info-server-status' ),
-					'description'   => esc_html__( 'Full information pages for this Apache server.', 'htaccess-server-info-server-status' ),
-					'icon_callback' => [ \Hsiss\Plugin\Core::class, 'get_base64_logo' ],
-					'slug'          => 'hsiss-info',
-					'page_title'    => esc_html__( 'Apache Info', 'htaccess-server-info-server-status' ),
-					'menu_title'    => esc_html__( 'Apache Info', 'htaccess-server-info-server-status' ),
-					'capability'    => 'manage_options',
-					'callback'      => [ $this, 'get_info_page' ],
 					'position'      => 50,
 					'plugin'        => HSISS_SLUG,
 					'version'       => HSISS_VERSION,
@@ -210,13 +224,17 @@ class Hsiss_Admin {
 	 * @since 2.3.0
 	 */
 	public function get_info_page() {
-		if ( ! ( $subpage = filter_input( INPUT_GET, 'subpage' ) ) ) {
-			$subpage = filter_input( INPUT_POST, 'subpage' );
-		}
-		if ( ! isset( $subpage ) ) {
-			$subpage = '';
-		}
-		$insights = new InfoInsights( $subpage );
+		$insights = new InfoInsights();
+		include HSISS_ADMIN_DIR . 'partials/htaccess-server-info-server-status-admin-insights-info.php';
+	}
+
+	/**
+	 * Get the content of the info page.
+	 *
+	 * @since 2.3.0
+	 */
+	public function get_conf_page() {
+		$insights = new InfoInsights( 'config' );
 		include HSISS_ADMIN_DIR . 'partials/htaccess-server-info-server-status-admin-insights-info.php';
 	}
 

@@ -18,6 +18,7 @@ use Hsiss\System\Blog;
 use Hsiss\System\IP;
 use Hsiss\System\Option;
 use Hsiss\System\Hash;
+use function Automattic\Jetpack\load_3rd_party;
 
 /**
  * Define the captures functionality.
