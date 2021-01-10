@@ -1004,7 +1004,7 @@ class StatusInsights {
 	 */
 	public function get_title_bar() {
 		$result  = '<div class="hsiss-box hsiss-box-full-line">';
-		$result .= '<span class="hsiss-title" id="hsiss-insights-title">' . esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ) . '</span>';
+		$result .= '<span class="hsiss-title" id="hsiss-insights-title">' . esc_html__( 'Apache Server Status', 'htaccess-server-info-server-status' ) . '</span>';
 		$result .= '<span class="hsiss-subtitle" id="hsiss-insights-subtitle"></span>';
 		$result .= '<span class="hsiss-switch">' . $this->get_switch_box( 'live' ) . '</span>';
 		$result .= '</div>';
