@@ -235,13 +235,13 @@ class StatusInsights {
 		switch ( $kpi ) {
 			case 'access':
 				$icon  = Feather\Icons::get_base64( 'arrow-down-circle', 'none', '#73879C' );
-				$title = esc_html__( 'Accesses', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Rate and number of accesses.', 'htaccess-server-info-server-status' );
+				$title = esc_html__( 'Requests', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Rate and number of requests.', 'htaccess-server-info-server-status' );
 				break;
 			case 'query':
 				$icon  = Feather\Icons::get_base64( 'loader', 'none', '#73879C' );
 				$title = esc_html__( 'Avg. Request', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Average latency and size for last requests.', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Average latency and size of requests.', 'htaccess-server-info-server-status' );
 				break;
 			case 'data':
 				$icon  = Feather\Icons::get_base64( 'link-2', 'none', '#73879C' );
@@ -251,7 +251,7 @@ class StatusInsights {
 			case 'worker':
 				$icon  = Feather\Icons::get_base64( 'refresh-cw', 'none', '#73879C' );
 				$title = esc_html__( 'Workers', 'htaccess-server-info-server-status' );
-				$help  = esc_html__( 'Workers activity.', 'htaccess-server-info-server-status' );
+				$help  = esc_html__( 'Busy number and total number of workers.', 'htaccess-server-info-server-status' );
 				break;
 			case 'cpu':
 				$icon  = Feather\Icons::get_base64( 'cpu', 'none', '#73879C' );
