@@ -25,6 +25,7 @@ wp_enqueue_script( HSISS_ASSETS_ID );
 wp_enqueue_script( HSISS_LIVESTATUS_ID );
 wp_enqueue_style( HSISS_ASSETS_ID );
 wp_enqueue_style( 'hsiss-switchery' );
+wp_enqueue_style( 'hsiss-tooltip' );
 
 
 ?>

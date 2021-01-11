@@ -416,7 +416,6 @@ class StatusInsights {
 				$result['txt'][] = [ 'row-detail-' . self::$details[ $i ], '' ];
 			}
 		}
-		//Logger::alert(print_r($status,true));
 		return $result;
 	}
 
