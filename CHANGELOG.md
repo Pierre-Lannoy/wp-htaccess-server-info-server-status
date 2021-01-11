@@ -3,7 +3,12 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.3.0] - 2021-01-11
+
+### Added
+- New "insights": Apache live status (when `server-status` is enabled).
+- New "insights": Apache effective configuration files (when `server-info` is enabled).
+- New "insights": Apache server settings, modules and hooks information (when `server-info` is enabled).
 
 ### Changed
 - Consistent reset for settings.
