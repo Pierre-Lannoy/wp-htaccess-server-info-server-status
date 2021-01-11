@@ -16,7 +16,7 @@ wp_localize_script(
 	'livestatus',
 	[
 		'nonce'     => wp_create_nonce( 'ajax_hsiss' ),
-		'frequency' => 750,
+		'frequency' => 1000,
 	]
 );
 

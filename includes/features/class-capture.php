@@ -50,10 +50,11 @@ class Capture {
 		$url      = site_url( 'server-status' ) . '?auto';
 		$response = wp_remote_get( $url );
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			$result['ServerVersion'] = 'HTTP ' . wp_remote_retrieve_response_code( $response ) . ' / ' . wp_remote_retrieve_response_message( $response );
 			return $result;
 		}
 		foreach ( explode( PHP_EOL, $response['body'] ) as $line ) {
-			$pair = explode( ':', $line );
+			$pair = explode( ': ', $line );
 			if ( 2 === count( $pair ) ) {
 				$result[ trim( $pair[0] ) ] = trim( $pair[1] );
 			}
@@ -72,7 +73,8 @@ class Capture {
 		$url      = site_url( 'server-info' ) . $page;
 		$response = wp_remote_get( $url );
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return '';
+			$message = sprintf( esc_html__( 'Unable to retrieve data from %s (%s).', 'htaccess-server-info-server-status' ), $url, 'HTTP ' . wp_remote_retrieve_response_code( $response ) . ' / ' . wp_remote_retrieve_response_message( $response ) );
+			return '<div class="notice notice-error"><p>' . $message . '</p></div>';
 		}
 		return $response['body'];
 	}

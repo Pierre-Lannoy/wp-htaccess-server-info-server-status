@@ -25,6 +25,7 @@ use Hsiss\System\UUID;
 use Hsiss\Plugin\Feature\Capture;
 use Feather;
 use Flagiconcss;
+use Hsiss\Plugin\Integration\Databeam;
 
 
 /**
@@ -71,6 +72,30 @@ class StatusInsights {
 	private static $sbnames = [];
 
 	/**
+	 * Details elements.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $details    The details ids.
+	 */
+	private static $details = [ 'server-version', 'server-mpm', 'server-built', 'ctime', 'rtime', 'configg', 'mpmg', 'uptime', 'load1', 'load5', 'load15' ];
+
+	/**
+	 * Details keys.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $keys    The details keys.
+	 */
+	private static $keys = [ 'ServerVersion', 'ServerMPM', 'Server Built', 'CurrentTime', 'RestartTime', 'ParentServerConfigGeneration', 'ParentServerMPMGeneration', 'ServerUptime', 'Load1', 'Load5', 'Load15' ];
+
+	/**
+	 * Details names.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $dnames    The details names.
+	 */
+	private static $dnames = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    2.3.0
@@ -89,442 +114,19 @@ class StatusInsights {
 			'L' => esc_html__( 'Logging', 'htaccess-server-info-server-status' ),
 			'I' => esc_html__( 'Idle cleanup of worker', 'htaccess-server-info-server-status' ),
 		];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @param   string $query   The query type.
-	 * @param   mixed  $queried The query params.
-	 * @return array  The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	public function query( $query, $queried ) {
-		switch ( $query ) {
-			case 'main-chart':
-				return $this->query_chart();
-			case 'map':
-				return $this->query_map();
-			case 'kpi':
-				return $this->query_kpi( $queried );
-			case 'top-domains':
-				return $this->query_top( 'domains', (int) $queried );
-			case 'top-authorities':
-				return $this->query_top( 'authorities', (int) $queried );
-			case 'top-endpoints':
-				return $this->query_top( 'endpoints', (int) $queried );
-			case 'sites':
-				return $this->query_list( 'sites' );
-			case 'domains':
-				return $this->query_list( 'domains' );
-			case 'authorities':
-				return $this->query_list( 'authorities' );
-			case 'endpoints':
-				return $this->query_list( 'endpoints' );
-			case 'codes':
-				return $this->query_list( 'codes' );
-			case 'schemes':
-				return $this->query_list( 'schemes' );
-			case 'methods':
-				return $this->query_list( 'methods' );
-			case 'countries':
-				return $this->query_list( 'countries' );
-			case 'code':
-				return $this->query_pie( 'code', (int) $queried );
-			case 'security':
-				return $this->query_pie( 'security', (int) $queried );
-			case 'method':
-				return $this->query_pie( 'method', (int) $queried );
-		}
-		return [];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @param   string  $type    The type of pie.
-	 * @param   integer $limit  The number to display.
-	 * @return array  The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_pie( $type, $limit ) {
-		$extra_field = '';
-		$extra       = [];
-		$not         = false;
-		$uuid        = UUID::generate_unique_id( 5 );
-		switch ( $type ) {
-			case 'code':
-				$group       = 'code';
-				$follow      = 'authority';
-				$extra_field = 'code';
-				$extra       = [ 0 ];
-				$not         = true;
-				break;
-			case 'security':
-				$group       = 'scheme';
-				$follow      = 'endpoint';
-				$extra_field = 'scheme';
-				$extra       = [ 'http', 'https' ];
-				$not         = false;
-				break;
-			case 'method':
-				$group  = 'verb';
-				$follow = 'domain';
-				break;
-
-		}
-		$data  = Schema::get_grouped_list( $group, [], $this->filter, ! $this->is_today, $extra_field, $extra, $not, 'ORDER BY sum_hit DESC' );
-		$total = 0;
-		$other = 0;
-		foreach ( $data as $key => $row ) {
-			$total = $total + $row['sum_hit'];
-			if ( $limit <= $key ) {
-				$other = $other + $row['sum_hit'];
-			}
-		}
-		$result = '';
-		$cpt    = 0;
-		$labels = [];
-		$series = [];
-		while ( $cpt < $limit && array_key_exists( $cpt, $data ) ) {
-			if ( 0 < $total ) {
-				$percent = round( 100 * $data[ $cpt ]['sum_hit'] / $total, 1 );
-			} else {
-				$percent = 100;
-			}
-			if ( 0.1 > $percent ) {
-				$percent = 0.1;
-			}
-			$meta = strtoupper( $data[ $cpt ][ $group ] );
-			if ( 'code' === $type ) {
-				$meta = $data[ $cpt ][ $group ] . ' ' . Http::$http_status_codes[ (int) $data[ $cpt ][ $group ] ];
-			}
-			$labels[] = strtoupper( $data[ $cpt ][ $group ] );
-			$series[] = [
-				'meta'  => $meta,
-				'value' => (float) $percent,
-			];
-			++$cpt;
-		}
-		if ( 0 < $other ) {
-			if ( 0 < $total ) {
-				$percent = round( 100 * $other / $total, 1 );
-			} else {
-				$percent = 100;
-			}
-			if ( 0.1 > $percent ) {
-				$percent = 0.1;
-			}
-			$labels[] = esc_html__( 'Other', 'htaccess-server-info-server-status' );
-			$series[] = [
-				'meta'  => esc_html__( 'Other', 'htaccess-server-info-server-status' ),
-				'value' => (float) $percent,
-			];
-		}
-		$result  = '<div class="hsiss-pie-box">';
-		$result .= '<div class="hsiss-pie-graph">';
-		$result .= '<div class="hsiss-pie-graph-handler" id="hsiss-pie-' . $group . '"></div>';
-		$result .= '</div>';
-		$result .= '<div class="hsiss-pie-legend">';
-		foreach ( $labels as $key => $label ) {
-			$icon    = '<img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'square', $this->colors[ $key ], $this->colors[ $key ] ) . '" />';
-			$result .= '<div class="hsiss-pie-legend-item">' . $icon . '&nbsp;&nbsp;' . $label . '</div>';
-		}
-		$result .= '';
-		$result .= '</div>';
-		$result .= '</div>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var data' . $uuid . ' = ' . wp_json_encode(
-			[
-				'labels' => $labels,
-				'series' => $series,
-			]
-		) . ';';
-		$result .= ' var tooltip' . $uuid . ' = Chartist.plugins.tooltip({percentage: true, appendToBody: true});';
-		$result .= ' var option' . $uuid . ' = {width: 120, height: 120, showLabel: false, donut: true, donutWidth: "40%", startAngle: 270, plugins: [tooltip' . $uuid . ']};';
-		$result .= ' new Chartist.Pie("#hsiss-pie-' . $group . '", data' . $uuid . ', option' . $uuid . ');';
-		$result .= '});';
-		$result .= '</script>';
-		return [ 'hsiss-' . $type => $result ];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @param   string  $type    The type of top.
-	 * @param   integer $limit  The number to display.
-	 * @return array  The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_top( $type, $limit ) {
-		switch ( $type ) {
-			case 'authorities':
-				$group  = 'authority';
-				$follow = 'authority';
-				break;
-			case 'endpoints':
-				$group  = 'endpoint';
-				$follow = 'endpoint';
-				break;
-			default:
-				$group  = 'id';
-				$follow = 'domain';
-				break;
-
-		}
-		$data  = Schema::get_grouped_list( $group, [], $this->filter, ! $this->is_today, '', [], false, 'ORDER BY sum_hit DESC' );
-		$total = 0;
-		$other = 0;
-		foreach ( $data as $key => $row ) {
-			$total = $total + $row['sum_hit'];
-			if ( $limit <= $key ) {
-				$other = $other + $row['sum_hit'];
-			}
-		}
-		$result = '';
-		$cpt    = 0;
-		while ( $cpt < $limit && array_key_exists( $cpt, $data ) ) {
-			if ( 0 < $total ) {
-				$percent = round( 100 * $data[ $cpt ]['sum_hit'] / $total, 1 );
-			} else {
-				$percent = 100;
-			}
-			$url = $this->get_url(
-				[],
-				[
-					'type'   => $follow,
-					'id'     => $data[ $cpt ][ $group ],
-					'domain' => $data[ $cpt ]['id'],
-				]
-			);
-			if ( 0.5 > $percent ) {
-				$percent = 0.5;
-			}
-			$result .= '<div class="hsiss-top-line">';
-			$result .= '<div class="hsiss-top-line-title">';
-			$result .= '<img style="width:16px;vertical-align:bottom;" src="' . Favicon::get_base64( $data[ $cpt ]['id'] ) . '" />&nbsp;&nbsp;<span class="hsiss-top-line-title-text"><a href="' . esc_url( $url ) . '">' . $data[ $cpt ][ $group ] . '</a></span>';
-			$result .= '</div>';
-			$result .= '<div class="hsiss-top-line-content">';
-			$result .= '<div class="hsiss-bar-graph"><div class="hsiss-bar-graph-value" style="width:' . $percent . '%"></div></div>';
-			$result .= '<div class="hsiss-bar-detail">' . Conversion::number_shorten( $data[ $cpt ]['sum_hit'], 2, false, '&nbsp;' ) . '</div>';
-			$result .= '</div>';
-			$result .= '</div>';
-			++$cpt;
-		}
-		if ( 0 < $total ) {
-			$percent = round( 100 * $other / $total, 1 );
-		} else {
-			$percent = 100;
-		}
-		$result .= '<div class="hsiss-top-line hsiss-minor-data">';
-		$result .= '<div class="hsiss-top-line-title">';
-		$result .= '<span class="hsiss-top-line-title-text">' . esc_html__( 'Other', 'htaccess-server-info-server-status' ) . '</span>';
-		$result .= '</div>';
-		$result .= '<div class="hsiss-top-line-content">';
-		$result .= '<div class="hsiss-bar-graph"><div class="hsiss-bar-graph-value" style="width:' . $percent . '%"></div></div>';
-		$result .= '<div class="hsiss-bar-detail">' . Conversion::number_shorten( $other, 2, false, '&nbsp;' ) . '</div>';
-		$result .= '</div>';
-		$result .= '</div>';
-		return [ 'hsiss-top-' . $type => $result ];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @param   string $type    The type of list.
-	 * @return array  The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_list( $type ) {
-		$follow     = '';
-		$has_detail = false;
-		$detail     = '';
-		switch ( $type ) {
-			case 'domains':
-				$group      = 'id';
-				$follow     = 'domain';
-				$has_detail = true;
-				break;
-			case 'authorities':
-				$group      = 'authority';
-				$follow     = 'authority';
-				$has_detail = true;
-				break;
-			case 'endpoints':
-				$group  = 'endpoint';
-				$follow = 'endpoint';
-				break;
-			case 'codes':
-				$group = 'code';
-				break;
-			case 'schemes':
-				$group = 'scheme';
-				break;
-			case 'methods':
-				$group = 'verb';
-				break;
-			case 'countries':
-				$group = 'country';
-				break;
-			case 'sites':
-				$group  = 'site';
-				break;
-		}
-		$data         = Schema::get_grouped_list( $group, [ 'authority', 'endpoint' ], $this->filter, ! $this->is_today, '', [], false, 'ORDER BY sum_hit DESC' );
-		$detail_name  = esc_html__( 'Details', 'htaccess-server-info-server-status' );
-		$calls_name   = esc_html__( 'Calls', 'htaccess-server-info-server-status' );
-		$data_name    = esc_html__( 'Data Volume', 'htaccess-server-info-server-status' );
-		$latency_name = esc_html__( 'Latency', 'htaccess-server-info-server-status' );
-		$result       = '<table class="hsiss-table">';
-		$result      .= '<tr>';
-		$result      .= '<th>&nbsp;</th>';
-		if ( $has_detail ) {
-			$result .= '<th>' . $detail_name . '</th>';
-		}
-		$result   .= '<th>' . $calls_name . '</th>';
-		$result   .= '<th>' . $data_name . '</th>';
-		$result   .= '<th>' . $latency_name . '</th>';
-		$result   .= '</tr>';
-		$other     = false;
-		$other_str = '';
-		foreach ( $data as $key => $row ) {
-			$url         = $this->get_url(
-				[],
-				[
-					'type'   => $follow,
-					'id'     => $row[ $group ],
-					'domain' => $row['id'],
-				]
-			);
-			$name        = $row[ $group ];
-			$other       = ( 'countries' === $type && ( empty( $name ) || 2 !== strlen( $name ) ) );
-			$authorities = sprintf( esc_html( _n( '%d subdomain', '%d subdomains', $row['cnt_authority'], 'htaccess-server-info-server-status' ) ), $row['cnt_authority'] );
-			$endpoints   = sprintf( esc_html( _n( '%d endpoint', '%d endpoints', $row['cnt_endpoint'], 'htaccess-server-info-server-status' ) ), $row['cnt_endpoint'] );
-			switch ( $type ) {
-				case 'sites':
-					if ( 0 === (int) $row['sum_hit'] ) {
-						break;
-					}
-					if ( 'summary' === $this->type ) {
-						$url = $this->get_url(
-							[],
-							[
-								'site' => $row['site'],
-							]
-						);
-					} else {
-						$url = $this->get_url(
-							[],
-							[
-								'site'   => $row['site'],
-								'domain' => $row['id'],
-							]
-						);
-					}
-					$site = Blog::get_blog_url( $row['site'] );
-					$name = '<img style="width:16px;vertical-align:bottom;" src="' . Favicon::get_base64( $site ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text"><a href="' . esc_url( $url ) . '">' . $site . '</a></span>';
-					break;
-				case 'domains':
-					$detail = $authorities . ' - ' . $endpoints;
-					$name   = '<img style="width:16px;vertical-align:bottom;" src="' . Favicon::get_base64( $row['id'] ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text"><a href="' . esc_url( $url ) . '">' . $name . '</a></span>';
-					break;
-				case 'authorities':
-					$detail = $endpoints;
-					$name   = '<img style="width:16px;vertical-align:bottom;" src="' . Favicon::get_base64( $row['id'] ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text"><a href="' . esc_url( $url ) . '">' . $name . '</a></span>';
-					break;
-				case 'endpoints':
-					$name = '<img style="width:16px;vertical-align:bottom;" src="' . Favicon::get_base64( $row['id'] ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text"><a href="' . esc_url( $url ) . '">' . $name . '</a></span>';
-					break;
-				case 'codes':
-					if ( '0' === $name ) {
-						$name = '000';
-					}
-					$code = (int) $name;
-					if ( 100 > $code ) {
-						$http = '0xx';
-					} elseif ( 200 > $code ) {
-						$http = '1xx';
-					} elseif ( 300 > $code ) {
-						$http = '2xx';
-					} elseif ( 400 > $code ) {
-						$http = '3xx';
-					} elseif ( 500 > $code ) {
-						$http = '4xx';
-					} elseif ( 600 > $code ) {
-						$http = '5xx';
-					} else {
-						$http = 'nxx';
-					}
-					$name  = '<span class="hsiss-http hsiss-http-' . $http . '">' . $name . '</span>&nbsp;&nbsp;<span class="hsiss-table-text">' . Http::$http_status_codes[ $code ] . '</span>';
-					$group = 'code';
-					break;
-				case 'schemes':
-					$icon = Feather\Icons::get_base64( 'unlock', 'none', '#E74C3C' );
-					if ( 'HTTPS' === strtoupper( $name ) ) {
-						$icon = Feather\Icons::get_base64( 'lock', 'none', '#18BB9C' );
-					}
-					$name  = '<img style="width:14px;vertical-align:text-top;" src="' . $icon . '" />&nbsp;&nbsp;<span class="hsiss-table-text">' . strtoupper( $name ) . '</span>';
-					$group = 'scheme';
-					break;
-				case 'methods':
-					$name  = '<img style="width:14px;vertical-align:text-bottom;" src="' . Feather\Icons::get_base64( 'code', 'none', '#73879C' ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text">' . strtoupper( $name ) . '</span>';
-					$group = 'verb';
-					break;
-				case 'countries':
-					if ( $other ) {
-						$name = esc_html__( 'Other', 'htaccess-server-info-server-status' );
-					} else {
-						$country_name = L10n::get_country_name( $name );
-						if ( $country_name === $name ) {
-							$country_name = '';
-						}
-						$name = '<img style="width:16px;vertical-align:baseline;" src="' . Flagiconcss\Flags::get_base64( strtolower( $name ) ) . '" />&nbsp;&nbsp;<span class="hsiss-table-text" style="vertical-align: text-bottom;">' . $country_name . '</span>';
-					}
-					$group = 'country';
-					break;
-			}
-			$calls = Conversion::number_shorten( $row['sum_hit'], 2, false, '&nbsp;' );
-			$in    = '<img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'arrow-down-right', 'none', '#73879C' ) . '" /><span class="hsiss-table-text">' . Conversion::data_shorten( $row['sum_kb_in'] * 1024, 2, false, '&nbsp;' ) . '</span>';
-			$out   = '<span class="hsiss-table-text">' . Conversion::data_shorten( $row['sum_kb_out'] * 1024, 2, false, '&nbsp;' ) . '</span><img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'arrow-up-right', 'none', '#73879C' ) . '" />';
-			$data  = $in . ' &nbsp;&nbsp; ' . $out;
-			if ( 1 < $row['sum_hit'] ) {
-				$min = Conversion::number_shorten( $row['min_latency'], 0 );
-				if ( false !== strpos( $min, 'K' ) ) {
-					$min = str_replace( 'K', esc_html_x( 's', 'Unit symbol - Stands for "second".', 'htaccess-server-info-server-status' ), $min );
-				} else {
-					$min = $min . esc_html_x( 'ms', 'Unit symbol - Stands for "millisecond".', 'htaccess-server-info-server-status' );
-				}
-				$max = Conversion::number_shorten( $row['max_latency'], 0 );
-				if ( false !== strpos( $max, 'K' ) ) {
-					$max = str_replace( 'K', esc_html_x( 's', 'Unit symbol - Stands for "second".', 'htaccess-server-info-server-status' ), $max );
-				} else {
-					$max = $max . esc_html_x( 'ms', 'Unit symbol - Stands for "millisecond".', 'htaccess-server-info-server-status' );
-				}
-				$latency = (int) $row['avg_latency'] . '&nbsp;' . esc_html_x( 'ms', 'Unit symbol - Stands for "millisecond".', 'htaccess-server-info-server-status' ) . '&nbsp;<small>(' . $min . '→' . $max . ')</small>';
-			} else {
-				$latency = (int) $row['avg_latency'] . '&nbsp;' . esc_html_x( 'ms', 'Unit symbol - Stands for "millisecond".', 'htaccess-server-info-server-status' );
-			}
-			if ( 'codes' === $type && '0' === $row[ $group ] ) {
-				$latency = '-';
-			}
-			$row_str  = '<tr>';
-			$row_str .= '<td data-th="">' . $name . '</td>';
-			if ( $has_detail ) {
-				$row_str .= '<td data-th="' . $detail_name . '">' . $detail . '</td>';
-			}
-			$row_str .= '<td data-th="' . $calls_name . '">' . $calls . '</td>';
-			$row_str .= '<td data-th="' . $data_name . '">' . $data . '</td>';
-			$row_str .= '<td data-th="' . $latency_name . '">' . $latency . '</td>';
-			$row_str .= '</tr>';
-			if ( $other ) {
-				$other_str = $row_str;
-			} else {
-				$result .= $row_str;
-			}
-		}
-		$result .= $other_str . '</table>';
-		return [ 'hsiss-' . $type => $result ];
+		self::$dnames  = [
+			'server-version' => esc_html__( 'Server version', 'htaccess-server-info-server-status' ),
+			'server-mpm'     => esc_html__( 'Server MPM', 'htaccess-server-info-server-status' ),
+			'server-built'   => esc_html__( 'Server built', 'htaccess-server-info-server-status' ),
+			'ctime'          => esc_html__( 'Current time', 'htaccess-server-info-server-status' ),
+			'rtime'          => esc_html__( 'Restart time', 'htaccess-server-info-server-status' ),
+			'configg'        => esc_html__( 'Parent server config generation', 'htaccess-server-info-server-status' ),
+			'mpmg'           => esc_html__( 'Parent server MPM generation', 'htaccess-server-info-server-status' ),
+			'uptime'         => esc_html__( 'Uptime', 'htaccess-server-info-server-status' ),
+			'load1'          => esc_html__( 'Server load over last 1 minute', 'htaccess-server-info-server-status' ),
+			'load5'          => esc_html__( 'Server load over last 5 minutes', 'htaccess-server-info-server-status' ),
+			'load15'         => esc_html__( 'Server load over last 15 minutes', 'htaccess-server-info-server-status' ),
+		];
 	}
 
 	/**
@@ -594,7 +196,6 @@ class StatusInsights {
 		return $result;
 	}
 
-
 	/**
 	 * Get the detail box.
 	 *
@@ -603,8 +204,8 @@ class StatusInsights {
 	 */
 	public function get_detail_box() {
 		$result  = '<div class="hsiss-60-module">';
-		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Countries', 'htaccess-server-info-server-status' ) . '</span></div>';
-		$result .= '<div class="hsiss-module-content" id="hsiss-detail">' . $this->get_graph_placeholder( 200 ) . '</div>';
+		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Details', 'htaccess-server-info-server-status' ) . '</span></div>';
+		$result .= '<div class="hsiss-module-content" id="hsiss-detail">' . $this->get_detail_placeholder() . '</div>';
 		$result .= '</div>';
 		return $result;
 	}
@@ -716,6 +317,30 @@ class StatusInsights {
 	}
 
 	/**
+	 * Get a placeholder for detail.
+	 *
+	 * @return string  The placeholder, ready to print.
+	 * @since    2.3.0
+	 */
+	private function get_detail_placeholder() {
+		$result  = '<table class="hsiss-table">';
+		$result .= '<tr>';
+		$result .= '<th style="width: 48%;">&nbsp;</th>';
+		$result .= '<th>' . esc_html__( 'Current value', 'htaccess-server-info-server-status' ) . '</th>';
+		$result .= '</tr>';
+		foreach ( self::$details as $line ) {
+			$result .= '<tr>';
+			$result .= '<td>' . self::$dnames[ $line ] . '</td>';
+			$result .= '<td><span id="row-detail-' . $line . '"></span></td>';
+			$result .= '</tr>';
+		}
+		$result .= '</table>';
+		$result .= '</table>';
+		$result .= '<div style="text-align: center;margin-top: 20px;"><img style="height: 140px;opacity:0.4;" src="' . Databeam::get_base64_banner() . '"/></div>';
+		return $result;
+	}
+
+	/**
 	 * Get the Apache status.
 	 *
 	 * @return array The current status.
@@ -749,7 +374,7 @@ class StatusInsights {
 			$result['kpi'][] = [ 'kpi-main-data', Conversion::data_shorten( (float) $status['BytesPerSec'], 2, false, '&nbsp;' ) . '&nbsp;<span class="hsiss-kpi-large-bottom-sup">/sec</span>' ];
 		}
 		if ( array_key_exists( 'Total kBytes', $status ) ) {
-			$result['kpi'][] = [ 'kpi-bottom-data', '<span class="hsiss-kpi-large-bottom-text">' . esc_html__( 'Total:', 'htdata-server-info-server-status' ) . '&nbsp;' . Conversion::data_shorten( (float) $status['Total kBytes'] * 1024, 2, false, '&nbsp;' ) . '</span>' ];
+			$result['kpi'][] = [ 'kpi-bottom-data', '<span class="hsiss-kpi-large-bottom-text">' . esc_html__( 'Total:', 'htaccess-server-info-server-status' ) . '&nbsp;' . Conversion::data_shorten( (float) $status['Total kBytes'] * 1024, 2, false, '&nbsp;' ) . '</span>' ];
 		}
 		// WORKERS
 		if ( array_key_exists( 'BusyWorkers', $status ) ) {
@@ -783,6 +408,15 @@ class StatusInsights {
 				}
 			}
 		}
+		// Details
+		for ( $i = 0; $i < count( self::$keys ); $i++ ) {
+			if ( array_key_exists( self::$keys[$i], $status ) ) {
+				$result['txt'][] = [ 'row-detail-' . self::$details[ $i ], $status[ self::$keys[ $i ] ] ];
+			} else {
+				$result['txt'][] = [ 'row-detail-' . self::$details[ $i ], '' ];
+			}
+		}
+		//Logger::alert(print_r($status,true));
 		return $result;
 	}
 
