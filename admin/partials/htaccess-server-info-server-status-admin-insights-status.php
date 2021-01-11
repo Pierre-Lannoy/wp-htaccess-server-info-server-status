@@ -42,18 +42,18 @@ wp_enqueue_style( 'hsiss-chartist-tooltip' );
         <div class="hsiss-row">
 	        <?php echo $insights->get_kpi_bar() ?>
         </div>
-
+        <div class="hsiss-row">
+            <div class="hsiss-box hsiss-box-40-60-line">
+				<?php echo $insights->get_scoreboard_box() ?>
+				<?php echo $insights->get_map_box() ?>
+            </div>
+        </div>
 
 
 
 
         <?php if ( 'summary' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-                <div class="hsiss-box hsiss-box-40-60-line">
-                    <?php echo $insights->get_top_domain_box() ?>
-                    <?php echo $insights->get_map_box() ?>
-                </div>
-            </div>
+
 		<?php } ?>
 		<?php if ( 'domain' === $insights->type && '' === $insights->extra ) { ?>
             <div class="hsiss-row">

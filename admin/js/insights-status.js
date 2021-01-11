@@ -28,11 +28,21 @@ jQuery( document ).ready(
 										);
 									}
 								}
+								if ( undefined !== items.sboard ) {
+									if ( items.sboard.length > 0 ) {
+										items.sboard.forEach(
+											function (item) {
+												$( "#hsiss-sb-val-" + item[0] ).text( item[1] );
+												$( "#hsiss-sb-pct-" + item[0] ).animate( {width: item[2] }, 500 );
+											}
+										);
+									}
+								}
 
 							}
 						},
 						error: function( response ) {
-							console.log( response );
+							//console.log( response );
 						},
 						complete:function( response ) {
 							setTimeout( refreshValues, livestatus.frequency );

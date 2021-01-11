@@ -55,11 +55,40 @@ class StatusInsights {
 	private $kpis = [ 'access', 'query', 'data', 'worker', 'cpu', 'uptime' ];
 
 	/**
+	 * Scoreboard elements.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $scoreboard    The scoreboard ids.
+	 */
+	private static $scoreboard = [ 'O', 'Z', 'W', 'R', 'K', 'C', 'G', 'S', 'D', 'L', 'I' ];
+
+	/**
+	 * Scoreboard names.
+	 *
+	 * @since  2.3.0
+	 * @var    array    $sbnames    The scoreboard names.
+	 */
+	private static $sbnames = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    2.3.0
 	 */
 	public function __construct() {
+		self::$sbnames = [
+			'O' => esc_html__( 'Open slot with no current process', 'htaccess-server-info-server-status' ),
+			'Z' => esc_html__( 'Waiting for connection', 'htaccess-server-info-server-status' ),
+			'W' => esc_html__( 'Sending reply', 'htaccess-server-info-server-status' ),
+			'R' => esc_html__( 'Reading request', 'htaccess-server-info-server-status' ),
+			'K' => esc_html__( 'Keepalive (read)', 'htaccess-server-info-server-status' ),
+			'C' => esc_html__( 'Closing connection', 'htaccess-server-info-server-status' ),
+			'G' => esc_html__( 'Gracefully finishing', 'htaccess-server-info-server-status' ),
+			'S' => esc_html__( 'Starting up', 'htaccess-server-info-server-status' ),
+			'D' => esc_html__( 'DNS lookup', 'htaccess-server-info-server-status' ),
+			'L' => esc_html__( 'Logging', 'htaccess-server-info-server-status' ),
+			'I' => esc_html__( 'Idle cleanup of worker', 'htaccess-server-info-server-status' ),
+		];
 	}
 
 	/**
@@ -499,504 +528,6 @@ class StatusInsights {
 	}
 
 	/**
-	 * Query statistics table.
-	 *
-	 * @return array The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_map() {
-		$uuid   = UUID::generate_unique_id( 5 );
-		$data   = Schema::get_grouped_list( 'country', [], $this->filter, ! $this->is_today, '', [], false, 'ORDER BY sum_hit DESC' );
-		$series = [];
-		foreach ( $data as $datum ) {
-			if ( array_key_exists( 'country', $datum ) && ! empty( $datum['country'] ) ) {
-				$series[ strtoupper( $datum['country'] ) ] = $datum['sum_hit'];
-			}
-		}
-		$plus    = '<img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'plus-square', 'none', '#73879C' ) . '"/>';
-		$minus   = '<img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'minus-square', 'none', '#73879C' ) . '"/>';
-		$result  = '<div class="hsiss-map-handler">';
-		$result .= '</div>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var mapdata' . $uuid . ' = ' . wp_json_encode( $series ) . ';';
-		$result .= ' $(".hsiss-map-handler").vectorMap({';
-		$result .= ' map: "world_mill",';
-		$result .= ' backgroundColor: "#FFFFFF",';
-		$result .= ' series: {';
-		$result .= '  regions: [{';
-		$result .= '   values: mapdata' . $uuid . ',';
-		$result .= '   scale: ["#BDC7D1", "#73879C"],';
-		$result .= '   normalizeFunction: "polynomial"';
-		$result .= '  }]';
-		$result .= ' },';
-		$result .= '  regionStyle: {';
-		$result .= '   initial: {fill: "#EEEEEE", "fill-opacity": 0.7},';
-		$result .= '   hover: {"fill-opacity": 1,cursor: "default"},';
-		$result .= '   selected: {},';
-		$result .= '   selectedHover: {},';
-		$result .= ' },';
-		$result .= ' onRegionTipShow: function(e, el, code){if (mapdata' . $uuid . '[code]){el.html(el.html() + " (" + mapdata' . $uuid . '[code] + " ' . esc_html__( 'calls', 'htaccess-server-info-server-status' ) . ')")};},';
-		$result .= ' });';
-		$result .= ' $(".jvectormap-zoomin").html(\'' . $plus . '\');';
-		$result .= ' $(".jvectormap-zoomout").html(\'' . $minus . '\');';
-		$result .= '});';
-		$result .= '</script>';
-		return [ 'hsiss-map' => $result ];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @return array The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_chart() {
-		$uuid           = UUID::generate_unique_id( 5 );
-		$data_total     = Schema::get_time_series( $this->filter, ! $this->is_today, '', [], false );
-		$data_uptime    = Schema::get_time_series( $this->filter, ! $this->is_today, 'code', Http::$http_failure_codes, true );
-		$data_error     = Schema::get_time_series( $this->filter, ! $this->is_today, 'code', array_diff( Http::$http_error_codes, Http::$http_quota_codes ), false );
-		$data_success   = Schema::get_time_series( $this->filter, ! $this->is_today, 'code', Http::$http_success_codes, false );
-		$data_quota     = Schema::get_time_series( $this->filter, ! $this->is_today, 'code', Http::$http_quota_codes, false );
-		$series_uptime  = [];
-		$suc            = [];
-		$err            = [];
-		$quo            = [];
-		$series_success = [];
-		$series_error   = [];
-		$series_quota   = [];
-		$call_max       = 0;
-		$kbin           = [];
-		$kbout          = [];
-		$series_kbin    = [];
-		$series_kbout   = [];
-		$data_max       = 0;
-		$start          = '';
-		foreach ( $data_total as $timestamp => $total ) {
-			if ( '' === $start ) {
-				$start = $timestamp;
-			}
-			$ts = 'new Date(' . (string) strtotime( $timestamp ) . '000)';
-			// Calls.
-			if ( array_key_exists( $timestamp, $data_success ) ) {
-				$val = $data_success[ $timestamp ]['sum_hit'];
-				if ( $val > $call_max ) {
-					$call_max = $val;
-				}
-				$suc[] = [
-					'x' => $ts,
-					'y' => $val,
-				];
-			} else {
-				$suc[] = [
-					'x' => $ts,
-					'y' => 0,
-				];
-			}
-			if ( array_key_exists( $timestamp, $data_error ) ) {
-				$val = $data_error[ $timestamp ]['sum_hit'];
-				if ( $val > $call_max ) {
-					$call_max = $val;
-				}
-				$err[] = [
-					'x' => $ts,
-					'y' => $val,
-				];
-			} else {
-				$err[] = [
-					'x' => $ts,
-					'y' => 0,
-				];
-			}
-			if ( array_key_exists( $timestamp, $data_quota ) ) {
-				$val = $data_quota[ $timestamp ]['sum_hit'];
-				if ( $val > $call_max ) {
-					$call_max = $val;
-				}
-				$quo[] = [
-					'x' => $ts,
-					'y' => $val,
-				];
-			} else {
-				$quo[] = [
-					'x' => $ts,
-					'y' => 0,
-				];
-			}
-			// Data.
-			$val = $total['sum_kb_in'] * 1024;
-			if ( $val > $data_max ) {
-				$data_max = $val;
-			}
-			$kbin[] = [
-				'x' => $ts,
-				'y' => $val,
-			];
-			$val    = $total['sum_kb_out'] * 1024;
-			if ( $val > $data_max ) {
-				$data_max = $val;
-			}
-			$kbout[] = [
-				'x' => $ts,
-				'y' => $val,
-			];
-			// Uptime.
-			if ( array_key_exists( $timestamp, $data_uptime ) ) {
-				if ( 0 !== $total['sum_hit'] ) {
-					$val             = round( $data_uptime[ $timestamp ]['sum_hit'] * 100 / $total['sum_hit'], 2 );
-					$series_uptime[] = [
-						'x' => $ts,
-						'y' => $val,
-					];
-				} else {
-					$series_uptime[] = [
-						'x' => $ts,
-						'y' => 100,
-					];
-				}
-			} else {
-				$series_uptime[] = [
-					'x' => $ts,
-					'y' => 100,
-				];
-			}
-		}
-		$before = [
-			'x' => 'new Date(' . (string) ( strtotime( $start ) - 86400 ) . '000)',
-			'y' => 'null',
-		];
-		$after  = [
-			'x' => 'new Date(' . (string) ( strtotime( $timestamp ) + 86400 ) . '000)',
-			'y' => 'null',
-		];
-		// Calls.
-		$short     = Conversion::number_shorten( $call_max, 2, true );
-		$call_max  = 0.5 + floor( $call_max / $short['divisor'] );
-		$call_abbr = $short['abbreviation'];
-		foreach ( $suc as $item ) {
-			$item['y']        = $item['y'] / $short['divisor'];
-			$series_success[] = $item;
-		}
-		foreach ( $err as $item ) {
-			$item['y']      = $item['y'] / $short['divisor'];
-			$series_error[] = $item;
-		}
-		foreach ( $quo as $item ) {
-			$item['y']      = $item['y'] / $short['divisor'];
-			$series_quota[] = $item;
-		}
-		array_unshift( $series_success, $before );
-		array_unshift( $series_error, $before );
-		array_unshift( $series_quota, $before );
-		$series_success[] = $after;
-		$series_error[]   = $after;
-		$series_quota[]   = $after;
-		$json_call        = wp_json_encode(
-			[
-				'series' => [
-					[
-						'name' => esc_html__( 'Success', 'htaccess-server-info-server-status' ),
-						'data' => $series_success,
-					],
-					[
-						'name' => esc_html__( 'Error', 'htaccess-server-info-server-status' ),
-						'data' => $series_error,
-					],
-					[
-						'name' => esc_html__( 'Quota Error', 'htaccess-server-info-server-status' ),
-						'data' => $series_quota,
-					],
-				],
-			]
-		);
-		$json_call        = str_replace( '"x":"new', '"x":new', $json_call );
-		$json_call        = str_replace( ')","y"', '),"y"', $json_call );
-		$json_call        = str_replace( '"null"', 'null', $json_call );
-		// Data.
-		$short     = Conversion::data_shorten( $data_max, 2, true );
-		$data_max  = (int) ceil( $data_max / $short['divisor'] );
-		$data_abbr = $short['abbreviation'];
-		foreach ( $kbin as $kb ) {
-			$kb['y']       = $kb['y'] / $short['divisor'];
-			$series_kbin[] = $kb;
-		}
-		foreach ( $kbout as $kb ) {
-			$kb['y']        = $kb['y'] / $short['divisor'];
-			$series_kbout[] = $kb;
-		}
-		array_unshift( $series_kbin, $before );
-		array_unshift( $series_kbout, $before );
-		$series_kbin[]  = $after;
-		$series_kbout[] = $after;
-		$json_data      = wp_json_encode(
-			[
-				'series' => [
-					[
-						'name' => esc_html__( 'Incoming Data', 'htaccess-server-info-server-status' ),
-						'data' => $series_kbin,
-					],
-					[
-						'name' => esc_html__( 'Outcoming Data', 'htaccess-server-info-server-status' ),
-						'data' => $series_kbout,
-					],
-				],
-			]
-		);
-		$json_data      = str_replace( '"x":"new', '"x":new', $json_data );
-		$json_data      = str_replace( ')","y"', '),"y"', $json_data );
-		$json_data      = str_replace( '"null"', 'null', $json_data );
-		// Uptime.
-		array_unshift( $series_uptime, $before );
-		$series_uptime[] = $after;
-		$json_uptime     = wp_json_encode(
-			[
-				'series' => [
-					[
-						'name' => esc_html__( 'Perceived Uptime', 'htaccess-server-info-server-status' ),
-						'data' => $series_uptime,
-					],
-				],
-			]
-		);
-		$json_uptime     = str_replace( '"x":"new', '"x":new', $json_uptime );
-		$json_uptime     = str_replace( ')","y"', '),"y"', $json_uptime );
-		$json_uptime     = str_replace( '"null"', 'null', $json_uptime );
-		// Rendering.
-		if ( 4 < $this->duration ) {
-			if ( 1 === $this->duration % 2 ) {
-				$divisor = 6;
-			} else {
-				$divisor = 5;
-			}
-		} else {
-			$divisor = $this->duration + 1;
-		}
-		$result  = '<div class="hsiss-multichart-handler">';
-		$result .= '<div class="hsiss-multichart-item active" id="hsiss-chart-calls">';
-		$result .= '</div>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var call_data' . $uuid . ' = ' . $json_call . ';';
-		$result .= ' var call_tooltip' . $uuid . ' = Chartist.plugins.tooltip({percentage: false, appendToBody: true});';
-		$result .= ' var call_option' . $uuid . ' = {';
-		$result .= '  height: 300,';
-		$result .= '  fullWidth: true,';
-		$result .= '  showArea: true,';
-		$result .= '  showLine: true,';
-		$result .= '  showPoint: false,';
-		$result .= '  plugins: [call_tooltip' . $uuid . '],';
-		$result .= '  axisX: {scaleMinSpace: 100, type: Chartist.FixedScaleAxis, divisor:' . $divisor . ', labelInterpolationFnc: function (value) {return moment(value).format("YYYY-MM-DD");}},';
-		$result .= '  axisY: {type: Chartist.AutoScaleAxis, low: 0, high: ' . $call_max . ', labelInterpolationFnc: function (value) {return value.toString() + " ' . $call_abbr . '";}},';
-		$result .= ' };';
-		$result .= ' new Chartist.Line("#hsiss-chart-calls", call_data' . $uuid . ', call_option' . $uuid . ');';
-		$result .= '});';
-		$result .= '</script>';
-		$result .= '<div class="hsiss-multichart-item" id="hsiss-chart-data">';
-		$result .= '</div>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var data_data' . $uuid . ' = ' . $json_data . ';';
-		$result .= ' var data_tooltip' . $uuid . ' = Chartist.plugins.tooltip({percentage: false, appendToBody: true});';
-		$result .= ' var data_option' . $uuid . ' = {';
-		$result .= '  height: 300,';
-		$result .= '  fullWidth: true,';
-		$result .= '  showArea: true,';
-		$result .= '  showLine: true,';
-		$result .= '  showPoint: false,';
-		$result .= '  plugins: [data_tooltip' . $uuid . '],';
-		$result .= '  axisX: {type: Chartist.FixedScaleAxis, divisor:' . $divisor . ', labelInterpolationFnc: function (value) {return moment(value).format("YYYY-MM-DD");}},';
-		$result .= '  axisY: {type: Chartist.AutoScaleAxis, low: 0, high: ' . $data_max . ', labelInterpolationFnc: function (value) {return value.toString() + " ' . $data_abbr . '";}},';
-		$result .= ' };';
-		$result .= ' new Chartist.Line("#hsiss-chart-data", data_data' . $uuid . ', data_option' . $uuid . ');';
-		$result .= '});';
-		$result .= '</script>';
-		$result .= '<div class="hsiss-multichart-item" id="hsiss-chart-uptime">';
-		$result .= '</div>';
-		$result .= '<script>';
-		$result .= 'jQuery(function ($) {';
-		$result .= ' var uptime_data' . $uuid . ' = ' . $json_uptime . ';';
-		$result .= ' var uptime_tooltip' . $uuid . ' = Chartist.plugins.tooltip({percentage: false, appendToBody: true});';
-		$result .= ' var uptime_option' . $uuid . ' = {';
-		$result .= '  height: 300,';
-		$result .= '  fullWidth: true,';
-		$result .= '  showArea: true,';
-		$result .= '  showLine: true,';
-		$result .= '  showPoint: false,';
-		$result .= '  plugins: [uptime_tooltip' . $uuid . '],';
-		$result .= '  axisX: {scaleMinSpace: 100, type: Chartist.FixedScaleAxis, divisor:' . $divisor . ', labelInterpolationFnc: function (value) {return moment(value).format("YYYY-MM-DD");}},';
-		$result .= '  axisY: {type: Chartist.AutoScaleAxis, labelInterpolationFnc: function (value) {return value.toString() + " %";}},';
-		$result .= ' };';
-		$result .= ' new Chartist.Line("#hsiss-chart-uptime", uptime_data' . $uuid . ', uptime_option' . $uuid . ');';
-		$result .= '});';
-		$result .= '</script>';
-		$result .= '</div>';
-		return [ 'hsiss-main-chart' => $result ];
-	}
-
-	/**
-	 * Query statistics table.
-	 *
-	 * @param   mixed $queried The query params.
-	 * @return array  The result of the query, ready to encode.
-	 * @since    2.3.0
-	 */
-	private function query_kpi( $queried ) {
-		$result = [];
-		if ( 'call' === $queried ) {
-			$data     = Schema::get_std_kpi( $this->filter, ! $this->is_today );
-			$pdata    = Schema::get_std_kpi( $this->previous );
-			$current  = 0.0;
-			$previous = 0.0;
-			if ( is_array( $data ) && array_key_exists( 'sum_hit', $data ) && ! empty( $data['sum_hit'] ) ) {
-				$current = (float) $data['sum_hit'];
-			}
-			if ( is_array( $pdata ) && array_key_exists( 'sum_hit', $pdata ) && ! empty( $pdata['sum_hit'] ) ) {
-				$previous = (float) $pdata['sum_hit'];
-			}
-			$result[ 'kpi-main-' . $queried ] = Conversion::number_shorten( $current, 1, false, '&nbsp;' );
-			if ( 0.0 !== $current && 0.0 !== $previous ) {
-				$percent = round( 100 * ( $current - $previous ) / $previous, 1 );
-				if ( 0.1 > abs( $percent ) ) {
-					$percent = 0;
-				}
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:' . ( 0 <= $percent ? '#18BB9C' : '#E74C3C' ) . ';">' . ( 0 < $percent ? '+' : '' ) . $percent . '&nbsp;%</span>';
-			} elseif ( 0.0 === $previous && 0.0 !== $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#18BB9C;">+∞</span>';
-			} elseif ( 0.0 !== $previous && 100 !== $previous && 0.0 === $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#E74C3C;">-∞</span>';
-			}
-			if ( is_array( $data ) && array_key_exists( 'avg_latency', $data ) && ! empty( $data['avg_latency'] ) ) {
-				$result[ 'kpi-bottom-' . $queried ] = '<span class="hsiss-kpi-large-bottom-text">' . sprintf( esc_html__( 'avg latency: %s ms.', 'htaccess-server-info-server-status' ), (int) $data['avg_latency'] ) . '</span>';
-			}
-		}
-		if ( 'data' === $queried ) {
-			$data         = Schema::get_std_kpi( $this->filter, ! $this->is_today );
-			$pdata        = Schema::get_std_kpi( $this->previous );
-			$current_in   = 0.0;
-			$current_out  = 0.0;
-			$previous_in  = 0.0;
-			$previous_out = 0.0;
-			if ( is_array( $data ) && array_key_exists( 'sum_kb_in', $data ) && ! empty( $data['sum_kb_in'] ) ) {
-				$current_in = (float) $data['sum_kb_in'] * 1024;
-			}
-			if ( is_array( $data ) && array_key_exists( 'sum_kb_out', $data ) && ! empty( $data['sum_kb_out'] ) ) {
-				$current_out = (float) $data['sum_kb_out'] * 1024;
-			}
-			if ( is_array( $pdata ) && array_key_exists( 'sum_kb_in', $pdata ) && ! empty( $pdata['sum_kb_in'] ) ) {
-				$previous_in = (float) $pdata['sum_kb_in'] * 1024;
-			}
-			if ( is_array( $pdata ) && array_key_exists( 'sum_kb_out', $pdata ) && ! empty( $pdata['sum_kb_out'] ) ) {
-				$previous_out = (float) $pdata['sum_kb_out'] * 1024;
-			}
-			$current                          = $current_in + $current_out;
-			$previous                         = $previous_in + $previous_out;
-			$result[ 'kpi-main-' . $queried ] = Conversion::data_shorten( $current, 1, false, '&nbsp;' );
-			if ( 0.0 !== $current && 0.0 !== $previous ) {
-				$percent = round( 100 * ( $current - $previous ) / $previous, 1 );
-				if ( 0.1 > abs( $percent ) ) {
-					$percent = 0;
-				}
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:' . ( 0 <= $percent ? '#18BB9C' : '#E74C3C' ) . ';">' . ( 0 < $percent ? '+' : '' ) . $percent . '&nbsp;%</span>';
-			} elseif ( 0.0 === $previous && 0.0 !== $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#18BB9C;">+∞</span>';
-			} elseif ( 0.0 !== $previous && 100 !== $previous && 0.0 === $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#E74C3C;">-∞</span>';
-			}
-			$in                                 = '<img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'arrow-down-right', 'none', '#73879C' ) . '" /><span class="hsiss-kpi-large-bottom-text">' . Conversion::data_shorten( $current_in, 2, false, '&nbsp;' ) . '</span>';
-			$out                                = '<span class="hsiss-kpi-large-bottom-text">' . Conversion::data_shorten( $current_out, 2, false, '&nbsp;' ) . '</span><img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'arrow-up-right', 'none', '#73879C' ) . '" />';
-			$result[ 'kpi-bottom-' . $queried ] = $in . ' &nbsp;&nbsp; ' . $out;
-		}
-		if ( 'server' === $queried || 'quota' === $queried || 'pass' === $queried || 'uptime' === $queried ) {
-			$not = false;
-			if ( 'server' === $queried ) {
-				$codes = Http::$http_error_codes;
-			} elseif ( 'quota' === $queried ) {
-				$codes = Http::$http_quota_codes;
-			} elseif ( 'pass' === $queried ) {
-				$codes = Http::$http_effective_pass_codes;
-			} elseif ( 'uptime' === $queried ) {
-				$codes = Http::$http_failure_codes;
-				$not   = true;
-			}
-			$base        = Schema::get_std_kpi( $this->filter, ! $this->is_today );
-			$pbase       = Schema::get_std_kpi( $this->previous );
-			$data        = Schema::get_std_kpi( $this->filter, ! $this->is_today, 'code', $codes, $not );
-			$pdata       = Schema::get_std_kpi( $this->previous, true, 'code', $codes, $not );
-			$base_value  = 0.0;
-			$pbase_value = 0.0;
-			$data_value  = 0.0;
-			$pdata_value = 0.0;
-			$current     = 0.0;
-			$previous    = 0.0;
-			if ( is_array( $data ) && array_key_exists( 'sum_hit', $base ) && ! empty( $base['sum_hit'] ) ) {
-				$base_value = (float) $base['sum_hit'];
-			}
-			if ( is_array( $pbase ) && array_key_exists( 'sum_hit', $pbase ) && ! empty( $pbase['sum_hit'] ) ) {
-				$pbase_value = (float) $pbase['sum_hit'];
-			}
-			if ( is_array( $data ) && array_key_exists( 'sum_hit', $data ) && ! empty( $data['sum_hit'] ) ) {
-				$data_value = (float) $data['sum_hit'];
-			}
-			if ( is_array( $pdata ) && array_key_exists( 'sum_hit', $pdata ) && ! empty( $pdata['sum_hit'] ) ) {
-				$pdata_value = (float) $pdata['sum_hit'];
-			}
-			if ( 0.0 !== $base_value && 0.0 !== $data_value ) {
-				$current                          = 100 * $data_value / $base_value;
-				$result[ 'kpi-main-' . $queried ] = round( $current, 1 ) . '&nbsp;%';
-			} else {
-				if ( 0.0 !== $data_value ) {
-					$result[ 'kpi-main-' . $queried ] = '100&nbsp;%';
-				} elseif ( 0.0 !== $base_value ) {
-					$result[ 'kpi-main-' . $queried ] = '0&nbsp;%';
-				} else {
-					$result[ 'kpi-main-' . $queried ] = '-';
-				}
-			}
-			if ( 0.0 !== $pbase_value && 0.0 !== $pdata_value ) {
-				$previous = 100 * $pdata_value / $pbase_value;
-			} else {
-				if ( 0.0 !== $pdata_value ) {
-					$previous = 100.0;
-				}
-			}
-			if ( 0.0 !== $current && 0.0 !== $previous ) {
-				$percent = round( 100 * ( $current - $previous ) / $previous, 1 );
-				if ( 0.1 > abs( $percent ) ) {
-					$percent = 0;
-				}
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:' . ( 0 <= $percent ? '#18BB9C' : '#E74C3C' ) . ';">' . ( 0 < $percent ? '+' : '' ) . $percent . '&nbsp;%</span>';
-			} elseif ( 0.0 === $previous && 0.0 !== $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#18BB9C;">+∞</span>';
-			} elseif ( 0.0 !== $previous && 100 !== $previous && 0.0 === $current ) {
-				$result[ 'kpi-index-' . $queried ] = '<span style="color:#E74C3C;">-∞</span>';
-			}
-			switch ( $queried ) {
-				case 'server':
-					$result[ 'kpi-bottom-' . $queried ] = '<span class="hsiss-kpi-large-bottom-text">' . sprintf( esc_html__( '%s calls in error', 'htaccess-server-info-server-status' ), Conversion::number_shorten( $data_value, 2, false, '&nbsp;' ) ) . '</span>';
-					break;
-				case 'quota':
-					$result[ 'kpi-bottom-' . $queried ] = '<span class="hsiss-kpi-large-bottom-text">' . sprintf( esc_html__( '%s blocked calls', 'htaccess-server-info-server-status' ), Conversion::number_shorten( $data_value, 2, false, '&nbsp;' ) ) . '</span>';
-					break;
-				case 'pass':
-					$result[ 'kpi-bottom-' . $queried ] = '<span class="hsiss-kpi-large-bottom-text">' . sprintf( esc_html__( '%s successful calls', 'htaccess-server-info-server-status' ), Conversion::number_shorten( $data_value, 2, false, '&nbsp;' ) ) . '</span>';
-					break;
-				case 'uptime':
-					if ( 0.0 !== $base_value ) {
-						$duration = implode( ', ', Date::get_age_array_from_seconds( $this->duration * DAY_IN_SECONDS * ( 1 - ( $data_value / $base_value ) ), true, true ) );
-						if ( '' === $duration ) {
-							$duration = esc_html__( 'no downtime', 'htaccess-server-info-server-status' );
-						} else {
-							$duration = sprintf( esc_html__( 'down %s', 'htaccess-server-info-server-status' ), $duration );
-						}
-						$result[ 'kpi-bottom-' . $queried ] = '<span class="hsiss-kpi-large-bottom-text">' . $duration . '</span>';
-					}
-					break;
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * Get the title bar.
 	 *
 	 * @return string  The bar ready to print.
@@ -1152,27 +683,8 @@ class StatusInsights {
 	 * @since    2.3.0
 	 */
 	public function get_extra_list() {
-		switch ( $this->extra ) {
-			case 'codes':
-				$title = esc_html__( 'All HTTP Codes', 'htaccess-server-info-server-status' );
-				break;
-			case 'schemes':
-				$title = esc_html__( 'All Protocols', 'htaccess-server-info-server-status' );
-				break;
-			case 'methods':
-				$title = esc_html__( 'All Methods', 'htaccess-server-info-server-status' );
-				break;
-			case 'countries':
-				$title = esc_html__( 'All Countries', 'htaccess-server-info-server-status' );
-				break;
-			default:
-				$title = esc_html__( 'All Endpoints', 'htaccess-server-info-server-status' );
-		}
-		$result  = '<div class="hsiss-box hsiss-box-full-line">';
-		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . $title . '</span></div>';
-		$result .= '<div class="hsiss-module-content" id="hsiss-' . $this->extra . '">' . $this->get_graph_placeholder( 200 ) . '</div>';
-		$result .= '</div>';
-		return $result;
+
+		return '$result';
 	}
 
 	/**
@@ -1245,40 +757,8 @@ class StatusInsights {
 	 * @since    2.3.0
 	 */
 	public function get_map_box() {
-		switch ( $this->type ) {
-			case 'domain':
-				$url = $this->get_url(
-					[],
-					[
-						'type'   => 'authorities',
-						'domain' => $this->domain,
-						'extra'  => 'countries',
-					]
-				);
-				break;
-			case 'authority':
-				$url = $this->get_url(
-					[],
-					[
-						'type'   => 'endpoints',
-						'domain' => $this->domain,
-						'extra'  => 'countries',
-					]
-				);
-				break;
-			default:
-				$url = $this->get_url(
-					[ 'domain' ],
-					[
-						'type'  => 'domains',
-						'extra' => 'countries',
-					]
-				);
-		}
-		$detail  = '<a href="' . esc_url( $url ) . '"><img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'zoom-in', 'none', '#73879C' ) . '" /></a>';
-		$help    = esc_html__( 'View the details of all countries.', 'htaccess-server-info-server-status' );
 		$result  = '<div class="hsiss-60-module">';
-		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Countries', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
+		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Countries', 'htaccess-server-info-server-status' ) . '</span></div>';
 		$result .= '<div class="hsiss-module-content" id="hsiss-map">' . $this->get_graph_placeholder( 200 ) . '</div>';
 		$result .= '</div>';
 		return $result;
@@ -1377,47 +857,15 @@ class StatusInsights {
 	}
 
 	/**
-	 * Get the map box.
+	 * Get the scoreboard box.
 	 *
 	 * @return string  The box ready to print.
 	 * @since    2.3.0
 	 */
-	public function get_method_box() {
-		switch ( $this->type ) {
-			case 'domain':
-				$url = $this->get_url(
-					[],
-					[
-						'type'   => 'authorities',
-						'domain' => $this->domain,
-						'extra'  => 'methods',
-					]
-				);
-				break;
-			case 'authority':
-				$url = $this->get_url(
-					[],
-					[
-						'type'   => 'endpoints',
-						'domain' => $this->domain,
-						'extra'  => 'methods',
-					]
-				);
-				break;
-			default:
-				$url = $this->get_url(
-					[ 'domain' ],
-					[
-						'type'  => 'domains',
-						'extra' => 'methods',
-					]
-				);
-		}
-		$detail  = '<a href="' . esc_url( $url ) . '"><img style="width:12px;vertical-align:baseline;" src="' . Feather\Icons::get_base64( 'zoom-in', 'none', '#73879C' ) . '" /></a>';
-		$help    = esc_html__( 'View the details of all methods.', 'htaccess-server-info-server-status' );
-		$result  = '<div class="hsiss-33-module hsiss-33-right-module">';
-		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Methods', 'htaccess-server-info-server-status' ) . '</span><span class="hsiss-module-more left" data-position="left" data-tooltip="' . $help . '">' . $detail . '</span></div>';
-		$result .= '<div class="hsiss-module-content" id="hsiss-method">' . $this->get_graph_placeholder( 90 ) . '</div>';
+	public function get_scoreboard_box() {
+		$result  = '<div class="hsiss-40-module">';
+		$result .= '<div class="hsiss-module-title-bar"><span class="hsiss-module-title">' . esc_html__( 'Scoreboard', 'htaccess-server-info-server-status' ) . '</span></div>';
+		$result .= '<div class="hsiss-module-content">' . $this->get_scoreboard_placeholder() . '</div>';
 		$result .= '</div>';
 		return $result;
 	}
@@ -1493,16 +941,39 @@ class StatusInsights {
 	}
 
 	/**
+	 * Get a placeholder for scoreboard.
+	 *
+	 * @return string  The placeholder, ready to print.
+	 * @since    2.3.0
+	 */
+	private function get_scoreboard_placeholder() {
+		$result = '';
+		foreach ( self::$scoreboard as $line ) {
+			$result .= '<div class="hsiss-top-line">';
+			$result .= '<div class="hsiss-top-line-title">';
+			$result .= '<span class="hsiss-top-line-title-text">' . self::$sbnames[ $line ] . '</a></span>';
+			$result .= '</div>';
+			$result .= '<div class="hsiss-top-line-content">';
+			$result .= '<div class="hsiss-bar-graph"><div class="hsiss-bar-graph-value" id="hsiss-sb-pct-' . $line . '" style="width:0%"></div></div>';
+			$result .= '<div class="hsiss-bar-detail" id="hsiss-sb-val-' . $line . '"></div>';
+			$result .= '</div>';
+			$result .= '</div>';
+		}
+		return $result;
+	}
+
+	/**
 	 * Get the Apache status.
 	 *
 	 * @return array The current status.
 	 * @since    2.3.0
 	 */
 	public static function get_status() {
-		$result        = [];
-		$result['kpi'] = [];
-		$result['txt'] = [];
-		$status        = Capture::get_status();
+		$result           = [];
+		$result['kpi']    = [];
+		$result['txt']    = [];
+		$result['sboard'] = [];
+		$status           = Capture::get_status();
 		if ( array_key_exists( 'ServerVersion', $status ) ) {
 			$result['txt'][] = [ 'hsiss-insights-subtitle', $status['ServerVersion'] ];
 		}
@@ -1542,6 +1013,22 @@ class StatusInsights {
 		if ( array_key_exists( 'Uptime', $status ) ) {
 			$result['kpi'][] = [ 'kpi-main-uptime', Conversion::duration_shorten( (int) $status['Uptime'], 1, false, '&nbsp;' ) ];
 			$result['kpi'][] = [ 'kpi-bottom-uptime', '<span class="hsiss-kpi-large-bottom-text">' . (int) round( (float) $status['Uptime'], 0 ) . '&nbsp;s</span>' ];
+		}
+		// Scoreboard
+		if ( array_key_exists( 'Scoreboard', $status ) ) {
+			$sb = $status['Scoreboard'];
+			$sb = str_replace( '.', 'O', $sb );
+			$sb = str_replace( '_', 'Z', $sb );
+			if ( 0 < strlen( $sb ) ) {
+				foreach ( self::$scoreboard as $item ) {
+					$val = (int) substr_count( $sb, $item );
+					$pct = round( $val * 100 / strlen( $sb ), 1 );
+					if ( 0 === $val ) {
+						$val = '';
+					}
+					$result['sboard'][] = [ $item, $val, $pct . '%' ];
+				}
+			}
 		}
 		return $result;
 	}
