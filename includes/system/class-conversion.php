@@ -104,4 +104,40 @@ class Conversion {
 		}
 	}
 
+	/**
+	 * Get a shortened duration.
+	 *
+	 * @param   integer $duration  The duration, in seconds, to shorten.
+	 * @param   integer $precision Optional. The decimal numbers.
+	 * @param   boolean $detail    Optional. Give the detail of the shortening.
+	 * @param   string  $separator Optional. Unit separator.
+	 * @return  string|array  The shortened data.
+	 * @since   1.0.0
+	 */
+	public static function duration_shorten( $duration, $precision = 2, $detail = false, $separator = '' ) {
+		$divisors = [
+			MINUTE_IN_SECONDS => [ 60, esc_html_x( 'min', 'Abbreviation - Stands for "minute".', 'htaccess-server-info-server-status' ) ],
+			HOUR_IN_SECONDS   => [ 24, esc_html_x( 'hr', 'Abbreviation - Stands for "hour".', 'htaccess-server-info-server-status' ) ],
+			DAY_IN_SECONDS    => [ 7, esc_html_x( 'd', 'Abbreviation - Stands for "day".', 'htaccess-server-info-server-status' ) ],
+			WEEK_IN_SECONDS   => [ 4, esc_html_x( 'wk', 'Abbreviation - Stands for "week".', 'htaccess-server-info-server-status' ) ],
+			MONTH_IN_SECONDS  => [ 12, esc_html_x( 'mo', 'Abbreviation - Stands for "month".', 'htaccess-server-info-server-status' ) ],
+			YEAR_IN_SECONDS   => [ 1, esc_html_x( 'yr', 'Abbreviation - Stands for "year".', 'htaccess-server-info-server-status' ) ],
+		];
+		foreach ( $divisors as $divisor => $shorthand ) {
+			if ( $duration / $divisor < $shorthand[0] ) {
+				break;
+			}
+		}
+		if ( $detail ) {
+			return [
+				'value'        => number_format( $duration / $divisor, $precision, '.', '' ),
+				'divisor'      => $divisor,
+				'abbreviation' => $shorthand[1],
+				'base'         => null,
+			];
+		} else {
+			return 0 + number_format( $duration / $divisor, $precision, '.', '' ) . $separator . $shorthand[1];
+		}
+	}
+
 }

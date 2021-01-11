@@ -1540,6 +1540,7 @@ class StatusInsights {
 		}
 		// UPTIME
 		if ( array_key_exists( 'Uptime', $status ) ) {
+			$result['kpi'][] = [ 'kpi-main-uptime', Conversion::duration_shorten( (int) $status['Uptime'], 1, false, '&nbsp;' ) ];
 			$result['kpi'][] = [ 'kpi-bottom-uptime', '<span class="hsiss-kpi-large-bottom-text">' . (int) round( (float) $status['Uptime'], 0 ) . '&nbsp;s</span>' ];
 		}
 		return $result;
