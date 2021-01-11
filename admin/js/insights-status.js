@@ -33,7 +33,7 @@ jQuery( document ).ready(
 										items.sboard.forEach(
 											function (item) {
 												$( "#hsiss-sb-val-" + item[0] ).text( item[1] );
-												$( "#hsiss-sb-pct-" + item[0] ).animate( {width: item[2] }, 500 );
+												$( "#hsiss-sb-pct-" + item[0] ).animate( {width: item[2] }, 750 );
 											}
 										);
 									}
