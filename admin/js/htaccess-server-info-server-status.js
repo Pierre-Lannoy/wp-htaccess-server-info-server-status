@@ -47,38 +47,5 @@ jQuery(document).ready( function($) {
 			$(location).attr("href", $( this ).data( "value" ));
 		}
 	);
-	$( "#hsiss-chart-button-calls" ).on(
-		"click",
-		function() {
-			$( "#hsiss-chart-calls" ).addClass( "active" );
-			$( "#hsiss-chart-data" ).removeClass( "active" );
-			$( "#hsiss-chart-uptime" ).removeClass( "active" );
-			$( "#hsiss-chart-button-calls" ).addClass( "active" );
-			$( "#hsiss-chart-button-data" ).removeClass( "active" );
-			$( "#hsiss-chart-button-uptime" ).removeClass( "active" );
-		}
-	);
-	$( "#hsiss-chart-button-data" ).on(
-		"click",
-		function() {
-			$( "#hsiss-chart-calls" ).removeClass( "active" );
-			$( "#hsiss-chart-data" ).addClass( "active" );
-			$( "#hsiss-chart-uptime" ).removeClass( "active" );
-			$( "#hsiss-chart-button-calls" ).removeClass( "active" );
-			$( "#hsiss-chart-button-data" ).addClass( "active" );
-			$( "#hsiss-chart-button-uptime" ).removeClass( "active" );
-		}
-	);
-	$( "#hsiss-chart-button-uptime" ).on(
-		"click",
-		function() {
-			$( "#hsiss-chart-calls" ).removeClass( "active" );
-			$( "#hsiss-chart-data" ).removeClass( "active" );
-			$( "#hsiss-chart-uptime" ).addClass( "active" );
-			$( "#hsiss-chart-button-calls" ).removeClass( "active" );
-			$( "#hsiss-chart-button-data" ).removeClass( "active" );
-			$( "#hsiss-chart-button-uptime" ).addClass( "active" );
-		}
-	);
 
 } );
