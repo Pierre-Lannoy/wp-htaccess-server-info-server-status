@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Apache Status &amp; Info - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-11-28 13:31+0100\n"
+"PO-Revision-Date: 2021-01-11 18:52+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,6 +13,218 @@ msgstr ""
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+
+#: admin/class-hsiss-admin.php:141
+msgid "Simple report, displaying live current Apache status for this server."
+msgstr "Rapport simple, affichant en direct l’état actuel de ce serveur Apache."
+
+#: admin/class-hsiss-admin.php:140 admin/class-hsiss-admin.php:144
+#: admin/class-hsiss-admin.php:145
+msgid "Apache Status"
+msgstr "État Apache"
+
+#: admin/class-hsiss-admin.php:125
+msgid "Full information pages for this Apache server."
+msgstr "Pages d’information complètes pour ce serveur Apache."
+
+#: admin/class-hsiss-admin.php:124 admin/class-hsiss-admin.php:128
+#: admin/class-hsiss-admin.php:129
+msgid "Apache Information"
+msgstr "Informations Apache"
+
+#: admin/class-hsiss-admin.php:111
+msgid "Effective configuration files for this Apache server."
+msgstr "Fichiers de configuration effectifs pour ce serveur Apache."
+
+#: admin/class-hsiss-admin.php:110 admin/class-hsiss-admin.php:114
+#: admin/class-hsiss-admin.php:115
+msgid "Apache Configuration"
+msgstr "Configuration Apache"
+
+#: includes/system/class-conversion.php:124
+msgctxt "Abbreviation - Stands for \"year\"."
+msgid "yr"
+msgstr "an"
+
+#: includes/system/class-conversion.php:123
+msgctxt "Abbreviation - Stands for \"month\"."
+msgid "mo"
+msgstr "mois"
+
+#: includes/system/class-conversion.php:122
+msgctxt "Abbreviation - Stands for \"week\"."
+msgid "wk"
+msgstr "sem."
+
+#: includes/system/class-conversion.php:121
+msgctxt "Abbreviation - Stands for \"day\"."
+msgid "d"
+msgstr "j."
+
+#: includes/system/class-conversion.php:120
+msgctxt "Abbreviation - Stands for \"hour\"."
+msgid "hr"
+msgstr "h."
+
+#: includes/system/class-conversion.php:119
+msgctxt "Abbreviation - Stands for \"minute\"."
+msgid "min"
+msgstr "min."
+
+#: includes/features/class-statusinsights.php:363
+#: includes/features/class-statusinsights.php:377
+#: includes/features/class-statusinsights.php:383
+msgid "Total:"
+msgstr "Total :"
+
+#: includes/features/class-statusinsights.php:329
+msgid "Current value"
+msgstr "Valeur en cours"
+
+#: includes/features/class-statusinsights.php:264
+msgid "Uptime of the server."
+msgstr "Durée de fonctionnement du serveur."
+
+#: includes/features/class-statusinsights.php:259
+msgid "CPU load of the server."
+msgstr "Charge CPU du serveur."
+
+#: includes/features/class-statusinsights.php:258
+msgid "CPU Load"
+msgstr "Charge CPU"
+
+#: includes/features/class-statusinsights.php:254
+msgid "Busy number and total number of workers."
+msgstr "Nombre de processus occupés et total."
+
+#: includes/features/class-statusinsights.php:253
+msgid "Workers"
+msgstr "Processus"
+
+#: includes/features/class-statusinsights.php:249
+msgid "Rate and volume of transferred data."
+msgstr "Fréquence et volume de données transférées."
+
+#: includes/features/class-statusinsights.php:248
+msgid "Data"
+msgstr "Données"
+
+#: includes/features/class-statusinsights.php:244
+msgid "Average latency and size of requests."
+msgstr "Latence moyenne et taille des demandes."
+
+#: includes/features/class-statusinsights.php:243
+msgid "Avg. Request"
+msgstr "Demande moy."
+
+#: includes/features/class-statusinsights.php:239
+msgid "Rate and number of requests."
+msgstr "Fréquence et nombre de demandes."
+
+#: includes/features/class-statusinsights.php:238
+msgid "Requests"
+msgstr "Demandes"
+
+#: includes/features/class-statusinsights.php:221
+msgid "Scoreboard"
+msgstr "Scores"
+
+#: includes/features/class-statusinsights.php:140
+msgid "Apache Server Status"
+msgstr "État du serveur Apache"
+
+#: includes/features/class-statusinsights.php:128
+msgid "Server load over last 15 minutes"
+msgstr "Charge du serveur au cours des 15 dernières minutes"
+
+#: includes/features/class-statusinsights.php:127
+msgid "Server load over last 5 minutes"
+msgstr "Charge du serveur au cours des 5 dernières minutes"
+
+#: includes/features/class-statusinsights.php:126
+msgid "Server load over last 1 minute"
+msgstr "Charge du serveur au cours de la dernière minute"
+
+#: includes/features/class-statusinsights.php:125
+#: includes/features/class-statusinsights.php:263
+msgid "Uptime"
+msgstr "Durée"
+
+#: includes/features/class-statusinsights.php:124
+msgid "Parent server MPM generation"
+msgstr "Génération MPM du serveur parent"
+
+#: includes/features/class-statusinsights.php:123
+msgid "Parent server config generation"
+msgstr "Génération de configuration du serveur parent"
+
+#: includes/features/class-statusinsights.php:122
+msgid "Restart time"
+msgstr "Horodatage du redémarrage"
+
+#: includes/features/class-statusinsights.php:121
+msgid "Current time"
+msgstr "﻿Horodatage actuel"
+
+#: includes/features/class-statusinsights.php:120
+msgid "Server built"
+msgstr "Horodatage de la compilation du serveur"
+
+#: includes/features/class-statusinsights.php:119
+msgid "Server MPM"
+msgstr "MPM serveur"
+
+#: includes/features/class-statusinsights.php:118
+msgid "Server version"
+msgstr "Version du serveur"
+
+#: includes/features/class-statusinsights.php:115
+msgid "Idle cleanup of worker"
+msgstr "Nettoyage en attente de processus"
+
+#: includes/features/class-statusinsights.php:113
+msgid "DNS lookup"
+msgstr "Recherche DNS"
+
+#: includes/features/class-statusinsights.php:112
+msgid "Starting up"
+msgstr "Mise en route"
+
+#: includes/features/class-statusinsights.php:111
+msgid "Gracefully finishing"
+msgstr "Terminaison propre"
+
+#: includes/features/class-statusinsights.php:110
+msgid "Closing connection"
+msgstr "Fermeture de la connexion"
+
+#: includes/features/class-statusinsights.php:109
+msgid "Keepalive (read)"
+msgstr "Éveil (lecture)"
+
+#: includes/features/class-statusinsights.php:108
+msgid "Reading request"
+msgstr "Lecture de la demande"
+
+#: includes/features/class-statusinsights.php:107
+msgid "Sending reply"
+msgstr "Envoi de la réponse"
+
+#: includes/features/class-statusinsights.php:106
+msgid "Waiting for connection"
+msgstr "Attente de connexion"
+
+#: includes/features/class-statusinsights.php:105
+msgid "Open slot with no current process"
+msgstr "Emplacement accessible sans processus en cours"
+
+#: includes/features/class-capture.php:76
+msgid "Unable to retrieve data from %s (%s)."
+msgstr "Impossible de récupérer les données depuis %s (%s)."
+
+#. Description of the plugin
+msgid "Apache server-info and server-status monitoring right in your WordPress admin."
+msgstr "Suivi de l’état server-info et server-status Apache directement dans l’admin WordPress."
 
 #: includes/system/class-markdown.php:46
 msgid "Sorry, unable to find or read the specified file."
@@ -98,99 +310,100 @@ msgstr "Cette version de %s est une « release candidate ». Bien que prête p
 msgid "This version of %s is not production-ready. It is a development preview. Use it at your own risk!"
 msgstr "Cette version de %s n’est pas destinée à être mise en production. Il s’agit d’une « development preview ». Utilisez-la à vos risques et périls !"
 
-#: admin/class-hsiss-admin.php:347
+#: admin/class-hsiss-admin.php:413
 msgid "If checked, Apache server info will be served via the url %s."
 msgstr "Si coché, la page d’information d’Apache sera accessible via l’url %s."
 
-#: admin/class-hsiss-admin.php:339
+#: admin/class-hsiss-admin.php:405
 msgid "Server info"
 msgstr "Info du serveur"
 
-#: admin/class-hsiss-admin.php:331 admin/class-hsiss-admin.php:347
+#: admin/class-hsiss-admin.php:397 admin/class-hsiss-admin.php:413
 msgid "Note: this only sets up your .htaccess file. For this to work, the module must be activated in your Apache configuration."
 msgstr "Remarque : cela ne fait que configurer votre fichier .htaccess. Pour que cela fonctionne, le module doit être activé dans votre configuration Apache."
 
-#: admin/class-hsiss-admin.php:331
+#: admin/class-hsiss-admin.php:397
 msgid "If checked, Apache server status will be served via the url %s."
 msgstr "Si coché, la page d’état d’Apache sera accessible via l’url %s."
 
-#: admin/class-hsiss-admin.php:328 admin/class-hsiss-admin.php:344
+#: admin/class-hsiss-admin.php:394 admin/class-hsiss-admin.php:410
 msgid "Activate .htaccess rule for %s"
 msgstr "Activer la règle .htaccess pour %s"
 
-#: admin/class-hsiss-admin.php:323
+#: admin/class-hsiss-admin.php:389
 msgid "Server status"
 msgstr "État du serveur"
 
-#: admin/class-hsiss-admin.php:306
+#: admin/class-hsiss-admin.php:372
 msgid "Note: Apache Status & Info respects DISABLE_NAG_NOTICES flag."
 msgstr "Note : Apache Status & Info respecte l’indicateur DISABLE_NAG_NOTICES."
 
-#: admin/class-hsiss-admin.php:306
+#: admin/class-hsiss-admin.php:372
 msgid "Allows Apache Status & Info to display admin notices throughout the admin dashboard."
 msgstr "Autoriser Apache Status & Info à afficher les avis d’administration dans le Tableau de bord."
 
-#: admin/class-hsiss-admin.php:303
+#: admin/class-hsiss-admin.php:369
 msgid "Display"
 msgstr "Affichage"
 
-#: admin/class-hsiss-admin.php:298
+#: admin/class-hsiss-admin.php:364
 msgid "Admin notices"
 msgstr "Avis d’administration"
 
-#: admin/class-hsiss-admin.php:290
+#: admin/class-hsiss-admin.php:356
 msgid "If checked, Apache Status & Info will use a public CDN (jsDelivr) to serve scripts and stylesheets."
 msgstr "Si coché, Apache Status & Info utilisera un CDN public (jsDelivr) pour la distribution des scripts et des feuilles de style."
 
-#: admin/class-hsiss-admin.php:287
+#: admin/class-hsiss-admin.php:353
 msgid "Use public CDN"
 msgstr "Utiliser un CDN public"
 
-#: admin/class-hsiss-admin.php:282
+#: admin/class-hsiss-admin.php:348
 msgid "Resources"
 msgstr "Ressources"
 
-#: admin/class-hsiss-admin.php:271
+#: includes/features/class-statusinsights.php:114
+#: admin/class-hsiss-admin.php:337
 msgid "Logging"
 msgstr "Enregistrement"
 
-#: admin/class-hsiss-admin.php:267
+#: admin/class-hsiss-admin.php:333
 msgid "Your site does not use any logging plugin. To log all events triggered in Apache Status & Info, I recommend you to install the excellent (and free) %s. But it is not mandatory."
 msgstr "Votre site n’utilise aucune extension d’enregistrement. Pour enregistrer tous les évènements déclenchés par Apache Status & Info, je vous recommande d’installer l’excellent (et gratuit) %s. Mais ce n’est pas obligatoire."
 
-#: admin/class-hsiss-admin.php:264
+#: admin/class-hsiss-admin.php:330
 msgid "Your site is currently using %s."
 msgstr "Votre site utilise actuellement %s."
 
-#: admin/class-hsiss-admin.php:247
+#: admin/class-hsiss-admin.php:313
 msgid "Plugin settings have not been reset to defaults. Please try again."
 msgstr "Les réglages n’ont pas été réinitialisés à leurs valeurs par défaut. Veuillez réessayer."
 
-#: admin/class-hsiss-admin.php:242
+#: admin/class-hsiss-admin.php:308
 msgid "Plugin settings have been reset to defaults."
 msgstr "Le réglages ont été réinitialisées aux valeurs par défaut."
 
-#: admin/class-hsiss-admin.php:225
+#: admin/class-hsiss-admin.php:291
 msgid "Plugin settings have not been saved. Please try again."
 msgstr "Les réglages n’ont pas été mis à jour. Veuillez réessayer."
 
-#: admin/class-hsiss-admin.php:220
+#: admin/class-hsiss-admin.php:286
 msgid "Plugin settings have been saved."
 msgstr "Les réglages ont été mis à jour."
 
-#: admin/class-hsiss-admin.php:160
+#: admin/class-hsiss-admin.php:206
 msgid "GitHub repository"
 msgstr "Dépôt GitHub"
 
-#: admin/class-hsiss-admin.php:145
+#: admin/class-hsiss-admin.php:191
 msgid "Settings"
 msgstr "Réglages"
 
-#: admin/class-hsiss-admin.php:129
+#: admin/class-hsiss-admin.php:175
 msgid "Plugin options"
 msgstr "Options de l’extension"
 
-#: admin/class-hsiss-admin.php:128
+#: admin/class-hsiss-admin.php:174
 msgid "Plugin features"
 msgstr "Fonctionnalités"
 
@@ -248,9 +461,8 @@ msgstr "Cette fonctionnalité d’analyse est actuellement désactivée. Cliquez
 
 #. translators: as in the sentence "Apache Status & Info Settings" or
 #. "WordPress Settings"
-#: admin/class-hsiss-admin.php:97
+#: perfopsone/class-adminmenus.php:70 admin/class-hsiss-admin.php:97
 #: admin/partials/htaccess-server-info-server-status-admin-settings-main.php:27
-#: perfopsone/class-adminmenus.php:70
 msgid "%s Settings"
 msgstr "Réglages %s"
 
@@ -292,7 +504,7 @@ msgstr "Tableau de bord"
 
 #. translators: as in the sentence "Product W version X by author Y (license
 #. Z)"
-#: includes/libraries/class-libraries.php:212
+#: includes/libraries/class-libraries.php:189
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr "<a href=\"%1$s\">%2$s %3$s</a>%4$s par %5$s (%6$s)"
 
@@ -318,6 +530,8 @@ msgstr "Licence MIT"
 
 #: includes/libraries/class-libraries.php:67
 #: includes/libraries/class-libraries.php:78
+#: includes/libraries/class-libraries.php:172
+#: includes/libraries/class-libraries.php:179
 msgid "%s & contributors"
 msgstr "%s et contributeurs"
 
@@ -333,19 +547,19 @@ msgstr "%1$s a été correctement mis à jour de la version %2$s à la version %
 msgid "%1$s has been correctly installed."
 msgstr "%1$s a été correctement installé."
 
-#: includes/system/class-environment.php:204
+#: includes/system/class-environment.php:205
 msgid "Debug disabled"
 msgstr "Débogage désactivé"
 
-#: includes/system/class-environment.php:204
+#: includes/system/class-environment.php:205
 msgid "Debug enabled"
 msgstr "Débogage activé"
 
-#: includes/system/class-environment.php:198
+#: includes/system/class-environment.php:199
 msgid "display"
 msgstr "affichage"
 
-#: includes/system/class-environment.php:193
+#: includes/system/class-environment.php:194
 msgid "log"
 msgstr "registre"
 
@@ -559,378 +773,9 @@ msgstr "actuellement"
 msgid "%s ago"
 msgstr "il y a %s"
 
-#: includes/features/class-analytics.php:2169
-msgid "Last Month"
-msgstr "Mois dernier"
-
-#: includes/features/class-analytics.php:2168
-msgid "This Month"
-msgstr "Mois en cours"
-
-#: includes/features/class-analytics.php:2167
-msgid "Yesterday"
-msgstr "Hier"
-
-#: includes/features/class-analytics.php:2166
-msgid "Today"
-msgstr "Aujourd’hui"
-
-#: includes/features/class-analytics.php:2164
-msgid "Apply"
-msgstr "Appliquer"
-
-#: includes/features/class-analytics.php:2164
-msgid "Cancel"
-msgstr "Annuler"
-
-#: includes/features/class-analytics.php:2164
-msgid "Custom Range"
-msgstr "Personnalisé"
-
-#: includes/features/class-analytics.php:1950
-msgid "Perceived uptime, from the viewpoint of the site."
-msgstr "Disponibilité perçue, du point de vue du site."
-
-#: includes/features/class-analytics.php:1949
-msgctxt "Noun - Perceived uptime, from the viewpoint of the site."
-msgid "Perceived Uptime"
-msgstr "Disponibilité perçue"
-
-#: includes/features/class-analytics.php:1945
-msgid "Ratio of the number of HTTP success to the total number of calls."
-msgstr "Ratio du nombre de succès HTTP sur le nombre total d’appels."
-
-#: includes/features/class-analytics.php:1944
-msgctxt "Noun - Ratio of the number of HTTP success to the total number of calls."
-msgid "Effective Pass Rate"
-msgstr "Taux de réussite"
-
-#: includes/features/class-analytics.php:1940
-msgid "Ratio of the quota enforcement number to the total number of calls."
-msgstr "Ratio du nombre de blocages par quota sur le nombre total d’appels."
-
-#: includes/features/class-analytics.php:1939
-msgctxt "Noun - Ratio of the quota enforcement number to the total number of calls."
-msgid "Quotas Error Rate"
-msgstr "Taux d’erreur quotas"
-
-#: includes/features/class-analytics.php:1935
-msgid "Ratio of the number of HTTP errors to the total number of calls."
-msgstr "Ratio du nombre d’erreurs HTTP sur le nombre total d’appels."
-
-#: includes/features/class-analytics.php:1934
-msgctxt "Noun - Ratio of the number of HTTP errors to the total number of calls."
-msgid "Server Error Rate"
-msgstr "Taux d’erreur serveur"
-
-#: includes/features/class-analytics.php:1930
-msgid "Volume of transferred data."
-msgstr "Volume de données transférées."
-
-#: includes/features/class-analytics.php:1929
-msgctxt "Noun - Volume of transferred data."
-msgid "Data Volume"
-msgstr "Données"
-
-#: includes/features/class-analytics.php:1925
-msgid "Number of API calls."
-msgstr "Nombre d’appels API."
-
-#: includes/features/class-analytics.php:1924
-msgctxt "Noun - Number API calls."
-msgid "Number of Calls"
-msgstr "Nombre d’appels"
-
-#: includes/features/class-analytics.php:1901
-msgid "Methods"
-msgstr "Méthodes"
-
-#: includes/features/class-analytics.php:1899
-msgid "View the details of all methods."
-msgstr "Voir les détails de toutes les méthodes."
-
-#: includes/features/class-analytics.php:1849
-msgid "Protocols"
-msgstr "Protocoles"
-
-#: includes/features/class-analytics.php:1847
-msgid "View the details of protocols breakdown."
-msgstr "Voir les détails de la ventilation par protocoles."
-
-#: includes/features/class-analytics.php:1797
-msgid "HTTP codes"
-msgstr "Codes HTTP"
-
-#: includes/features/class-analytics.php:1795
-msgid "View the details of all codes."
-msgstr "Voir les détails de tous les codes."
-
-#: includes/features/class-analytics.php:1745
-msgid "Countries"
-msgstr "Pays"
-
-#: includes/features/class-analytics.php:1743
-msgid "View the details of all countries."
-msgstr "Voir les détails de tous les pays."
-
-#: includes/features/class-analytics.php:1693
-msgid "Top Endpoints"
-msgstr "Points de terminaison principaux"
-
-#: includes/features/class-analytics.php:1691
-msgid "View the details of all endpoints."
-msgstr "Voir les détails de tous les points de terminaison."
-
-#: includes/features/class-analytics.php:1664
-msgid "Top Subdomains"
-msgstr "Sous-domaines principaux"
-
-#: includes/features/class-analytics.php:1662
-msgid "View the details of all subdomains."
-msgstr "Voir les détails de tous les sous-domaines."
-
-#: includes/features/class-analytics.php:1635
-msgid "Top Domains"
-msgstr "Domaines principaux"
-
-#: includes/features/class-analytics.php:1633
-msgid "View the details of all domains."
-msgstr "Voir les détails de tous les domaines."
-
-#: includes/features/class-analytics.php:1606
-msgid "All Countries"
-msgstr "Tous les pays"
-
-#: includes/features/class-analytics.php:1603
-msgid "All Methods"
-msgstr "Toutes les méthodes"
-
-#: includes/features/class-analytics.php:1600
-msgid "All Protocols"
-msgstr "Tous les protocoles"
-
-#: includes/features/class-analytics.php:1597
-msgid "All HTTP Codes"
-msgstr "Tous les codes HTTP"
-
-#: includes/features/class-analytics.php:1576
-#: includes/features/class-analytics.php:1609
-msgid "All Endpoints"
-msgstr "Tous les points de terminaison"
-
-#: includes/features/class-analytics.php:1556
-msgid "All Subdomains"
-msgstr "Tous les sous-domaines"
-
-#: includes/features/class-analytics.php:1536
-msgid "All Domains"
-msgstr "Tous les domaines"
-
-#: includes/features/class-analytics.php:1516
-msgid "Sites Breakdown"
-msgstr "Répartition par sites"
-
-#: includes/features/class-analytics.php:1492
-msgid "Metrics Variations"
-msgstr "Variations des métriques"
-
-#: includes/features/class-analytics.php:1486
-msgid "Uptime variation."
-msgstr "Variation de disponibilité."
-
-#: includes/features/class-analytics.php:1485
-msgid "Data volume distribution."
-msgstr "Distribution des volume de données transférées."
-
-#: includes/features/class-analytics.php:1484
-msgid "Responses types distribution."
-msgstr "Distribution des types de réponses."
-
-#: includes/features/class-analytics.php:1416
-#: includes/features/class-analytics.php:1418
-msgid "Site ID %s"
-msgstr "Site ID %s"
-
-#: includes/features/class-analytics.php:1412
-msgid "All Sites"
-msgstr "Tous les sites"
-
-#: includes/features/class-analytics.php:1388
-msgid "Return to Apache Status & Info main page."
-msgstr "Retour à la page principale d’Apache Status et Info."
-
-#: includes/features/class-analytics.php:1387
-#: includes/features/class-analytics.php:1434
-msgid "Main Summary"
-msgstr "Résumé principal"
-
-#: includes/features/class-analytics.php:1381
-msgid "Country"
-msgstr "Pays"
-
-#: includes/features/class-analytics.php:1354
-msgid "Endpoint Summary"
-msgstr "Résumé du point de terminaison"
-
-#: includes/features/class-analytics.php:1326
-msgid "Subdomain Details"
-msgstr "Détails du sous-domaine"
-
-#: includes/features/class-analytics.php:1297
-#: includes/features/class-analytics.php:1329
-#: includes/features/class-analytics.php:1356
-msgid "Subdomain Summary"
-msgstr "Résumé du sous-domaine"
-
-#: includes/features/class-analytics.php:1285
-#: includes/features/class-analytics.php:1300
-#: includes/features/class-analytics.php:1330
-#: includes/features/class-analytics.php:1342
-#: includes/features/class-analytics.php:1357
-#: includes/features/class-analytics.php:1369
-msgid "Return to %s"
-msgstr "Retour à %s"
-
-#: includes/features/class-analytics.php:1281
-msgid "Domain Details"
-msgstr "Détails du domaine"
-
-#: includes/features/class-analytics.php:1264
-#: includes/features/class-analytics.php:1284
-#: includes/features/class-analytics.php:1299
-#: includes/features/class-analytics.php:1341
-#: includes/features/class-analytics.php:1368
-msgid "Domain Summary"
-msgstr "Résumé du domaine"
-
-#: includes/features/class-analytics.php:1260
-msgid "Domains Details"
-msgstr "Détails des domaines"
-
-#: includes/features/class-analytics.php:1257
-#: includes/features/class-analytics.php:1278
-#: includes/features/class-analytics.php:1323
-msgid "Countries Details"
-msgstr "Détails des pays"
-
-#: includes/features/class-analytics.php:1254
-#: includes/features/class-analytics.php:1275
-#: includes/features/class-analytics.php:1320
-msgid "Methods Details"
-msgstr "Détails des méthodes"
-
-#: includes/features/class-analytics.php:1251
-#: includes/features/class-analytics.php:1272
-#: includes/features/class-analytics.php:1317
-msgid "Protocols Details"
-msgstr "Détails des protocoles"
-
-#: includes/features/class-analytics.php:1248
-#: includes/features/class-analytics.php:1269
-#: includes/features/class-analytics.php:1314
-msgid "HTTP Codes Details"
-msgstr "Détails des codes HTTP"
-
-#: includes/features/class-analytics.php:1227
-msgid "down %s"
-msgstr "indisponibilité de %s"
-
-#: includes/features/class-analytics.php:1225
-msgid "no downtime"
-msgstr "pas d’indisponibilité"
-
-#: includes/features/class-analytics.php:1219
-msgid "%s successful calls"
-msgstr "%s appels réussis"
-
-#: includes/features/class-analytics.php:1216
-msgid "%s blocked calls"
-msgstr "%s appels bloqués"
-
-#: includes/features/class-analytics.php:1213
-msgid "%s calls in error"
-msgstr "%s appels en erreur"
-
-#: includes/features/class-analytics.php:1107
-msgid "avg latency: %s ms."
-msgstr "latence moyenne : %s ms."
-
-#: includes/features/class-analytics.php:993
-msgid "Perceived Uptime"
-msgstr "Disponibilité perçue"
-
-#: includes/features/class-analytics.php:977
-msgid "Outcoming Data"
-msgstr "Données sortantes"
-
-#: includes/features/class-analytics.php:973
-msgid "Incoming Data"
-msgstr "Données entrantes"
-
-#: includes/features/class-analytics.php:944
-msgid "Quota Error"
-msgstr "Erreur de quota"
-
-#: includes/features/class-analytics.php:940
-msgid "Error"
-msgstr "Erreur"
-
-#: includes/features/class-analytics.php:936
-msgid "Success"
-msgstr "Succès"
-
-#: includes/features/class-analytics.php:777
-msgid "calls"
-msgstr "appels"
-
-#: includes/features/class-analytics.php:705
-#: includes/features/class-analytics.php:711
-#: includes/features/class-analytics.php:713
-#: includes/features/class-analytics.php:715
-msgctxt "Unit symbol - Stands for \"millisecond\"."
-msgid "ms"
-msgstr "ms"
-
-#: includes/features/class-analytics.php:703
-#: includes/features/class-analytics.php:709
-msgctxt "Unit symbol - Stands for \"second\"."
-msgid "s"
-msgstr "s"
-
-#: includes/features/class-analytics.php:612
-msgid "%d endpoint"
-msgid_plural "%d endpoints"
-msgstr[0] "%d point de terminaison"
-msgstr[1] "%d points de terminaison"
-
-#: includes/features/class-analytics.php:611
-msgid "%d subdomain"
-msgid_plural "%d subdomains"
-msgstr[0] "%d sous-domaine"
-msgstr[1] "%d sous-domaines"
-
-#: includes/features/class-analytics.php:587
-msgid "Latency"
-msgstr "Latence"
-
-#: includes/features/class-analytics.php:586
-msgid "Data Volume"
-msgstr "Données"
-
-#: includes/features/class-analytics.php:585
-msgid "Calls"
-msgstr "Appels"
-
-#: includes/features/class-analytics.php:584
+#: includes/features/class-statusinsights.php:207
 msgid "Details"
 msgstr "Détails"
-
-#: includes/features/class-analytics.php:427
-#: includes/features/class-analytics.php:429
-#: includes/features/class-analytics.php:531
-#: includes/features/class-analytics.php:685
-msgid "Other"
-msgstr "Autre"
 
 #. Plugin Name of the plugin
 msgid "Apache Status & Info"
@@ -948,10 +793,6 @@ msgstr "https://pierre.lannoy.fr"
 msgid "Pierre Lannoy"
 msgstr "Pierre Lannoy"
 
-#. Description of the plugin
-msgid "Automatically add rules to .htaccess file to support server-info and server-status Apache mod."
-msgstr "Ajoutez automatiquement des règles au fichier .htaccess pour prendre en charge les modules server-info et server-status d’Apache."
-
-#: admin/class-hsiss-admin.php:159
+#: admin/class-hsiss-admin.php:205
 msgid "Support"
 msgstr "Assistance"
