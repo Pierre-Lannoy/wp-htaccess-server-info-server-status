@@ -60,9 +60,6 @@ class Hsiss_Admin {
 	public function enqueue_styles() {
 		$this->assets->register_style( HSISS_ASSETS_ID, HSISS_ADMIN_URL, 'css/htaccess-server-info-server-status.min.css' );
 		$this->assets->register_style( 'hsiss-switchery', HSISS_ADMIN_URL, 'css/switchery.min.css' );
-		$this->assets->register_style( 'hsiss-tooltip', HSISS_ADMIN_URL, 'css/tooltip.min.css' );
-		$this->assets->register_style( 'hsiss-chartist', HSISS_ADMIN_URL, 'css/chartist.min.css' );
-		$this->assets->register_style( 'hsiss-chartist-tooltip', HSISS_ADMIN_URL, 'css/chartist-plugin-tooltip.min.css' );
 
 	}
 
@@ -75,8 +72,6 @@ class Hsiss_Admin {
 		$this->assets->register_script( HSISS_ASSETS_ID, HSISS_ADMIN_URL, 'js/htaccess-server-info-server-status.min.js', [ 'jquery' ] );
 		$this->assets->register_script( HSISS_LIVESTATUS_ID, HSISS_ADMIN_URL, 'js/insights-status.min.js', [ 'jquery' ] );
 		$this->assets->register_script( 'hsiss-switchery', HSISS_ADMIN_URL, 'js/switchery.min.js', [ 'jquery' ] );
-		$this->assets->register_script( 'hsiss-chartist', HSISS_ADMIN_URL, 'js/chartist.min.js', [ 'jquery' ] );
-		$this->assets->register_script( 'hsiss-chartist-tooltip', HSISS_ADMIN_URL, 'js/chartist-plugin-tooltip.min.js', [ 'hsiss-chartist' ] );
 	}
 
 	/**

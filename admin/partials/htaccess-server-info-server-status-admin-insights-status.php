@@ -21,15 +21,10 @@ wp_localize_script(
 );
 
 wp_enqueue_script( 'hsiss-switchery' );
-wp_enqueue_script( 'hsiss-chartist' );
-wp_enqueue_script( 'hsiss-chartist-tooltip' );
 wp_enqueue_script( HSISS_ASSETS_ID );
 wp_enqueue_script( HSISS_LIVESTATUS_ID );
 wp_enqueue_style( HSISS_ASSETS_ID );
 wp_enqueue_style( 'hsiss-switchery' );
-wp_enqueue_style( 'hsiss-tooltip' );
-wp_enqueue_style( 'hsiss-chartist' );
-wp_enqueue_style( 'hsiss-chartist-tooltip' );
 
 
 ?>
@@ -45,67 +40,8 @@ wp_enqueue_style( 'hsiss-chartist-tooltip' );
         <div class="hsiss-row">
             <div class="hsiss-box hsiss-box-40-60-line">
 				<?php echo $insights->get_scoreboard_box() ?>
-				<?php echo $insights->get_map_box() ?>
+				<?php echo $insights->get_detail_box() ?>
             </div>
         </div>
-
-
-
-
-        <?php if ( 'summary' === $insights->type && '' === $insights->extra ) { ?>
-
-		<?php } ?>
-		<?php if ( 'domain' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-                <div class="hsiss-box hsiss-box-40-60-line">
-					<?php echo $insights->get_top_authority_box() ?>
-					<?php echo $insights->get_map_box() ?>
-                </div>
-            </div>
-		<?php } ?>
-		<?php if ( 'authority' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-                <div class="hsiss-box hsiss-box-40-60-line">
-					<?php echo $insights->get_top_endpoint_box() ?>
-					<?php echo $insights->get_map_box() ?>
-                </div>
-            </div>
-		<?php } ?>
-		<?php if ( ( 'summary' === $insights->type || 'domain' === $insights->type || 'authority' === $insights->type || 'endpoint' === $insights->type ) && '' === $insights->extra ) { ?>
-			<?php echo $insights->get_main_chart() ?>
-            <div class="hsiss-row">
-                <div class="hsiss-box hsiss-box-33-33-33-line">
-					<?php echo $insights->get_codes_box() ?>
-					<?php echo $insights->get_security_box() ?>
-					<?php echo $insights->get_method_box() ?>
-                </div>
-            </div>
-			<?php if ( Role::SUPER_ADMIN === Role::admin_type() && 'all' === $insights->site) { ?>
-                <div class="hsiss-row last-row">
-					<?php echo $insights->get_sites_list() ?>
-                </div>
-			<?php } ?>
-		<?php } ?>
-
-		<?php if ( 'domains' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-	            <?php echo $insights->get_domains_list() ?>
-            </div>
-		<?php } ?>
-		<?php if ( 'authorities' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-				<?php echo $insights->get_authorities_list() ?>
-            </div>
-		<?php } ?>
-		<?php if ( 'endpoints' === $insights->type && '' === $insights->extra ) { ?>
-            <div class="hsiss-row">
-				<?php echo $insights->get_endpoints_list() ?>
-            </div>
-		<?php } ?>
-		<?php if ( '' !== $insights->extra ) { ?>
-            <div class="hsiss-row">
-				<?php echo $insights->get_extra_list() ?>
-            </div>
-		<?php } ?>
 	</div>
 </div>
