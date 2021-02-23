@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Apache Status & Info\n"
-"POT-Creation-Date: 2021-01-11 15:18+0100\n"
+"POT-Creation-Date: 2021-02-24 00:21+0100\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -578,19 +578,19 @@ msgid_plural "hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/system/class-environment.php:194
+#: includes/system/class-environment.php:207
 msgid "log"
 msgstr ""
 
-#: includes/system/class-environment.php:199
+#: includes/system/class-environment.php:212
 msgid "display"
 msgstr ""
 
-#: includes/system/class-environment.php:205
+#: includes/system/class-environment.php:218
 msgid "Debug enabled"
 msgstr ""
 
-#: includes/system/class-environment.php:205
+#: includes/system/class-environment.php:218
 msgid "Debug disabled"
 msgstr ""
 
@@ -835,9 +835,7 @@ msgid "https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid ""
-"Automatically add rules to .htaccess file to support server-info and server-status "
-"Apache mod."
+msgid "Apache server-info and server-status monitoring right in your WordPress admin."
 msgstr ""
 
 #. Author of the plugin/theme

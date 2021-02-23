@@ -10,7 +10,7 @@
  * Plugin Name:       Apache Status & Info
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status
  * Description:       Apache server-info and server-status monitoring right in your WordPress admin.
- * Version:           2.3.0
+ * Version:           2.4.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Pierre Lannoy
