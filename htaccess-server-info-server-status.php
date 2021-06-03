@@ -67,7 +67,7 @@ function hsiss_uninstall() {
  * @since 1.0.0
  */
 function hsiss_run() {
-	\DecaLog\Engine::initPlugin( HSISS_SLUG, HSISS_PRODUCT_NAME, HSISS_VERSION );
+	\DecaLog\Engine::initPlugin( HSISS_SLUG, HSISS_PRODUCT_NAME, HSISS_VERSION, \Hsiss\Plugin\Core::get_base64_logo() );
 	$plugin = new Hsiss\Plugin\Core();
 	$plugin->run();
 }
