@@ -17,7 +17,7 @@ use Hsiss\System\Cache;
 use Hsiss\System\Date;
 use Hsiss\System\Conversion;
 use Hsiss\System\Role;
-use Hsiss\System\Logger;
+
 use Hsiss\System\L10n;
 use Hsiss\System\Http;
 use Hsiss\System\Favicon;

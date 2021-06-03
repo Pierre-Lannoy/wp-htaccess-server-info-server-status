@@ -12,7 +12,7 @@ namespace Hsiss\Plugin;
 use Hsiss\System\Nag;
 use Hsiss\System\Option;
 use Hsiss\System\Environment;
-use Hsiss\System\Logger;
+
 use Hsiss\System\Role;
 use Exception;
 use Hsiss\System\Markdown;
@@ -45,7 +45,7 @@ class Updater {
 				$this->update( $old );
 				// phpcs:ignore
 				$message  = sprintf( esc_html__( '%1$s has been correctly updated from version %2$s to version %3$s.', 'htaccess-server-info-server-status' ), HSISS_PRODUCT_NAME, $old, HSISS_VERSION );
-				Logger::notice( $message );
+				\DecaLog\Engine::eventsLogger( HSISS_SLUG )->notice( $message );
 				// phpcs:ignore
 				$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'htaccess-server-info-server-status' ), admin_url( 'admin.php?page=hsiss-settings&tab=about' ) );
 			}

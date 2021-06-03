@@ -11,7 +11,7 @@
 
 namespace Hsiss\Plugin\Feature;
 
-use Hsiss\System\Logger;
+
 use Hsiss\System\User;
 use Hsiss\System\Environment;
 use Hsiss\System\Blog;

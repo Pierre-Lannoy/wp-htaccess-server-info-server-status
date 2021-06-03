@@ -11,7 +11,7 @@
 
 namespace Hsiss\System;
 
-use Hsiss\System\Logger;
+
 
 /**
  * Define the GeoIP functionality.

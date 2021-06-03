@@ -9,10 +9,8 @@
 
 namespace Hsiss\Plugin;
 
-use Hsiss\Plugin\Feature\Analytics;
-use Hsiss\Plugin\Feature\AnalyticsFactory;
 use Hsiss\System\Assets;
-use Hsiss\System\Logger;
+
 use Hsiss\System\Role;
 use Hsiss\System\Option;
 use Hsiss\System\Form;
@@ -286,12 +284,12 @@ class Hsiss_Admin {
 				$message = esc_html__( 'Plugin settings have been saved.', 'htaccess-server-info-server-status' );
 				$code    = 0;
 				add_settings_error( 'hsiss_no_error', $code, $message, 'updated' );
-				Logger::info( 'Plugin settings updated.', $code );
+				\DecaLog\Engine::eventsLogger( HSISS_SLUG )->info( 'Plugin settings updated.', [ 'code' => $code ] );
 			} else {
 				$message = esc_html__( 'Plugin settings have not been saved. Please try again.', 'htaccess-server-info-server-status' );
 				$code    = 2;
 				add_settings_error( 'hsiss_nonce_error', $code, $message, 'error' );
-				Logger::warning( 'Plugin settings not updated.', $code );
+				\DecaLog\Engine::eventsLogger( HSISS_SLUG )->warning( 'Plugin settings not updated.', [ 'code' => $code ] );
 			}
 		}
 	}
@@ -308,12 +306,12 @@ class Hsiss_Admin {
 				$message = esc_html__( 'Plugin settings have been reset to defaults.', 'htaccess-server-info-server-status' );
 				$code    = 0;
 				add_settings_error( 'hsiss_no_error', $code, $message, 'updated' );
-				Logger::info( 'Plugin settings reset to defaults.', $code );
+				\DecaLog\Engine::eventsLogger( HSISS_SLUG )->info( 'Plugin settings reset to defaults.', [ 'code' => $code ] );
 			} else {
 				$message = esc_html__( 'Plugin settings have not been reset to defaults. Please try again.', 'htaccess-server-info-server-status' );
 				$code    = 2;
 				add_settings_error( 'hsiss_nonce_error', $code, $message, 'error' );
-				Logger::warning( 'Plugin settings not reset to defaults.', $code );
+				\DecaLog\Engine::eventsLogger( HSISS_SLUG )->warning( 'Plugin settings not reset to defaults.', [ 'code' => $code ] );
 			}
 		}
 	}

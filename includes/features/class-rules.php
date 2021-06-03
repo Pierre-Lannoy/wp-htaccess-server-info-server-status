@@ -11,7 +11,7 @@
 
 namespace Hsiss\Plugin\Feature;
 
-use Hsiss\System\Logger;
+
 use Hsiss\System\Option;
 
 /**
@@ -73,7 +73,7 @@ class Rules {
 			if ( 0 < count( $server ) ) {
 				$rules = preg_replace( '/^(RewriteBase \/.*)$/miU', "$1\nRewriteRule ^(" . implode( '|', $server ) . ") - [L]", $rules, 1 );
 			}
-			Logger::debug( 'Rewrite rules added.' );
+			\DecaLog\Engine::eventsLogger( HSISS_SLUG )->debug( 'Rewrite rules added.' );
 		}
 		return $rules;
 	}
