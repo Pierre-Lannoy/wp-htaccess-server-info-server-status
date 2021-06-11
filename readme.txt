@@ -17,6 +17,8 @@ When you want to use [server-info](https://httpd.apache.org/docs/2.4/en/mod/mod_
 
 In addition to this, **Apache Status & Info** allows you to monitor your Apache configuration and settings, right in your WordPress admin (see screenshots for example).
 
+> **Apache Status & Info** is part of [PerfOps One](https://perfops.one/), a suite of free and open source WordPress plugins dedicated to observability and operations performance.
+
 **Apache Status & Info** is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details.
 
 = Support =
@@ -76,7 +78,7 @@ You can report bugs and suggest ideas via the [GitHub issue tracker](https://git
 
 == Changelog ==
 
-Please, see [full changelog](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/blob/master/CHANGELOG.md) on GitHub.
+Please, see [full changelog](https://perfops.one/apache-status-info-changelog).
 
 == Upgrade Notice ==
 
