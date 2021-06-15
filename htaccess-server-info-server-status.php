@@ -68,6 +68,7 @@ function hsiss_uninstall() {
  */
 function hsiss_run() {
 	\DecaLog\Engine::initPlugin( HSISS_SLUG, HSISS_PRODUCT_NAME, HSISS_VERSION, \Hsiss\Plugin\Core::get_base64_logo() );
+	require_once __DIR__ . '/includes/features/class-wpcli.php';
 	$plugin = new Hsiss\Plugin\Core();
 	$plugin->run();
 }

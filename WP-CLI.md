@@ -1,0 +1,1 @@
+Apache Status & Info does not have WP-CLI command yet.
