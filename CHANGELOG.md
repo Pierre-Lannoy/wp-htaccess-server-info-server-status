@@ -3,7 +3,7 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.5.0] - 2021-06-xx
+## [2.5.0] - 2021-06-22
 
 ### Added
 - Compatibility with WordPress 5.8.
