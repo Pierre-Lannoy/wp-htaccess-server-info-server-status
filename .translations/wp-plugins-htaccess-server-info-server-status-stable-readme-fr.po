@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - Apache Status &amp; Info - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-01-11 17:23+0100\n"
+"PO-Revision-Date: 2021-06-24 13:48+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0\n"
 "Language: fr\n"
 "Project-Id-Version: Plugins - Apache Status &amp; Info - Stable Readme (latest release)\n"
 "POT-Creation-Date: \n"
@@ -21,6 +21,10 @@ msgstr "Suivi de l’état server-info et server-status Apache directement dans 
 #. Plugin name.
 msgid "Apache Status &amp; Info"
 msgstr "Apache Status &amp; Info"
+
+#. Found in description paragraph.
+msgid "<strong>Apache Status &amp; Info</strong> is part of <a href=\"https://perfops.one/\">PerfOps One</a>, a suite of free and open source WordPress plugins dedicated to observability and operations performance."
+msgstr "<strong>Apache Status &amp; Info</strong> fait partie de <a href=\"https://perfops.one/\">PerfOps One</a>, une suite d’extensions WordPress gratuites et open source dédiées à l’observabilité et aux performances des opérations."
 
 #. Found in description paragraph.
 msgid "<strong>Apache Status &amp; Info</strong> is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details."
@@ -167,5 +171,5 @@ msgstr ""
 "<strong>Apache Status &amp; Info</strong> le fait pour vous, sans que vous ayez à intervenir. Il suffit de l’activer et c’est tout!"
 
 #. Found in changelog paragraph.
-msgid "Please, see <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/blob/master/CHANGELOG.md\">full changelog</a> on GitHub."
-msgstr "Merci de consulter le <a href=\"https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/blob/master/CHANGELOG.md\">journal des modifications</a> sur GitHub."
+msgid "Please, see <a href=\"https://perfops.one/apache-status-info-changelog\">full changelog</a>."
+msgstr "Merci de consulter le <a href=\"https://perfops.one/apache-status-info-changelog\">journal des modifications</a>."
