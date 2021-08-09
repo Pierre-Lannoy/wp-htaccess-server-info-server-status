@@ -21,7 +21,7 @@ use Hsiss\System\GeoIP;
 use Hsiss\System\Environment;
 use Hsiss\Plugin\Feature\StatusInsights;
 use Hsiss\Plugin\Feature\InfoInsights;
-use PerfOpsOne\AdminMenus;
+use PerfOpsOne\Menus;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -84,7 +84,7 @@ class Hsiss_Admin {
 	 * @return array    The completed menus array.
 	 * @since 1.0.0
 	 */
-	public function init_perfops_admin_menus( $perfops ) {
+	public function init_perfopsone_admin_menus( $perfops ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			$perfops['settings'][] = [
 				'name'          => HSISS_PRODUCT_NAME,
@@ -96,7 +96,6 @@ class Hsiss_Admin {
 				'menu_title'    => HSISS_PRODUCT_NAME,
 				'capability'    => 'manage_options',
 				'callback'      => [ $this, 'get_settings_page' ],
-				'position'      => 50,
 				'plugin'        => HSISS_SLUG,
 				'version'       => HSISS_VERSION,
 				'activated'     => true,
@@ -113,7 +112,6 @@ class Hsiss_Admin {
 					'menu_title'    => esc_html__( 'Apache Configuration', 'htaccess-server-info-server-status' ),
 					'capability'    => 'manage_options',
 					'callback'      => [ $this, 'get_conf_page' ],
-					'position'      => 50,
 					'plugin'        => HSISS_SLUG,
 					'version'       => HSISS_VERSION,
 					'activated'     => true,
@@ -127,7 +125,6 @@ class Hsiss_Admin {
 					'menu_title'    => esc_html__( 'Apache Information', 'htaccess-server-info-server-status' ),
 					'capability'    => 'manage_options',
 					'callback'      => [ $this, 'get_info_page' ],
-					'position'      => 50,
 					'plugin'        => HSISS_SLUG,
 					'version'       => HSISS_VERSION,
 					'activated'     => true,
@@ -143,7 +140,6 @@ class Hsiss_Admin {
 					'menu_title'    => esc_html__( 'Apache Status', 'htaccess-server-info-server-status' ),
 					'capability'    => 'manage_options',
 					'callback'      => [ $this, 'get_status_page' ],
-					'position'      => 50,
 					'plugin'        => HSISS_SLUG,
 					'version'       => HSISS_VERSION,
 					'activated'     => true,
@@ -154,13 +150,22 @@ class Hsiss_Admin {
 	}
 
 	/**
+	 * Dispatch the items in the settings menu.
+	 *
+	 * @since 2.0.0
+	 */
+	public function finalize_admin_menus() {
+		Menus::finalize();
+	}
+
+	/**
 	 * Set the items in the settings menu.
 	 *
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
-		add_filter( 'init_perfops_admin_menus', [ $this, 'init_perfops_admin_menus' ] );
-		AdminMenus::initialize();
+		add_filter( 'init_perfopsone_admin_menus', [ $this, 'init_perfopsone_admin_menus' ] );
+		Menus::initialize();
 	}
 
 	/**
