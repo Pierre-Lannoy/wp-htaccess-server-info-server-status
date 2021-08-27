@@ -3,6 +3,11 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.2] - Unreleased
+
+### Fixed
+- There may be name collisions for some functions if version of WordPress is lower than 5.6.
+
 ## [2.5.1] - 2021-08-11
 
 ### Changed
