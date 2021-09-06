@@ -39,10 +39,10 @@ class Initializer {
 		\Hsiss\System\Sitehealth::init();
 		\Hsiss\Plugin\Feature\Rules::init( true );
 		\Hsiss\System\APCu::init();
-		if ( 'en_US' !== determine_locale() ) {
+		//if ( 'en_US' !== determine_locale() ) {
 			unload_textdomain( HSISS_SLUG );
 			load_plugin_textdomain( HSISS_SLUG );
-		}
+		//}
 	}
 
 	/**
