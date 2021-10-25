@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated the `README.md` file.
 
 ### Fixed
+- There's typos in `CHANGELOG.md`.
 
 ## [2.6.0] - 2021-09-07
 
@@ -136,7 +137,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - It's now possible to independently activate server-status or server-info rules.
-- Full integration with PerfOps.One suite.
+- Full integration with PerfOps One suite.
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 - Compatibility with WordPress 5.4.
 - New menu (in the left admin bar) for accessing features: "PerfOps Settings".
