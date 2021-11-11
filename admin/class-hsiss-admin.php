@@ -215,7 +215,6 @@ class Hsiss_Admin {
 	public function add_row_meta( $links, $file ) {
 		if ( 0 === strpos( $file, HSISS_SLUG . '/' ) ) {
 			$links[] = '<a href="https://wordpress.org/support/plugin/' . HSISS_SLUG . '/">' . __( 'Support', 'htaccess-server-info-server-status' ) . '</a>';
-			$links[] = '<a href="https://perfops.one">PefOps One</a>';
 		}
 		return $links;
 	}

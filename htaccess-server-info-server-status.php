@@ -8,13 +8,13 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Apache Status & Info
- * Plugin URI:        https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status
+ * Plugin URI:        https://perfops.one/htaccess-server-info-server-status
  * Description:       Apache server-info and server-status monitoring right in your WordPress admin.
  * Version:           2.6.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
- * Author:            Pierre Lannoy
- * Author URI:        https://pierre.lannoy.fr
+ * Author:            PerfOps One / Pierre Lannoy
+ * Author URI:        https://perfops.one
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       htaccess-server-info-server-status
