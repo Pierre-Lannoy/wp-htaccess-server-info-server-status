@@ -22,6 +22,7 @@ use Hsiss\System\Environment;
 use Hsiss\Plugin\Feature\StatusInsights;
 use Hsiss\Plugin\Feature\InfoInsights;
 use PerfOpsOne\Menus;
+use PerfOpsOne\AdminBar;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -175,6 +176,7 @@ class Hsiss_Admin {
 	public function init_admin_menus() {
 		add_filter( 'init_perfopsone_admin_menus', [ $this, 'init_perfopsone_admin_menus' ] );
 		Menus::initialize();
+		AdminBar::initialize();
 	}
 
 	/**
@@ -274,6 +276,16 @@ class Hsiss_Admin {
 								}
 							}
 							break;
+						case 'install-decalog':
+							if ( class_exists( 'PerfOpsOne\Installer' ) ) {
+								$result = \PerfOpsOne\Installer::do( 'decalog', true );
+								if ( '' === $result ) {
+									add_settings_error( 'hsiss_no_error', '', esc_html__( 'Plugin successfully installed and activated with default settings.', 'htaccess-server-info-server-status' ), 'info' );
+								} else {
+									add_settings_error( 'hsiss_install_error', '', sprintf( esc_html__( 'Unable to install or activate the plugin. Error message: %s.', 'htaccess-server-info-server-status' ), $result ), 'error' );
+								}
+							}
+							break;
 					}
 					break;
 			}
@@ -342,6 +354,9 @@ class Hsiss_Admin {
 		} else {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
 			$help .= sprintf( esc_html__('Your site does not use any logging plugin. To log all events triggered in Apache Status & Info, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'htaccess-server-info-server-status' ), '<a href="https://wordpress.org/plugins/decalog/">DecaLog</a>' );
+			if ( class_exists( 'PerfOpsOne\Installer' ) && ! Environment::is_wordpress_multisite() ) {
+				$help .= '<br/><a href="' . esc_url( admin_url( 'admin.php?page=hsiss-settings&tab=misc&action=install-decalog' ) ) . '" class="poo-button-install"><img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'download-cloud', 'none', '#FFFFFF', 3 ) . '" />&nbsp;&nbsp;' . esc_html__('Install It Now', 'htaccess-server-info-server-status' ) . '</a>';
+			}
 		}
 		add_settings_field(
 			'hsiss_plugin_options_logger',
