@@ -56,7 +56,8 @@ If you like this plugin or find it useful and want to thank me for the work done
 
 = Once Activated =
 
-1. You have nothing to do. All is automatic!
+1. Visit 'PerfOps One > Control Center > Apache Status & Info' in the left-hand menu of your WP Admin to adjust settings.
+2. Enjoy!
 
 == Frequently Asked Questions ==
 
