@@ -4,7 +4,7 @@ Tags: apache, htaccess, server-status, server-info, stackdriver
 Requires at least: 5.2
 Tested up to: 5.9
 Requires PHP: 7.2
-Stable tag: 2.7.0
+Stable tag: 2.8.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://support.laquadrature.net/

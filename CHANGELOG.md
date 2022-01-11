@@ -3,7 +3,7 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0] - Not Yet Released
+## [2.8.0] - 2022-01-17
 
 ### Added
 - Compatibility with PHP 8.1.
