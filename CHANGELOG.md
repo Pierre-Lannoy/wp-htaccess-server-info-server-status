@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 
 ### Removed
+- Donate link in `readme.txt` as it was outdated.
 
 ## [2.8.1] - 2022-01-17
 

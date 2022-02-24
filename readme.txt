@@ -7,7 +7,6 @@ Requires PHP: 7.2
 Stable tag: 2.8.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Donate link: https://support.laquadrature.net/
 
 Apache server-info and server-status monitoring right in your WordPress admin.
 
