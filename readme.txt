@@ -2,7 +2,7 @@
 Contributors: PierreLannoy
 Tags: apache, htaccess, server-status, server-info, stackdriver
 Requires at least: 5.2
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 7.2
 Stable tag: 2.9.0
 License: GPLv3
