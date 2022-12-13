@@ -45,7 +45,7 @@ class Hsiss_Public {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles() {
-		$this->assets->register_style( HSISS_ASSETS_ID, HSISS_PUBLIC_URL, 'css/htaccess-server-info-server-status.min.css' );
+		//$this->assets->register_style( HSISS_ASSETS_ID, HSISS_PUBLIC_URL, 'css/htaccess-server-info-server-status.min.css' );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Hsiss_Public {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts() {
-		$this->assets->register_script( HSISS_ASSETS_ID, HSISS_PUBLIC_URL, 'js/htaccess-server-info-server-status.min.js', [ 'jquery' ] );
+		//$this->assets->register_script( HSISS_ASSETS_ID, HSISS_PUBLIC_URL, 'js/htaccess-server-info-server-status.min.js', [ 'jquery' ] );
 	}
 
 }
