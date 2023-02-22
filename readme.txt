@@ -1,5 +1,5 @@
 === Apache Status & Info ===
-Contributors: PierreLannoy
+Contributors: PierreLannoy, hosterra
 Tags: apache, htaccess, server-status, server-info, stackdriver
 Requires at least: 5.2
 Tested up to: 6.1
