@@ -14,6 +14,8 @@ __Apache Status & Info__ do it for you, without you having to intervene. Just ac
 In addition to this, __Apache Status & Info__ allows you to monitor your Apache configuration and settings, right in your WordPress admin.
 
 > __Apache Status & Info__ is part of [PerfOps One](https://perfops.one/), a suite of free and open source WordPress plugins dedicated to observability and operations performance.
+> 
+> __The development of the PerfOps One suite is sponsored by [Hosterra - Ethical & Sustainable Internet Hosting](https://hosterra.eu/).__
 
 ## Hooks
 
