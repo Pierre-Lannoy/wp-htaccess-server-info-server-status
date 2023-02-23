@@ -15,7 +15,7 @@ In addition to this, __Apache Status & Info__ allows you to monitor your Apache 
 
 > __Apache Status & Info__ is part of [PerfOps One](https://perfops.one/), a suite of free and open source WordPress plugins dedicated to observability and operations performance.
 > 
-> __The development of the PerfOps One suite is sponsored by [Hosterra - Ethical & Sustainable Internet Hosting](https://hosterra.eu/).__
+> __The development of The PerfOps One plugins suite is sponsored by [Hosterra - Ethical & Sustainable Internet Hosting](https://hosterra.eu/).__
 
 ## Hooks
 
