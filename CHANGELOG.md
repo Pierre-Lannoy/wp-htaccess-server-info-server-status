@@ -3,6 +3,15 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [2.12.0] - Not Yet Released
+
+### Added
+- Compatibility with WordPress 6.3.
+
+### Changed
+- The color for `shmop` test in Site Health is now gray to not worry to much about it (was previously orange).
+
 ## [2.11.1] - 2023-03-02
 
 ### Fixed
