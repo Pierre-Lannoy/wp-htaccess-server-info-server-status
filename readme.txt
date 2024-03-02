@@ -1,10 +1,10 @@
 === Apache Status & Info ===
 Contributors: PierreLannoy, hosterra
 Tags: apache, htaccess, server-status, server-info, stackdriver
-Requires at least: 5.2
-Tested up to: 6.4
-Requires PHP: 7.2
-Stable tag: 2.13.0
+Requires at least: 6.1
+Requires PHP: 8.1
+Tested up to: 6.5
+Stable tag: 2.14.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
