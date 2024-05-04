@@ -11,7 +11,7 @@
  * Plugin URI:        https://perfops.one/htaccess-server-info-server-status
  * Description:       Apache server-info and server-status monitoring right in your WordPress admin.
  * Version:           2.14.0
- * Requires at least: 6.1
+ * Requires at least: 6.2
  * Requires PHP:      8.1
  * Author:            Pierre Lannoy / PerfOps One
  * Author URI:        https://perfops.one

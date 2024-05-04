@@ -3,6 +3,12 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.14.1] - Not Yet Released
+
+### Changed
+- Updated DecaLog SDK from version 3.0.0 to version 4.1.0.
+- Minimal required WordPress version is now 6.2.
+
 ## [2.14.0] - 2024-03-02
 
 ### Added

@@ -1,7 +1,7 @@
 === Apache Status & Info ===
 Contributors: PierreLannoy, hosterra
 Tags: apache, htaccess, server-status, server-info, stackdriver
-Requires at least: 6.1
+Requires at least: 6.2
 Requires PHP: 8.1
 Tested up to: 6.5
 Stable tag: 2.14.0
