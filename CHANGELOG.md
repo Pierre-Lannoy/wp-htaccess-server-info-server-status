@@ -3,10 +3,15 @@ All notable changes to **Apache Status & Info** are documented in this *changelo
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **Apache Status & Info** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-11-22
+
+### Added
+- Compatibility with WordPress 6.9.
+
 ## [3.2.0] - 2025-04-14
 
 ### Added
-- Compatibility with WordPress 6.8.
+- Compatibility with WordPress 6.8. 
 
 ### Fixed
 - Plugin update process may be confused when it founds error in release file.

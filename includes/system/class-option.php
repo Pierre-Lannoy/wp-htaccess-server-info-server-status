@@ -76,8 +76,7 @@ class Option {
 		self::$defaults['analytics']        = true;
 		self::$defaults['status']           = true;
 		self::$defaults['info']             = true;
-		self::$defaults['databeam']         = true;
-		self::$network                      = [ 'version', 'use_cdn', 'use_apcu',  'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info', 'databeam' ];
+		self::$network                      = [ 'version', 'use_cdn', 'use_apcu',  'script_in_footer', 'display_nag', 'analytics', 'history', 'status', 'info' ];
 	}
 
 	/**

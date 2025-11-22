@@ -335,7 +335,6 @@ class StatusInsights {
 		}
 		$result .= '</table>';
 		$result .= '</table>';
-		$result .= '<div style="text-align: center;margin-top: 20px;"><img style="height: 140px;opacity:0.4;" src="' . Databeam::get_base64_banner() . '"/></div>';
 		return $result;
 	}
 
