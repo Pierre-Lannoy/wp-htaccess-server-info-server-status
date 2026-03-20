@@ -1,10 +1,10 @@
 === Apache Status & Info ===
 Contributors: PierreLannoy, hosterra
-Tags: apache, htaccess, server-status, server-info, stackdriver
-Requires at least: 6.2
-Requires PHP: 8.1
-Tested up to: 6.9
-Stable tag: 3.3.0
+Tags: apache, htaccess, server-status, server-info, decalog
+Requires at least: 6.4
+Requires PHP: 8.2
+Tested up to: 7.0
+Stable tag: 3.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ In addition to this, **Apache Status & Info** allows you to monitor your Apache 
 
 This plugin is free and provided without warranty of any kind. Use it at your own risk, I'm not responsible for any improper use of this plugin, nor for any damage it might cause to your site. Always backup all your data before installing a new plugin.
 
-Anyway, I'll be glad to help you if you encounter issues when using this plugin. Just use the support section of this plugin page.
+Anyway, I'll be glad to help you if you encounter issues when using this plugin. Please read carefully the FAQ at the bottom of this page before requesting support.
 
 = Privacy =
 
@@ -59,10 +59,6 @@ If you like this plugin or find it useful and want to thank me for the work done
 2. Enjoy!
 
 == Frequently Asked Questions ==
-
-= What are the requirements for this plugin to work? =
-
-You need **WordPress 5.2** and at least **PHP 7.2**.
 
 = Can this plugin work on multisite? =
 
