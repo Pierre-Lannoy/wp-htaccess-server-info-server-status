@@ -1,7 +1,7 @@
 # Apache Status & Info
 [![version](https://badgen.net/github/release/Pierre-Lannoy/wp-htaccess-server-info-server-status/)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
-[![php](https://badgen.net/badge/php/7.1+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
-[![wordpress](https://badgen.net/badge/wordpress/5.0+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
+[![php](https://badgen.net/badge/php/8.2+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
+[![wordpress](https://badgen.net/badge/wordpress/6.4+/green)](https://wordpress.org/plugins/htaccess-server-info-server-status/)
 [![license](https://badgen.net/github/license/Pierre-Lannoy/wp-htaccess-server-info-server-status/)](/license.txt)
 
 __Apache Status & Info__ is a WordPress plugin that generates specific rewrite rules for [server-info](https://httpd.apache.org/docs/2.4/en/mod/mod_info.html) and [server-status](https://httpd.apache.org/docs/current/en/mod/mod_status.html) Apache modules and allows to monitor Apache right in the WordPress admin.
@@ -38,7 +38,3 @@ If you find bugs, have good ideas to make this plugin better, you're welcome to 
 Before submitting an issue or a pull request, please read the [contribution guidelines](CONTRIBUTING.md).
 
 > ⚠️ The `master` branch is the current development state of the plugin. If you want a stable, production-ready version, please pick the last official [release](https://github.com/Pierre-Lannoy/wp-htaccess-server-info-server-status/releases).
-
-## Smoke tests
-[![WP compatibility](https://plugintests.com/plugins/htaccess-server-info-server-status/wp-badge.svg)](https://plugintests.com/plugins/htaccess-server-info-server-status/latest)
-[![PHP compatibility](https://plugintests.com/plugins/htaccess-server-info-server-status/php-badge.svg)](https://plugintests.com/plugins/htaccess-server-info-server-status/latest)

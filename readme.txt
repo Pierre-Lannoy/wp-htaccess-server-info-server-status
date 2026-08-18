@@ -3,8 +3,8 @@ Contributors: PierreLannoy, hosterra
 Tags: apache, htaccess, server-status, server-info, decalog
 Requires at least: 6.4
 Requires PHP: 8.2
-Tested up to: 7.0
-Stable tag: 3.4.0
+Tested up to: 7.1
+Stable tag: 3.5.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
